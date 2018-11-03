@@ -1,0 +1,11 @@
+parameters:
+  mailer_email: "no-replay@nfqakademija.lt"
+  mailer_name: "NFQ Akademija"
+
+fos_user:
+  db_driver: orm
+  firewall_name: main
+  user_class: App\Entity\User
+  from_email:
+    address: "%mailer_email%"
+    sender_name: "%mailer_name%"
