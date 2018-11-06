@@ -29,79 +29,81 @@ class RegistrationPage extends Component {
     };
 
     render() {
-        return <React.Fragment>
-            <AppBar position="static">
+        return (
+            <React.Fragment>
+                <AppBar position="static">
                     Registration
-            </AppBar>
-            <form onSubmit={this.handleSubmit}>
-                <FormControl margin="normal" fullWidth={true}>
-                    <TextField
-                        name="name"
-                        label="Name"
-                        onChange={this.handleChange}
-                        required
-                    />
-                </FormControl>
-                <FormControl margin="normal" fullWidth={true}>
-                    <TextField
-                        name="surname"
-                        label="surname"
-                        onChange={this.handleChange}
-                        required
-                    />
-                </FormControl>
-                <FormControl margin="normal" fullWidth={true}>
-                    <TextField
-                        name="username"
-                        label="username"
-                        onChange={this.handleChange}
-                        required
-                    />
-                </FormControl>
-                <FormControl margin="normal" fullWidth={true}>
-                    <TextField
-                        name="email"
-                        label="email"
-                        onChange={this.handleChange}
-                        required
-                    />
-                </FormControl>
-                <FormControl margin="normal" fullWidth={true}>
-                    <TextField
-                        name="password"
-                        type="password"
-                        label="password"
-                        onChange={this.handleChange}
-                        required
-                    />
-                </FormControl>
-                <FormControl margin="normal" fullWidth={true}>
-                    <TextField
-                        name="repeatPassword"
-                        type="password"
-                        label="password"
-                        onChange={this.handleChange}
-                        required
-                    />
-                </FormControl>
-                <FormControl margin="normal" fullWidth={true}>
-                    <TextField
-                        name="birthDate"
-                        type="date"
-                        label="Birthday"
-                        onChange={this.handleChange}
-                        required
-                    />
-                </FormControl>
-                <Button
-                    type="Submit"
-                    fullWidth={true}
-                    color="primary"
-                >
-                    Register
-                </Button>
-            </form>
-        </React.Fragment>
+                </AppBar>
+                <form onSubmit={this.handleSubmit}>
+                    <FormControl margin="normal" fullWidth={true}>
+                        <TextField
+                            name="name"
+                            label="Name"
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth={true}>
+                        <TextField
+                            name="surname"
+                            label="surname"
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth={true}>
+                        <TextField
+                            name="username"
+                            label="username"
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth={true}>
+                        <TextField
+                            name="email"
+                            label="email"
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth={true}>
+                        <TextField
+                            name="password"
+                            type="password"
+                            label="password"
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth={true}>
+                        <TextField
+                            name="repeatPassword"
+                            type="password"
+                            label="password"
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth={true}>
+                        <TextField
+                            name="birthDate"
+                            type="date"
+                            label="Birthday"
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </FormControl>
+                    <Button
+                        type="Submit"
+                        fullWidth={true}
+                        color="primary"
+                    >
+                        Register
+                    </Button>
+                </form>
+            </React.Fragment>
+        )
     }
 }
 
