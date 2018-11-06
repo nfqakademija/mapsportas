@@ -1,23 +1,10 @@
 import React, {Component} from 'react';
 import propTypes from 'prop-types';
-import RegistrationPage from './RegistrationPage';
+import RegistrationForm from './RegistrationForm';
 import LoginForm from './LoginForm';
 import AuthenticationNavigation from './partials/AuthenticationNavigation';
 
 class AuthenticationHandler extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: {
-                username: null,
-                surname: null,
-                dateOfBirth: null,
-                email: null,
-                password: null,
-            },
-            token: null,
-        };
-    };
 
     handleLogin = async (username, password) => {
         await fetch("/api/login", {
@@ -30,20 +17,33 @@ class AuthenticationHandler extends Component {
                 "username": username,
                 "password": password,
             })
-        })
-            .then(response => {
-                return response.json();
-            }).then(data => {
-                this.setState({
-                    token: data
-                });
-            }).catch(error => {
-                console.log(error);
-            });
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            localStorage.setItem('user_token', data.token);
+        }).catch(error => {
+            console.log(error);
+        });
     };
 
-    handleRegistration = () => {
-        console.log(this);
+    handleRegistration = async (user) => {
+        console.log(user);
+        await fetch('/api/register', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(user)
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            localStorage.setItem('user_token', data.token);
+        }).catch(error => {
+            console.log(error);
+        });
     };
 
     render() {
@@ -52,8 +52,8 @@ class AuthenticationHandler extends Component {
             <React.Fragment>
                 {
                     isLoginShown ?
-                        <LoginForm user={this.state.user} onSubmit={this.handleLogin}/> :
-                        <RegistrationPage user={this.state.user} onSubmit={this.handleRegistration}/>
+                        <LoginForm onSubmit={this.handleLogin}/> :
+                        <RegistrationForm onSubmit={this.handleRegistration}/>
                 }
                 <AuthenticationNavigation isLoginShown={isLoginShown} onClick={this.props.onChange}/>
             </React.Fragment>

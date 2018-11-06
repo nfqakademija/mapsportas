@@ -5,35 +5,33 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 class RegistrationPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+    state = {
+        user: {
             name: '',
             surname: '',
             email: '',
+            username: '',
             password: '',
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+            repeatPassword: '',
+            birthDate: '',
+        }
+    };
 
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value,
-        });
-    }
+    handleChange = (event) => {
+        const user = this.state.user;
+        user[event.target.name] = event.target.value;
+        this.setState({user});
+    };
 
-    handleSubmit(event) {
-        console.log(this.state);
+    handleSubmit = (event) => {
         event.preventDefault();
-    }
+        this.props.onSubmit(this.state.user);
+    };
 
     render() {
-        return <div>
+        return <React.Fragment>
             <AppBar position="static">
-                <div>
-                    Bla
-                </div>
+                    Registration
             </AppBar>
             <form onSubmit={this.handleSubmit}>
                 <FormControl margin="normal" fullWidth={true}>
@@ -48,6 +46,14 @@ class RegistrationPage extends Component {
                     <TextField
                         name="surname"
                         label="surname"
+                        onChange={this.handleChange}
+                        required
+                    />
+                </FormControl>
+                <FormControl margin="normal" fullWidth={true}>
+                    <TextField
+                        name="username"
+                        label="username"
                         onChange={this.handleChange}
                         required
                     />
@@ -69,6 +75,24 @@ class RegistrationPage extends Component {
                         required
                     />
                 </FormControl>
+                <FormControl margin="normal" fullWidth={true}>
+                    <TextField
+                        name="repeatPassword"
+                        type="password"
+                        label="password"
+                        onChange={this.handleChange}
+                        required
+                    />
+                </FormControl>
+                <FormControl margin="normal" fullWidth={true}>
+                    <TextField
+                        name="birthDate"
+                        type="date"
+                        label="Birthday"
+                        onChange={this.handleChange}
+                        required
+                    />
+                </FormControl>
                 <Button
                     type="Submit"
                     fullWidth={true}
@@ -77,7 +101,7 @@ class RegistrationPage extends Component {
                     Register
                 </Button>
             </form>
-        </div>
+        </React.Fragment>
     }
 }
 

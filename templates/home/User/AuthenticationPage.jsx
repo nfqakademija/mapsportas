@@ -2,12 +2,11 @@ import React, {Component} from 'react';
 import AuthenticationHandler from './AuthenticationHandler';
 
 class AuthenticationPage extends Component {
-    state  = {
+    state = {
         isLoginShown: true,
     };
 
     toggleShow = () => {
-        console.log(this);
         this.setState(state => ({isLoginShown: !this.state.isLoginShown}));
     };
 

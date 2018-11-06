@@ -25,9 +25,7 @@ class LoginForm extends Component {
         return (
             <React.Fragment>
                 <AppBar position="static">
-                    <div>
-                        Bla
-                    </div>
+                        Login
                 </AppBar>
                 <form onSubmit={this.onSubmit}>
                     <FormControl margin="normal" fullWidth={true}>
@@ -57,7 +55,7 @@ class LoginForm extends Component {
                 </form>
             </React.Fragment>
         )
-    }
+    };
 }
 
 export default LoginForm;

@@ -7,8 +7,8 @@ const AuthenticationNavigation = (props) => (
     <div>
         <Tabs centered={true} fullWidth={true}>
             { props.isLoginShown ?
-                <Tab onClick={props.onClick} label="Register"/> :
-                <Tab onClick={props.onClick} label="Login"/>
+                <Tab to="/register" onClick={props.onClick} label="Register"/> :
+                <Tab to="/login" onClick={props.onClick} label="Login"/>
             }
         </Tabs>
     </div>
