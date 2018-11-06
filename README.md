@@ -1,46 +1,5 @@
 ﻿![](https://avatars0.githubusercontent.com/u/4995607?v=3&s=100)
 
-NFQ Akademija
-============
-
-# Intro
-
-Sveiki! Tai yra Jūsų startinis projekto "template". 
-Šioje repositorijoje rasite Symfony `4.1.6` minimalų projekto paketą su jau paruoštais 
-visais reikalingais failais ir įrankiais darbui:
- 
-- Lokalaus development'o aplinka (docker) (PHP 7.2, MySql DB, Nginx)
-- Pradinis bundle (AppBundle) kartu su stiliaus failais.
-- Įdiegtas bootstrap
-- Asset'ų buildinimas (npm, yarn, sass)
-- Travis CI template
-
-
-# Paleidimo instrukcija
-
-Metai iš metų studentai maldavo jog galėtų dirbti su Windows'ais akademijos metu.
- Bet nepaisant nieko, tolerancijos ir palaikymo Windows operacinei niekada nebuvo ir nebus.  
-
-> Perspėjimas: Itin kieti profesionalai nenaudoja niekam tikusių operacinių sistemų. 
-
-### Reikės dokerio
-
-Naudosime naujausią dokerio versiją, kuri įgalina virtualizaciją be Virtualbox ar Vmware.
- Tam reikės, kad jūsų kompiuterio procesorius palaikytų [Hypervisor](https://en.wikipedia.org/wiki/Hypervisor).
- Nėra dėl ko nerimauti, dabartiniai kompiuteriai kone visi turi šį palaikymą.
-
-Parsisiunčiate ir įsidiegiate įrankį iš [čia](https://docs.docker.com/install/linux/docker-ce/ubuntu/). Iškart įdiegus reikia pasidaryti, kad `docker` būtų galima naudoti be root teisių, kaip tai padaryti rasite [čia]( https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user).
-
-Parsisiunčiate ir įsidiegiate `docker-compose` iš [čia](https://github.com/docker/compose/releases).
-
-Taip pat reikia įsidiegti [Kitematic](https://github.com/docker/kitematic/releases).
- Šis įrankis padės geriau organizuoti dokerio konteinerius. 
-
-#### Versijų reikalavimai
-* docker: `18.x-ce`
-* docker-compose: `1.20.1`
-
-
 ### Projekto paleidimas
 
 Pasileidžiant pirmą kartą būdavo įveliama daug klaidų, todėl padaryti _script'ai_ dažniausiems atvejams.
@@ -63,60 +22,67 @@ scripts/install-prod.sh
 scripts/stop.sh
 ```
 
-### Patogiai darbo aplinkai
 
-* _Development_ režimas (detalesnė informacija apie klaidas, automatiškai generuojami JavaScript/CSS):
+### Endpoints
+
+* Login 
 ```bash
-scripts/install-dev.sh
+ POST /api/login
+ {"username":"username", "password":"password"}
 ```
-
-* Jei norite pridėti PHP biblioteką arba dirbti su Symfony karkasu per komandinę eilutę:
 ```bash
-scripts/backend.sh
+return example
+{
+    "username": "test",
+    "email": "test@test.com",
+    "name": null,
+    "surname": null,
+    "birthDate": null,
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NDE1MDk2MDMsImV4cCI6MTU0MTUxMzIwMywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdCJ9.tJVO6AEaQydpVD5gdGb4oMcGoec_R0CVveVd6R2kbNjzL4UQp542V7zmNzkcGokVoHMZZU_AUYzPckWNYrdL-YDm3MkZJmhQmOCUCcjXM06HprhOzspdGCcehlZJhfn3PJCWellvfXgA3m2KftLfalpfH4pgY1zpnzKIo1ZFvHLttI8jfD_8TwnXTJPzcqTHGbTsK5saVARVh_lGPXZUI2VAG3RDAnzwWE6agRYa1PDyIXjmk4cl1qF10PLGM3sr2C02I1wEoWeRTlpEuXQCHyl3UiRnKrklxcIbjFi28Umn-G_dibol51XfLs7RxmfCVZDsuYScccDLr_jnwX2mKJ74NiWnTi3E9cLGrUlNpKOhe6y45YLaBHHYP2jgjug_EbPKG2zWktOacaYIYUJsdD1Go0VHE3CCMvJ85NYetPX64ANUE9ysfE2JHnOjcB-0oIa44zRRLPMkSBJabOUrqz1Hso_tmWRLwYw55fgBKI6fMXS4c4ajTxAcTPtj4FEhfF_h-5uCuo2cEJlBORSrZA0PmVDnydGmq2xxs1mYR9VSqh__00CxKmk2enRvhsjMmNWneH3kE0DO5ZDN_Sevqa8gwPJSSCsVsWBmrbvJR2PDJdygvkfuE9CRwMxuFg4r8Z2Rv4GlAUjVJKvCzk12CXyoywnWCUcMnJT-KecCTK4"
+}
 ```
-
-* Jei norite pridėti JavaScript/CSS biblioteką arba dirbti su Symfony Encore komponentu per komandine eilutę:
+* Register
 ```bash
-scripts/frontend.sh
+ POST /api/register
+ {
+    "username":"username",
+    "password":"password",
+    "name":"name",
+    "surname":"surname",
+    "birthDate":"birthDate",
+ }
 ```
-
-* Jei norite dirbti su MySql duomenų baze:
 ```bash
-scripts/mysql.sh
+return example
+{
+    "username": "test",
+    "email": "test@test.com",
+    "name": "test",
+    "surname": "test",
+    "birthDate": "1990-01-01",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NDE1MDk2MDMsImV4cCI6MTU0MTUxMzIwMywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdCJ9.tJVO6AEaQydpVD5gdGb4oMcGoec_R0CVveVd6R2kbNjzL4UQp542V7zmNzkcGokVoHMZZU_AUYzPckWNYrdL-YDm3MkZJmhQmOCUCcjXM06HprhOzspdGCcehlZJhfn3PJCWellvfXgA3m2KftLfalpfH4pgY1zpnzKIo1ZFvHLttI8jfD_8TwnXTJPzcqTHGbTsK5saVARVh_lGPXZUI2VAG3RDAnzwWE6agRYa1PDyIXjmk4cl1qF10PLGM3sr2C02I1wEoWeRTlpEuXQCHyl3UiRnKrklxcIbjFi28Umn-G_dibol51XfLs7RxmfCVZDsuYScccDLr_jnwX2mKJ74NiWnTi3E9cLGrUlNpKOhe6y45YLaBHHYP2jgjug_EbPKG2zWktOacaYIYUJsdD1Go0VHE3CCMvJ85NYetPX64ANUE9ysfE2JHnOjcB-0oIa44zRRLPMkSBJabOUrqz1Hso_tmWRLwYw55fgBKI6fMXS4c4ajTxAcTPtj4FEhfF_h-5uCuo2cEJlBORSrZA0PmVDnydGmq2xxs1mYR9VSqh__00CxKmk2enRvhsjMmNWneH3kE0DO5ZDN_Sevqa8gwPJSSCsVsWBmrbvJR2PDJdygvkfuE9CRwMxuFg4r8Z2Rv4GlAUjVJKvCzk12CXyoywnWCUcMnJT-KecCTK4"
+}
 ```
-
-* Jei nesuprantate, kas vyksta su infrastruktūra, praverčia pažiūrėti į `Log`'us:
+* User Edit
 ```bash
-scripts/logs.sh
+ POST /api/user/edit
+ {
+    "username":"username",
+    "password":"password",
+    "name":"name",
+    "surname":"surname",
+    "birthDate":"birthDate",
+    "token":"token"
+ }
 ```
-
-* Jei kažką stipriai sugadinote ir niekaip nepavyksta atstatyti.
-  Viską pravalyti (**naudokite atsakingai**) galima su:
 ```bash
-scripts/clean-and-start-fresh.sh
-```
+return example
+{
+    "username": "test",
+    "email": "test@test.com",
+    "name": "test",
+    "surname": "test",
+    "birthDate": "1990-01-01",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NDE1MDk2MDMsImV4cCI6MTU0MTUxMzIwMywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdCJ9.tJVO6AEaQydpVD5gdGb4oMcGoec_R0CVveVd6R2kbNjzL4UQp542V7zmNzkcGokVoHMZZU_AUYzPckWNYrdL-YDm3MkZJmhQmOCUCcjXM06HprhOzspdGCcehlZJhfn3PJCWellvfXgA3m2KftLfalpfH4pgY1zpnzKIo1ZFvHLttI8jfD_8TwnXTJPzcqTHGbTsK5saVARVh_lGPXZUI2VAG3RDAnzwWE6agRYa1PDyIXjmk4cl1qF10PLGM3sr2C02I1wEoWeRTlpEuXQCHyl3UiRnKrklxcIbjFi28Umn-G_dibol51XfLs7RxmfCVZDsuYScccDLr_jnwX2mKJ74NiWnTi3E9cLGrUlNpKOhe6y45YLaBHHYP2jgjug_EbPKG2zWktOacaYIYUJsdD1Go0VHE3CCMvJ85NYetPX64ANUE9ysfE2JHnOjcB-0oIa44zRRLPMkSBJabOUrqz1Hso_tmWRLwYw55fgBKI6fMXS4c4ajTxAcTPtj4FEhfF_h-5uCuo2cEJlBORSrZA0PmVDnydGmq2xxs1mYR9VSqh__00CxKmk2enRvhsjMmNWneH3kE0DO5ZDN_Sevqa8gwPJSSCsVsWBmrbvJR2PDJdygvkfuE9CRwMxuFg4r8Z2Rv4GlAUjVJKvCzk12CXyoywnWCUcMnJT-KecCTK4"
+}
 
-### Dažniausiai užduodami klausimai
-
-* **Kaip įkelti savo pakeitimus į LIVE?**
-Jei viskas gerai sukonfiguruota, užteks sudėti pakeitimus į `master`.
-Jei neveiks, plačiau žr. [įkėlimo į serverį dokumentacijoje](https://github.com/nfqakademija/docker/blob/master/docs/deploy-project.md)
-
-* **Kaip prisijungti prie duomenų bazės su savo mėgstamu MySql redagtoriumi?**
-Trumpai: `scripts/mysql.sh` atspausdina visus prisijungimus.
-Plačiau žr. [MySql GUI dokumentacijoje](https://github.com/nfqakademija/docker/blob/master/docs/use-mysql-with-gui.md)
-
-* **Kaip pasileisti xDebug?**
-Trumpai: `./scripts/backend.sh /enable_xdebug.sh <TAVO_KOMPO_IP_ADRESAS>`
-Plačiau žr. [xDebug dokumentacijoje](https://github.com/nfqakademija/docker/blob/master/docs/setup-xdebug.md)
-
-* **Turių daugiau techninių klausimų?**
-Google ir StackOverflow yra geriausi tavo draugai.
-Nepavykus – kreipkis į savo mentorių. Jei jis nepadės,
-nukreips į atitinkamą lektorių arba pamokys `git blame`,
-kad žinotumei, kur kreiptis toliau. 
-
-### Feedbackas
-
-Jeigu taip nutiktų, kad repositorijoje, projekto template ar instrukcijoje rastumėte klaidą, tai nesišnibždėkite vieni tarp kitų, o sukurkite "issue". 
-O jei atidarysite "pull requestą" su fixu, gausite iškart 1000 karmos taškų.
