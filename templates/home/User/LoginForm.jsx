@@ -55,7 +55,7 @@ class LoginForm extends Component {
                 </form>
             </React.Fragment>
         )
-    };
+    }
 }
 
 export default LoginForm;

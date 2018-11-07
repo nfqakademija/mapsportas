@@ -10,7 +10,7 @@ export default createMuiTheme({
     palette: {
         primary: lightBlue,
         secondary: indigo,
-        error: red
+        error: red,
     },
     props: {
         MuiButtonBase: {

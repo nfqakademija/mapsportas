@@ -1,4 +1,4 @@
-import React, {Component}from 'react';
+import React, {Component} from 'react';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import {BrowserRouter} from 'react-router-dom';
 import Theme from './home/MuiTheme/theme';

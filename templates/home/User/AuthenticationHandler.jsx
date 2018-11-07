@@ -28,7 +28,6 @@ class AuthenticationHandler extends Component {
     };
 
     handleRegistration = async (user) => {
-        console.log(user);
         await fetch('/api/register', {
             method: 'post',
             headers: {
@@ -36,10 +35,9 @@ class AuthenticationHandler extends Component {
                 'Accept': 'application/json'
             },
             body: JSON.stringify(user)
-        }).then(response => {
-            return response.json();
-        }).then(data => {
-            console.log(data);
+        }).then(response =>
+            response.json()
+        ).then(data => {
             localStorage.setItem('user_token', data.token);
         }).catch(error => {
             console.log(error);

@@ -4,7 +4,7 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-class RegistrationPage extends Component {
+class RegistrationForm extends Component {
     state = {
         user: {
             name: '',
@@ -18,7 +18,7 @@ class RegistrationPage extends Component {
     };
 
     handleChange = (event) => {
-        const user = this.state.user;
+        const { user } = Object.assign({}, this.state);
         user[event.target.name] = event.target.value;
         this.setState({user});
     };
@@ -40,7 +40,6 @@ class RegistrationPage extends Component {
                             name="name"
                             label="Name"
                             onChange={this.handleChange}
-                            required
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -48,7 +47,6 @@ class RegistrationPage extends Component {
                             name="surname"
                             label="surname"
                             onChange={this.handleChange}
-                            required
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -56,7 +54,6 @@ class RegistrationPage extends Component {
                             name="username"
                             label="username"
                             onChange={this.handleChange}
-                            required
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -64,7 +61,6 @@ class RegistrationPage extends Component {
                             name="email"
                             label="email"
                             onChange={this.handleChange}
-                            required
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -73,7 +69,6 @@ class RegistrationPage extends Component {
                             type="password"
                             label="password"
                             onChange={this.handleChange}
-                            required
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -82,7 +77,6 @@ class RegistrationPage extends Component {
                             type="password"
                             label="password"
                             onChange={this.handleChange}
-                            required
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -91,7 +85,6 @@ class RegistrationPage extends Component {
                             type="date"
                             label="Birthday"
                             onChange={this.handleChange}
-                            required
                         />
                     </FormControl>
                     <Button
@@ -107,4 +100,4 @@ class RegistrationPage extends Component {
     }
 }
 
-export default RegistrationPage;
+export default RegistrationForm;
