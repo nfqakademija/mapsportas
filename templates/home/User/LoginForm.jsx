@@ -25,7 +25,8 @@ class LoginForm extends Component {
         return (
             <React.Fragment>
                 <AppBar position="static">
-                        Login
+                    {this.props.errors ? this.props.errors.error_message : null}
+                    Login
                 </AppBar>
                 <form onSubmit={this.onSubmit}>
                     <FormControl margin="normal" fullWidth={true}>

@@ -6,6 +6,11 @@ import AuthenticationNavigation from './partials/AuthenticationNavigation';
 
 class AuthenticationHandler extends Component {
 
+    state = {
+        loginErrors: [],
+        registrationErrors: [],
+    };
+
     handleLogin = async (username, password) => {
         await fetch("/api/login", {
             method: 'post',
@@ -17,14 +22,15 @@ class AuthenticationHandler extends Component {
                 "username": username,
                 "password": password,
             })
-        }).then(response => {
-            return response.json();
-        }).then(data => {
-            console.log(data);
-            localStorage.setItem('user_token', data.token);
-        }).catch(error => {
-            console.log(error);
-        });
+        }).then(response =>
+            response.json()
+        ).then(data => {
+            if ('token' in data) {
+                localStorage.setItem('user_token', data.token);
+            } else {
+                this.setState({loginErrors: data});
+            }
+        })
     };
 
     handleRegistration = async (user) => {
@@ -38,10 +44,12 @@ class AuthenticationHandler extends Component {
         }).then(response =>
             response.json()
         ).then(data => {
-            localStorage.setItem('user_token', data.token);
-        }).catch(error => {
-            console.log(error);
-        });
+            if ('token' in data) {
+                localStorage.setItem('user_token', data.token);
+            } else {
+                this.setState({loginErrors: data});
+            }
+        })
     };
 
     render() {
@@ -50,8 +58,8 @@ class AuthenticationHandler extends Component {
             <React.Fragment>
                 {
                     isLoginShown ?
-                        <LoginForm onSubmit={this.handleLogin}/> :
-                        <RegistrationForm onSubmit={this.handleRegistration}/>
+                        <LoginForm errors={this.state.loginErrors} onSubmit={this.handleLogin}/> :
+                        <RegistrationForm errors={this.state.registrationErrors} onSubmit={this.handleRegistration}/>
                 }
                 <AuthenticationNavigation isLoginShown={isLoginShown} onClick={this.props.onChange}/>
             </React.Fragment>

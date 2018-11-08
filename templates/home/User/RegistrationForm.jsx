@@ -6,21 +6,20 @@ import Button from '@material-ui/core/Button';
 
 class RegistrationForm extends Component {
     state = {
-        user: {
-            name: '',
-            surname: '',
-            email: '',
-            username: '',
-            password: '',
-            repeatPassword: '',
-            birthDate: '',
-        }
+        name: '',
+        surname: '',
+        email: '',
+        username: '',
+        password: '',
+        repeatPassword: '',
+        birthDate: '',
     };
 
     handleChange = (event) => {
-        const { user } = Object.assign({}, this.state);
-        user[event.target.name] = event.target.value;
-        this.setState({user});
+        const {name, value} = event.target;
+        this.setState(
+            {[name]: value}
+        );
     };
 
     handleSubmit = (event) => {
@@ -40,6 +39,7 @@ class RegistrationForm extends Component {
                             name="name"
                             label="Name"
                             onChange={this.handleChange}
+                            error={!!this.props.errors.name}
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -47,6 +47,7 @@ class RegistrationForm extends Component {
                             name="surname"
                             label="surname"
                             onChange={this.handleChange}
+                            error={!!this.props.errors.surname}
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -54,13 +55,16 @@ class RegistrationForm extends Component {
                             name="username"
                             label="username"
                             onChange={this.handleChange}
+                            error={!!this.props.errors.username}
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
                         <TextField
+                            type="email"
                             name="email"
                             label="email"
                             onChange={this.handleChange}
+                            error={!!this.props.errors.email}
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -69,6 +73,7 @@ class RegistrationForm extends Component {
                             type="password"
                             label="password"
                             onChange={this.handleChange}
+                            error={!!this.props.errors.password}
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -77,6 +82,7 @@ class RegistrationForm extends Component {
                             type="password"
                             label="password"
                             onChange={this.handleChange}
+                            error={!!this.props.errors.password}
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth={true}>
@@ -85,6 +91,7 @@ class RegistrationForm extends Component {
                             type="date"
                             label="Birthday"
                             onChange={this.handleChange}
+                            error={!!this.props.errors.birthDate}
                         />
                     </FormControl>
                     <Button

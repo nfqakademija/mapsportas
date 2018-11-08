@@ -15,7 +15,7 @@ class App extends Component {
                         <Grid container direction="row" justify="flex-start">
                             <Menu/>
                         </Grid>
-                        <Grid container justify="center">
+                        <Grid container>
                             <div>
                                 <Routes />
                             </div>
