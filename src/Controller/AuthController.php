@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\User;
 use App\Form\RegistrationForm;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AuthController extends controller
 {
@@ -31,17 +33,33 @@ class AuthController extends controller
     public function register(Request $request)
     {
         $user = $this->userManager->createUser();
+        $user->setCreatedAt(new \DateTime('now'));
         $data = json_decode($request->getContent(),true);
+        $data['birthDate'] = new \DateTime($data['birthDate']);
         $form = $this->createForm(RegistrationForm::class,$user);
+        $form->setData($user);
         $form->submit($data,false);
-        $user->setPlainPassword($data["password"]);
-        $user->setEnabled(1);
-        $this->userManager->updateUser($user);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPlainPassword($data["password"]);
+            $user->setEnabled(1);
+            $this->userManager->updateUser($user);
+        } else {
+            $errors = [];
+            foreach ($form->getErrors(true) as $error) {
+                if ($error->getCause()) {
+                    $errors[substr($error->getCause()->getPropertyPath(), 5)] = $error->getMessage();
+                }
+            }
+
+            return new JsonResponse([
+                'error_message' => $errors
+            ], Response::HTTP_BAD_REQUEST);
+        }
         $token = $this->getTokenUser($user);
 
         return new JsonResponse([
             "token" => $token
-        ]);
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -56,21 +74,17 @@ class AuthController extends controller
                 'error_message' => 'Bad credentials'
             ], Response::HTTP_BAD_REQUEST);
         }
-
-
         $isValid = $this->get('security.password_encoder')->isPasswordValid($user, $data['password']);
         if (!$isValid) {
             return new JsonResponse([
                 'error_message' => 'Bad credentials'
             ], Response::HTTP_UNAUTHORIZED);
         }
-
-
         $token = $this->getTokenUser($user);
 
         return new JsonResponse([
             'token' => $token,
-        ]);
+        ],Response::HTTP_OK);
     }
 
     private function getTokenUser(UserInterface $user)

@@ -28,19 +28,12 @@ scripts/stop.sh
 * Login 
 ```bash
  POST /api/login
- {"username":"username", "password":"password"}
-```
-```bash
-return example
-{
-    "username": "test",
-    "email": "test@test.com",
-    "name": null,
-    "surname": null,
-    "birthDate": null,
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NDE1MDk2MDMsImV4cCI6MTU0MTUxMzIwMywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdCJ9.tJVO6AEaQydpVD5gdGb4oMcGoec_R0CVveVd6R2kbNjzL4UQp542V7zmNzkcGokVoHMZZU_AUYzPckWNYrdL-YDm3MkZJmhQmOCUCcjXM06HprhOzspdGCcehlZJhfn3PJCWellvfXgA3m2KftLfalpfH4pgY1zpnzKIo1ZFvHLttI8jfD_8TwnXTJPzcqTHGbTsK5saVARVh_lGPXZUI2VAG3RDAnzwWE6agRYa1PDyIXjmk4cl1qF10PLGM3sr2C02I1wEoWeRTlpEuXQCHyl3UiRnKrklxcIbjFi28Umn-G_dibol51XfLs7RxmfCVZDsuYScccDLr_jnwX2mKJ74NiWnTi3E9cLGrUlNpKOhe6y45YLaBHHYP2jgjug_EbPKG2zWktOacaYIYUJsdD1Go0VHE3CCMvJ85NYetPX64ANUE9ysfE2JHnOjcB-0oIa44zRRLPMkSBJabOUrqz1Hso_tmWRLwYw55fgBKI6fMXS4c4ajTxAcTPtj4FEhfF_h-5uCuo2cEJlBORSrZA0PmVDnydGmq2xxs1mYR9VSqh__00CxKmk2enRvhsjMmNWneH3kE0DO5ZDN_Sevqa8gwPJSSCsVsWBmrbvJR2PDJdygvkfuE9CRwMxuFg4r8Z2Rv4GlAUjVJKvCzk12CXyoywnWCUcMnJT-KecCTK4"
+ {
+    "username":"username", 
+    "password":"password"
 }
 ```
+
 * Register
 ```bash
  POST /api/register
@@ -52,17 +45,7 @@ return example
     "birthDate":"birthDate",
  }
 ```
-```bash
-return example
-{
-    "username": "test",
-    "email": "test@test.com",
-    "name": "test",
-    "surname": "test",
-    "birthDate": "1990-01-01",
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NDE1MDk2MDMsImV4cCI6MTU0MTUxMzIwMywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdCJ9.tJVO6AEaQydpVD5gdGb4oMcGoec_R0CVveVd6R2kbNjzL4UQp542V7zmNzkcGokVoHMZZU_AUYzPckWNYrdL-YDm3MkZJmhQmOCUCcjXM06HprhOzspdGCcehlZJhfn3PJCWellvfXgA3m2KftLfalpfH4pgY1zpnzKIo1ZFvHLttI8jfD_8TwnXTJPzcqTHGbTsK5saVARVh_lGPXZUI2VAG3RDAnzwWE6agRYa1PDyIXjmk4cl1qF10PLGM3sr2C02I1wEoWeRTlpEuXQCHyl3UiRnKrklxcIbjFi28Umn-G_dibol51XfLs7RxmfCVZDsuYScccDLr_jnwX2mKJ74NiWnTi3E9cLGrUlNpKOhe6y45YLaBHHYP2jgjug_EbPKG2zWktOacaYIYUJsdD1Go0VHE3CCMvJ85NYetPX64ANUE9ysfE2JHnOjcB-0oIa44zRRLPMkSBJabOUrqz1Hso_tmWRLwYw55fgBKI6fMXS4c4ajTxAcTPtj4FEhfF_h-5uCuo2cEJlBORSrZA0PmVDnydGmq2xxs1mYR9VSqh__00CxKmk2enRvhsjMmNWneH3kE0DO5ZDN_Sevqa8gwPJSSCsVsWBmrbvJR2PDJdygvkfuE9CRwMxuFg4r8Z2Rv4GlAUjVJKvCzk12CXyoywnWCUcMnJT-KecCTK4"
-}
-```
+
 * User Edit
 ```bash
  POST /api/user/edit
@@ -72,17 +55,74 @@ return example
     "name":"name",
     "surname":"surname",
     "birthDate":"birthDate",
-    "token":"token"
  }
 ```
+
+*  User Data
 ```bash
-return example
+GET /api/user
+```
+
+* Promote Yourself to Admin
+```bash
+GET /api/admin/promote
+```
+
+* Get List of Sport Type
+```bash
+GET /api/sport/types
+```
+
+* Create new Sport Type
+```bash
+POST /api/admin/sport/type
 {
-    "username": "test",
-    "email": "test@test.com",
-    "name": "test",
-    "surname": "test",
-    "birthDate": "1990-01-01",
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NDE1MDk2MDMsImV4cCI6MTU0MTUxMzIwMywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdCJ9.tJVO6AEaQydpVD5gdGb4oMcGoec_R0CVveVd6R2kbNjzL4UQp542V7zmNzkcGokVoHMZZU_AUYzPckWNYrdL-YDm3MkZJmhQmOCUCcjXM06HprhOzspdGCcehlZJhfn3PJCWellvfXgA3m2KftLfalpfH4pgY1zpnzKIo1ZFvHLttI8jfD_8TwnXTJPzcqTHGbTsK5saVARVh_lGPXZUI2VAG3RDAnzwWE6agRYa1PDyIXjmk4cl1qF10PLGM3sr2C02I1wEoWeRTlpEuXQCHyl3UiRnKrklxcIbjFi28Umn-G_dibol51XfLs7RxmfCVZDsuYScccDLr_jnwX2mKJ74NiWnTi3E9cLGrUlNpKOhe6y45YLaBHHYP2jgjug_EbPKG2zWktOacaYIYUJsdD1Go0VHE3CCMvJ85NYetPX64ANUE9ysfE2JHnOjcB-0oIa44zRRLPMkSBJabOUrqz1Hso_tmWRLwYw55fgBKI6fMXS4c4ajTxAcTPtj4FEhfF_h-5uCuo2cEJlBORSrZA0PmVDnydGmq2xxs1mYR9VSqh__00CxKmk2enRvhsjMmNWneH3kE0DO5ZDN_Sevqa8gwPJSSCsVsWBmrbvJR2PDJdygvkfuE9CRwMxuFg4r8Z2Rv4GlAUjVJKvCzk12CXyoywnWCUcMnJT-KecCTK4"
+    "name":"name",
 }
+```
+
+* Delete sport type
+```bash
+DELETE /api/admin/sport/type/{id}
+```
+
+* Get List of Sport Venues
+```bash
+GET /api/sport/venues
+```
+
+* Add Sport Venue
+```bash
+POST /api/admin/sport/venue
+{
+    "sportType":"1",
+    "name":"name",
+    "description":"description",
+    "adress":"adress",
+    "city":"city",
+}
+```
+
+* Delete Sport venue 
+```bash
+DELETE /api/admin/sport/venue/{id}
+```
+
+* Create Sport Event
+```bash
+POST /api/sport/event
+{
+    "creator":"1",
+    "sportType":"1",
+    "sportVenue":"1",
+    "maxMembers":"5",
+    "date":"2019-09-09 19:45"
+}
+```
+
+* Get List of Sport Events
+```bash
+GET /api/sport/events
+```
+
 
