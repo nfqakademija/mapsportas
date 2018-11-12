@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Theme from './home/MuiTheme/theme';
 import Menu from './menu/Menu';
-import Grid from '@material-ui/core/Grid';
 import Routes from './routing/Routes';
 
 class App extends Component {
@@ -12,18 +11,16 @@ class App extends Component {
             <MuiThemeProvider theme={Theme}>
                 <BrowserRouter>
                     <div>
-                        <Grid container direction="row" justify="flex-start">
+                        <div className="container">
                             <Menu/>
-                        </Grid>
-                        <Grid container>
-                            <div>
-                                <Routes />
-                            </div>
-                        </Grid>
+                        </div>
+                        <div>
+                            <Routes />
+                        </div>
                     </div>
                 </BrowserRouter>
             </MuiThemeProvider>
-        )
+        );
     }
 }
 
