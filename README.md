@@ -63,14 +63,14 @@ scripts/stop.sh
 GET /api/user
 ```
 
+* Refresh Token
+```bash
+GET /api/refresh/token
+```
+
 * Promote Yourself to Admin
 ```bash
 GET /api/admin/promote
-```
-
-* Get List of Sport Type
-```bash
-GET /api/sport/types
 ```
 
 * Create new Sport Type
@@ -81,17 +81,7 @@ POST /api/admin/sport/type
 }
 ```
 
-* Delete sport type
-```bash
-DELETE /api/admin/sport/type/{id}
-```
-
-* Get List of Sport Venues
-```bash
-GET /api/sport/venues
-```
-
-* Add Sport Venue
+* Create new Sport Venue
 ```bash
 POST /api/admin/sport/venue
 {
@@ -101,11 +91,6 @@ POST /api/admin/sport/venue
     "adress":"adress",
     "city":"city",
 }
-```
-
-* Delete Sport venue 
-```bash
-DELETE /api/admin/sport/venue/{id}
 ```
 
 * Create Sport Event
@@ -120,9 +105,32 @@ POST /api/sport/event
 }
 ```
 
+* Delete sport type
+```bash
+DELETE /api/admin/sport/type/{id}
+```
+
+* Delete Sport venue 
+```bash
+DELETE /api/admin/sport/venue/{id}
+```
+
+
+### Public Endpoints
+
+* Get List of Sport Type
+```bash
+GET /api/public/sport/types
+```
+
+* Get List of Sport Venues
+```bash
+GET /api/public/sport/venues
+```
+
 * Get List of Sport Events
 ```bash
-GET /api/sport/events
+GET /api/public/sport/events
 ```
 
 

@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SportVenueController extends AbstractController
 {
     /**
-     * @Route("/api/sport/venues", name="get_sport_venues", methods="GET")
+     * @Route("/api/public/sport/venues", name="get_sport_venues", methods="GET")
      */
     public function getSportVenues()
     {

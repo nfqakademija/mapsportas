@@ -22,11 +22,7 @@ class SportVenue
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Adresas turi būti nurodytas.")
-     * @Assert\Regex(
-     *     pattern="/^[A-Za-zĄąČčĘęĖėĮįŠšŲųŪūŽž\- ]+$/",
-     *     message="Name contains only letters A-Z."
-     * )
+     * @Assert\NotBlank(message="Name is required")
      */
     private $name;
 
@@ -34,31 +30,29 @@ class SportVenue
      * @ORM\Column(type="text", nullable=true)
      * @Assert\Length(
      *     min=10,
-     *     minMessage="Per trumpas aprašymas"
+     *     max=200,
+     *     minMessage="Description is too short."
+     *     maxMessage="Description is too long."
      * )
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Adresas turi būti nurodytas.")
+     * @Assert\NotBlank(message="Adress is required.")
      */
     private $adress;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Miestas turi būti nurodytas")
-     * @Assert\Regex(
-     *     pattern="/^[A-Za-zĄąČčĘęĖėĮįŠšŲųŪūŽž ]+$/",
-     *     message="Name contains only letters A-Z."
-     * )
+     * @Assert\NotBlank(message="City is required")
      */
     private $city;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SportType", inversedBy="sportVenues")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(message="Sporto Tipas turi būti nurodytas")
+     * @Assert\NotBlank(message="Sport type is required")
      */
     private $sportType;
 

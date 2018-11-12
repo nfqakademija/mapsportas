@@ -39,10 +39,6 @@ class User extends BaseUser implements UserInterface
      *     minMessage="Username must be between 2 and 20 characters long.",
      *     maxMessage="Username must be between 2 and 20 characters long."
      * )
-     *  @Assert\Regex(
-     *     pattern="/^[A-Za-z0-9_ ]+$/",
-     *     message="Username can have only letters A-Z, numbers 0-9 and underscore - _"
-     * )
      */
     protected $username;
 
@@ -54,28 +50,16 @@ class User extends BaseUser implements UserInterface
      *     minMessage="Password must be between 6 and 100 characters long.",
      *     maxMessage="Password must be between 6 and 100 characters long."
      * )
-     * @Assert\Regex(
-     *     pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,100}$/",
-     *     message="Password must contain aA-zZ and number 0-9."
-     * )
      */
     protected $plainPassword;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Regex(
-     *     pattern="/^[A-Za-zĄąČčĘęĖėĮįŠšŲųŪūŽž ]+$/",
-     *     message="Name contains only letters A-Z."
-     * )
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Regex(
-     *     pattern="/^[A-Za-zĄąČčĘęĖėĮįŠšŲųŪūŽž ]+$/",
-     *     message="Surname contains only letters A-Z."
-     * )
      */
     protected $surname;
 

@@ -22,10 +22,7 @@ class SportType
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Regex(
-     *     pattern="/^[A-Za-zĄąČčĘęĖėĮįŠšŲųŪūŽž ]+$/",
-     *     message="Name contains only letters A-Z."
-     * )
+     * @Assert\NotBlank(message="Name is required.")
      */
     private $name;
 

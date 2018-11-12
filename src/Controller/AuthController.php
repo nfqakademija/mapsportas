@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 
-use App\Entity\User;
 use App\Form\RegistrationForm;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
@@ -13,7 +12,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AuthController extends controller
 {
@@ -95,5 +93,18 @@ class AuthController extends controller
         new AuthenticationSuccessEvent(array('token' => $token), $user, $response);
 
         return $token;
+    }
+
+    /**
+     * @Route("/api/refresh/token", name="refresh_token", methods="GET")
+     */
+    public function refreshToken(Request $request)
+    {
+        $user = $this->getUser();
+        $token = $this->getTokenUser($user);
+
+        return new JsonResponse([
+            'token' => $token,
+        ],Response::HTTP_OK);
     }
 }

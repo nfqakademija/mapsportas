@@ -21,27 +21,27 @@ class SportEvent
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sportEvents")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(message="Įvykio kurėjas turi būti nurodytas.")
+     * @Assert\NotBlank(message="Creator of Event is required")
      */
     private $creator;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SportType", inversedBy="sportEvents")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(message="Sporto rūšis turi būti nurodyta.")
+     * @Assert\NotBlank(message="Sport type is required")
      */
     private $sportType;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SportVenue", inversedBy="sportEvents")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(message="Vieta turi būti nurodyta.")
+     * @Assert\NotBlank(message="Sport Venue is required")
      */
     private $sportVenue;
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotBlank(message="Maksimalus dalyvių skaičius turi būti nurodytas.")
+     * @Assert\NotBlank(message="Maximum number of people is required!")
      */
     private $maxMembers;
 

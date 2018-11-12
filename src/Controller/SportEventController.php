@@ -14,7 +14,7 @@ class SportEventController extends AbstractController
 {
 
     /**
-     * @Route("/api/sport/events", name="get_sport_event", methods="GET")
+     * @Route("/api/public/sport/events", name="get_sport_events", methods="GET")
      */
     public function getSportEvents()
     {
@@ -23,10 +23,6 @@ class SportEventController extends AbstractController
         foreach ($sportEvents as $sportEvent) {
             $response[] = [
                 'id' => $sportEvent->getId(),
-                'creator' => [
-                    'id' => $sportEvent->getCreator()->getId(),
-                    'name' => $sportEvent->getCreator()->getUsername(),
-                ],
                 'sportType' => [
                     'id' => $sportEvent->getSportType()->getId(),
                     'name' => $sportEvent->getSportType()->getName(),
