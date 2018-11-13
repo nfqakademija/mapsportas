@@ -27,7 +27,6 @@ class App extends Component {
                     this.setState({
                         user: response.data.user,
                     });
-                    console.log(this.state);
                 },
             )
             .catch((error) => console.log(error))
@@ -41,7 +40,7 @@ class App extends Component {
                 <BrowserRouter>
                     <div className="container">
                         <Menu user={user}/>
-                        <Routes />
+                        <Routes user={user}/>
                     </div>
                 </BrowserRouter>
             </MuiThemeProvider>

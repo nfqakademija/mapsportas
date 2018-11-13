@@ -19,8 +19,8 @@ const Menu = (user) => (
                 </ul>
                 <ul className="form-inline my-2 my-lg-0">
                     { user.user.username
-                        ? <p className="my-2 my-sm-0">{user.user.username}</p>
-                        : <Link className="my-2 my-sm-0" to='/auth'>Login</Link>
+                        ? <Link to="/profile" className="my-2 my-sm-0">{user.user.username}</Link>
+                        : <Link to='/auth' className="my-2 my-sm-0">Login</Link>
                     }
                 </ul>
 

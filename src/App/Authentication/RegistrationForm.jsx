@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
-import ErrorMessage from './/partials/ErrorMessage';
+import ErrorMessage from './partials/ErrorMessage';
 
 class RegistrationForm extends Component {
     state = {
