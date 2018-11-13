@@ -33,7 +33,7 @@ class SportVenueController extends AbstractController
 
             ];
         }
-        return new JsonResponse($response,Response::HTTP_OK);
+        return new JsonResponse(['id' => 1, 'name' => 'blalbala'],Response::HTTP_OK);
     }
 
     /**

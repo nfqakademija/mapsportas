@@ -31,7 +31,7 @@ class SportVenue
      * @Assert\Length(
      *     min=10,
      *     max=200,
-     *     minMessage="Description is too short."
+     *     minMessage="Description is too short.",
      *     maxMessage="Description is too long."
      * )
      */

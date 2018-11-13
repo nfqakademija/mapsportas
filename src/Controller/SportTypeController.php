@@ -25,7 +25,7 @@ class SportTypeController extends AbstractController
                 'name' => $sportType->getName(),
             ];
         }
-        return new JsonResponse($response,Response::HTTP_OK);
+        return new JsonResponse(['id' => 1, 'name' => 'fuckme'],Response::HTTP_OK);
     }
 
     /**
