@@ -30,6 +30,7 @@ class RegistrationForm extends Component {
 
     render() {
         const { errors } = this.props;
+        console.log(errors);
         return (
             <React.Fragment>
                 <div className="card-header">

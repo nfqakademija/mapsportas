@@ -4,19 +4,44 @@ import { BrowserRouter } from 'react-router-dom';
 import Theme from './home/MuiTheme/theme';
 import Menu from './menu/Menu';
 import Routes from './routing/Routes';
+import axios from 'axios';
 
 class App extends Component {
+    state = {
+        user: {},
+    };
+
+    componentDidMount() {
+        this.getUser();
+    }
+
+    getUser = async () => {
+        await axios
+            .get(
+                '/api/user', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('user_token')}`,
+                    },
+                })
+            .then((response) => {
+                    this.setState({
+                        user: response.data.user,
+                    });
+                    console.log(this.state);
+                },
+            )
+            .catch((error) => console.log(error))
+        ;
+    };
+
     render() {
+        const { user } = this.state;
         return (
             <MuiThemeProvider theme={Theme}>
                 <BrowserRouter>
-                    <div>
-                        <div className="container">
-                            <Menu/>
-                        </div>
-                        <div>
-                            <Routes />
-                        </div>
+                    <div className="container">
+                        <Menu user={user}/>
+                        <Routes />
                     </div>
                 </BrowserRouter>
             </MuiThemeProvider>

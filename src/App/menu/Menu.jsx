@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Menu = () => (
+const Menu = (user) => (
     <React.Fragment>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link className="navbar-brand" to="/home">Home</Link>
+            <Link className="navbar-brand" to="/">Home</Link>
             <button className="navbar-toggler" type="button">
             </button>
 
@@ -18,9 +18,12 @@ const Menu = () => (
                     </li>
                 </ul>
                 <ul className="form-inline my-2 my-lg-0">
-                    <p className="my-2 my-sm-0">user name</p>
-                    <li className="my-2 my-sm-0">Avatar place</li>
+                    { user.user.username
+                        ? <p className="my-2 my-sm-0">{user.user.username}</p>
+                        : <Link className="my-2 my-sm-0" to='/auth'>Login</Link>
+                    }
                 </ul>
+
             </div>
         </nav>
     </React.Fragment>

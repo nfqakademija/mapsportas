@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ErrorMessage from './/partials/ErrorMessage';
+import ErrorMessage from './partials/ErrorMessage';
 
 class LoginForm extends Component {
     state = {
