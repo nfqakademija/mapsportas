@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
@@ -17,7 +19,7 @@ class SportEvent
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      *
-     * @Groups({"sportEvent","sportType","sportVenue"})
+     * @Groups({"sportEvent","sportType","sportVenue","user"})
      */
     private $id;
 
@@ -52,16 +54,28 @@ class SportEvent
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Maximum number of people is required!")
      *
-     * @Groups({"sportEvent","sportType","sportVenue"})
+     * @Groups({"sportEvent","sportType","sportVenue","user"})
      */
     private $maxMembers;
 
     /**
      * @ORM\Column(type="datetime")
      *
-     * @Groups({"sportEvent","sportType","sportVenue"})
+     * @Groups({"sportEvent","sportType","sportVenue","user"})
      */
     private $date;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EventApplication", mappedBy="sportEvent")
+     *
+     * @Groups({"sportEvent","sportType","sportVenue"})
+     */
+    private $applyedUsers;
+
+    public function __construct()
+    {
+        $this->applyedUsers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -124,6 +138,37 @@ class SportEvent
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EventApplication[]
+     */
+    public function getApplyedUsers(): Collection
+    {
+        return $this->applyedUsers;
+    }
+
+    public function addApplyedUser(EventApplication $applyedUser): self
+    {
+        if (!$this->applyedUsers->contains($applyedUser)) {
+            $this->applyedUsers[] = $applyedUser;
+            $applyedUser->setSportEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplyedUser(EventApplication $applyedUser): self
+    {
+        if ($this->applyedUsers->contains($applyedUser)) {
+            $this->applyedUsers->removeElement($applyedUser);
+            // set the owning side to null (unless already changed)
+            if ($applyedUser->getSportEvent() === $this) {
+                $applyedUser->setSportEvent(null);
+            }
+        }
 
         return $this;
     }

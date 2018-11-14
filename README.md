@@ -104,6 +104,13 @@ POST /api/sport/event
     "date":"2019-09-09 19:45"
 }
 ```
+* Apply for Sport Event
+```bash
+POST /api/sport/event/apply
+{
+    "sportEvent":"id"
+}
+```
 
 * Delete sport type
 ```bash

@@ -102,10 +102,18 @@ class User extends BaseUser implements UserInterface
      */
     private $sportEvents;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EventApplication", mappedBy="user")
+     *
+     * @Groups({"user"})
+     */
+    private $userApplications;
+
     public function __construct()
     {
         parent::__construct();
         $this->sportEvents = new ArrayCollection();
+        $this->userApplications = new ArrayCollection();
     }
 
     /**
@@ -199,7 +207,7 @@ class User extends BaseUser implements UserInterface
     {
         if (!$this->sportEvents->contains($sportEvent)) {
             $this->sportEvents[] = $sportEvent;
-            $sportEvent->setCreatorId($this);
+            $sportEvent->setCreator($this);
         }
 
         return $this;
@@ -210,8 +218,39 @@ class User extends BaseUser implements UserInterface
         if ($this->sportEvents->contains($sportEvent)) {
             $this->sportEvents->removeElement($sportEvent);
             // set the owning side to null (unless already changed)
-            if ($sportEvent->getCreatorId() === $this) {
-                $sportEvent->setCreatorId(null);
+            if ($sportEvent->getCreator() === $this) {
+                $sportEvent->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EventApplication[]
+     */
+    public function getUserApplications(): Collection
+    {
+        return $this->userApplications;
+    }
+
+    public function addUserApplication(EventApplication $userApplication): self
+    {
+        if (!$this->userApplications->contains($userApplication)) {
+            $this->userApplications[] = $userApplication;
+            $userApplication->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserApplication(EventApplication $userApplication): self
+    {
+        if ($this->userApplications->contains($userApplication)) {
+            $this->userApplications->removeElement($userApplication);
+            // set the owning side to null (unless already changed)
+            if ($userApplication->getUser() === $this) {
+                $userApplication->setUser(null);
             }
         }
 
