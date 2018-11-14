@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Form\RegistrationForm;
 use FOS\UserBundle\Model\UserManagerInterface;
+use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 
 class UserController extends controller
 {
@@ -60,19 +61,10 @@ class UserController extends controller
     public function getCurrentUser()
     {
         $user = $this->getUser();
-        return new JsonResponse([
-            'user' => [
-                'id' => $user->getId(),
-                'username' => $user->getUsername(),
-                'email' => $user->getEmail(),
-                'name' => $user->getName(),
-                'surname' => $user->getSurname(),
-                'birthDate' => $user->getBirthDate()->format('Y-m-d'),
-                'roles' => $user->getRoles(),
-                'createdAt' => $user->getCreatedAt(),
-                'updatedAt' => $user->getUpdatedAt()
-            ]
-        ],Response::HTTP_OK);
+        $serializer = SerializerBuilder::create()->build();
+        $response = json_decode($serializer->serialize($user,'json',SerializationContext::create()->setGroups(array('user'))));
+
+        return new JsonResponse($response,Response::HTTP_OK);
     }
 
     /**

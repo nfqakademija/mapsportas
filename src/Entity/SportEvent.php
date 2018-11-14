@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\Groups;
 
 
 /**
@@ -15,6 +16,8 @@ class SportEvent
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"sportEvent","sportType","sportVenue"})
      */
     private $id;
 
@@ -22,6 +25,8 @@ class SportEvent
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sportEvents")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="Creator of Event is required")
+     *
+     * @Groups("sportEvent")
      */
     private $creator;
 
@@ -29,6 +34,8 @@ class SportEvent
      * @ORM\ManyToOne(targetEntity="App\Entity\SportType", inversedBy="sportEvents")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="Sport type is required")
+     *
+     * @Groups({"sportEvent"})
      */
     private $sportType;
 
@@ -36,17 +43,23 @@ class SportEvent
      * @ORM\ManyToOne(targetEntity="App\Entity\SportVenue", inversedBy="sportEvents")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="Sport Venue is required")
+     *
+     * @Groups({"sportEvent","sportType"})
      */
     private $sportVenue;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Maximum number of people is required!")
+     *
+     * @Groups({"sportEvent","sportType","sportVenue"})
      */
     private $maxMembers;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Groups({"sportEvent","sportType","sportVenue"})
      */
     private $date;
 

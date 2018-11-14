@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\SportType;
 use App\Form\SportTypeType;
+use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,15 +19,11 @@ class SportTypeController extends AbstractController
      */
     public function getSportTypes()
     {
+        $serializer = SerializerBuilder::create()->build();
         $sportTypes = $this->getDoctrine()->getRepository(SportType::class)->findAll();
-        $response = [];
-        foreach ($sportTypes as $sportType) {
-            $response[] = [
-                'id' => $sportType->getId(),
-                'name' => $sportType->getName(),
-            ];
-        }
-        return new JsonResponse(['id' => 1, 'name' => 'fuckme'],Response::HTTP_OK);
+        $response = json_decode($serializer->serialize($sportTypes,'json',SerializationContext::create()->setGroups(array('sportType'))));
+
+        return new JsonResponse($response,Response::HTTP_OK);
     }
 
     /**

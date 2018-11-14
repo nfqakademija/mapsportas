@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\SportEvent;
 use App\Form\SportEventType;
+use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,25 +21,9 @@ class SportEventController extends AbstractController
     public function getSportEvents()
     {
         $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findAll();
-        $response = [];
-        foreach ($sportEvents as $sportEvent) {
-            $response[] = [
-                'id' => $sportEvent->getId(),
-                'sportType' => [
-                    'id' => $sportEvent->getSportType()->getId(),
-                    'name' => $sportEvent->getSportType()->getName(),
-                ],
-                'sportVenue' => [
-                    'id' => $sportEvent->getSportVenue()->getId(),
-                    'name' => $sportEvent->getSportVenue()->getName(),
-                    'description' => $sportEvent->getSportVenue()->getdescription(),
-                    'adress' => $sportEvent->getSportVenue()->getAdress(),
-                    'city' => $sportEvent->getSportVenue()->getCity(),
-                ],
-                'maxMembers' => $sportEvent->getMaxMembers(),
-                'date' => $sportEvent->getDate(),
-            ];
-        }
+        $serializer = SerializerBuilder::create()->build();
+        $response = json_decode($serializer->serialize($sportEvents,'json',SerializationContext::create()->setGroups(array('sportEvent'))));
+
         return new JsonResponse($response,Response::HTTP_OK);
     }
 
@@ -48,6 +34,7 @@ class SportEventController extends AbstractController
     {
         $sportEvent = new SportEvent();
         $data = json_decode($request->getContent(), true);
+        $data['creator'] = $this->getUser()->getId();
         $data['date'] = new \DateTime($data['date']);
         $form = $this->createForm(SportEventType::class,$sportEvent);
         $form->setData($sportEvent);

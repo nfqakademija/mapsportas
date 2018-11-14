@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SportVenueRepository")
@@ -17,12 +17,16 @@ class SportVenue
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"sportVenue","sportEvent","sportType"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Name is required")
+     *
+     * @Groups({"sportVenue","sportEvent","sportType"})
      */
     private $name;
 
@@ -34,18 +38,24 @@ class SportVenue
      *     minMessage="Description is too short.",
      *     maxMessage="Description is too long."
      * )
+     *
+     * @Groups({"sportVenue","sportEvent","sportType"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Adress is required.")
+     *
+     * @Groups({"sportVenue","sportEvent","sportType"})
      */
     private $adress;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="City is required")
+     *
+     * @Groups({"sportVenue","sportEvent","sportType"})
      */
     private $city;
 
@@ -53,11 +63,15 @@ class SportVenue
      * @ORM\ManyToOne(targetEntity="App\Entity\SportType", inversedBy="sportVenues")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="Sport type is required")
+     *
+     * @Groups({"sportVenue"})
      */
     private $sportType;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SportEvent", mappedBy="sportVenueId")
+     * @ORM\OneToMany(targetEntity="App\Entity\SportEvent", mappedBy="sportVenue")
+     *
+     * @Groups({"sportVenue"})
      */
     private $sportEvents;
 

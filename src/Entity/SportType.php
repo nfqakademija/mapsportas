@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SportTypeRepository")
@@ -17,22 +17,30 @@ class SportType
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"sportType","sportEvent","sportVenue"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Name is required.")
+     *
+     * @Groups({"sportType","sportEvent","sportVenue"})
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SportVenue", mappedBy="sportTypeID")
+     * @ORM\OneToMany(targetEntity="App\Entity\SportVenue", mappedBy="sportType")
+     *
+     * @Groups({"sportType"})
      */
     private $sportVenues;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SportEvent", mappedBy="sportTypeId")
+     * @ORM\OneToMany(targetEntity="App\Entity\SportEvent", mappedBy="sportType")
+     *
+     * @Groups({"sportType"})
      */
     private $sportEvents;
 

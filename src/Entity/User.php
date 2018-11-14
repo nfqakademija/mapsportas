@@ -9,7 +9,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -22,12 +22,16 @@ class User extends BaseUser implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"user","sportEvent"})
      */
     protected $id;
 
     /**
      * @Assert\NotBlank(message="Email is required")
      * @Assert\Email(message="This email is invalid")
+     *
+     * @Groups({"user"})
      */
     protected $email;
 
@@ -39,6 +43,8 @@ class User extends BaseUser implements UserInterface
      *     minMessage="Username must be between 2 and 20 characters long.",
      *     maxMessage="Username must be between 2 and 20 characters long."
      * )
+     *
+     * @Groups({"user","sportEvent"})
      */
     protected $username;
 
@@ -55,32 +61,44 @@ class User extends BaseUser implements UserInterface
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
+     * @Groups({"user"})
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
+     * @Groups({"user"})
      */
     protected $surname;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Assert\DateTime(format="Y/m/d")
+     *
+     * @Groups({"user"})
      */
     protected $birthDate;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Groups({"user"})
      */
     protected $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @Groups({"user"})
      */
     protected $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SportEvent", mappedBy="creator_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\SportEvent", mappedBy="creator")
+     *
+     * @Groups({"user"})
      */
     private $sportEvents;
 

@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\SportVenue;
 use App\Form\SportVenueType;
+use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,22 +20,10 @@ class SportVenueController extends AbstractController
     public function getSportVenues()
     {
         $sportVenues = $this->getDoctrine()->getRepository(SportVenue::class)->findAll();
-        $response = [];
-        foreach ($sportVenues as $sportVenue) {
-            $response[] = [
-                'id' => $sportVenue->getId(),
-                'sportType' => [
-                        'id' =>$sportVenue->getSportType()->getId(),
-                       'name' => $sportVenue->getSportType()->getName(),
-                    ],
-                'name' => $sportVenue->getName(),
-                'description' => $sportVenue->getDescription(),
-                'adress' => $sportVenue->getAdress(),
-                'city' => $sportVenue->getCity(),
+        $serializer = SerializerBuilder::create()->build();
+        $response = json_decode($serializer->serialize($sportVenues,'json',SerializationContext::create()->setGroups(array('sportVenue'))));
 
-            ];
-        }
-        return new JsonResponse(['id' => 1, 'name' => 'blalbala'],Response::HTTP_OK);
+        return new JsonResponse($response,Response::HTTP_OK);
     }
 
     /**
