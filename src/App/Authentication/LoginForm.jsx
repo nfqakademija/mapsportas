@@ -22,12 +22,15 @@ class LoginForm extends Component {
         const { errors } = this.props;
         return (
             <React.Fragment>
-                <div className="card-header">
-                    Login
-                    { errors.length > 0 } {
-                    <ErrorMessage text={errors.error_message}/>
+                {
+                    errors.error_message
+                        ? <ErrorMessage text={errors.error_message}/>
+                        : (
+                        <div className="card-header">
+                            Login
+                        </div>
+                    )
                 }
-                </div>
                 <div className="card-body">
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">

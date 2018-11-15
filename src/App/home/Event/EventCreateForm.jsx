@@ -21,7 +21,7 @@ class EventCreateForm extends Component {
 
     componentDidMount() {
         fetchVenues()
-            .then((response) => this.setState({venues: [response.data]}))
+            .then((response) => this.setState({ venues: [response.data] }))
             .catch((errors) => console.log(errors));
         fetchSports()
             .then((response) => this.setState({ sports: [response.data] }))
@@ -61,62 +61,67 @@ class EventCreateForm extends Component {
     render() {
         const { sports, venues } = this.state;
         return (
-            <div className="card">
-                <div className="card-header">
-                    Create event
-                </div>
-                <div className="card-body">
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="form-group">
-                            <label>Max members</label>
-                            <input
-                                type="number"
-                                min="1"
-                                max="100"
-                                name="maxMembers"
-                                onChange={this.handleChange}
-                                required={true}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label >Sport</label>
-                            <select className="form-control" name="sportType" onChange={() => this.handleChange(event)}>
-                                <option value=""> </option>
-                                {
-                                    sports.map((sport) => (
-                                        <option key={sport.id} value={sport.id}>{sport.name}</option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label>Venue</label>
-                            <select className="form-control" name="sportVenue" onChange={() => this.handleChange(event)}>
-                                <option value=""> </option>
-                                {
-                                    venues.map((venue) => (
-                                        <option key={venue.id} value={venue.id}>{venue.name}</option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <FormControl margin="normal" fullWidth={true}>
-                                <TextField
-                                    name="date"
-                                    type="datetime-local"
-                                    label="Date"
+            <div className="col-md-6">
+                <div className="card">
+                    <div className="card-header">
+                        Create event
+                    </div>
+                    <div className="card-body">
+                        <form onSubmit={this.handleSubmit}>
+                            <div className="form-group">
+                                <label>Max members</label>
+                                <input
+                                    className="form-control"
+                                    type="number"
+                                    min="1"
+                                    max="100"
+                                    name="maxMembers"
                                     onChange={this.handleChange}
+                                    required={true}
                                 />
-                            </FormControl>
-                        </div>
-                        <button
-                            className="btn btn-primary btn-block"
-                            type="Submit"
-                        >
-                            Create
-                        </button>
-                    </form>
+                            </div>
+                            <div className="form-group">
+                                <label >Sport</label>
+                                <select className="form-control" name="sportType"
+                                        onChange={() => this.handleChange(event)}>
+                                    <option value=""></option>
+                                    {
+                                        sports.map((sport) => (
+                                            <option key={sport.id} value={sport.id}>{sport.name}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Venue</label>
+                                <select className="form-control" name="sportVenue"
+                                        onChange={() => this.handleChange(event)}>
+                                    <option value=""></option>
+                                    {
+                                        venues.map((venue) => (
+                                            <option key={venue.id} value={venue.id}>{venue.name}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <FormControl margin="normal" fullWidth={true}>
+                                    <TextField
+                                        name="date"
+                                        type="datetime-local"
+                                        label="Date"
+                                        onChange={this.handleChange}
+                                    />
+                                </FormControl>
+                            </div>
+                            <button
+                                className="btn btn-primary btn-block"
+                                type="Submit"
+                            >
+                                Create
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         );

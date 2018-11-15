@@ -9,6 +9,7 @@ import axios from 'axios';
 class App extends Component {
     state = {
         user: {},
+        isAuthorized: false,
     };
 
     componentDidMount() {
@@ -24,23 +25,32 @@ class App extends Component {
                     },
                 })
             .then((response) => {
-                    this.setState({
-                        user: response.data.user,
-                    });
+                    if (response.status === 200) {
+                        this.setState({
+                            user: response.data.user,
+                            isAuthorized: true,
+                        });
+                    }
                 },
             )
-            .catch((error) => console.log(error))
+            .catch((error) => {
+                localStorage.removeItem('user_token');
+                this.setState({
+                    isAuthorized: false,
+                });
+            })
         ;
     };
 
     render() {
         const { user } = this.state;
+        const { isAuthorized } = this.state;
         return (
             <MuiThemeProvider theme={Theme}>
                 <BrowserRouter>
                     <div className="container">
                         <Menu user={user}/>
-                        <Routes user={user}/>
+                        <Routes user={user} userAuthorized={isAuthorized}/>
                     </div>
                 </BrowserRouter>
             </MuiThemeProvider>

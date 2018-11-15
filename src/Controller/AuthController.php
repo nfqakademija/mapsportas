@@ -50,7 +50,7 @@ class AuthController extends controller
             }
 
             return new JsonResponse([
-                'error_message' => $errors
+                $errors
             ], Response::HTTP_BAD_REQUEST);
         }
         $token = $this->getTokenUser($user);

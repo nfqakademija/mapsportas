@@ -28,14 +28,23 @@ class RegistrationForm extends Component {
         this.props.onSubmit(this.state.user);
     };
 
+    normalizeString = (message) => {
+        const string = Object.entries(message)[0];
+        return `${string[0]}: ${string[1]}`;
+    };
+
     render() {
         const { errors } = this.props;
-        console.log(errors);
         return (
             <React.Fragment>
                 <div className="card-header">
                     Registration
                 </div>
+                {
+                    errors.map((error) => {
+                        return <ErrorMessage text={this.normalizeString(error)}/>;
+                    })
+                }
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
@@ -49,7 +58,6 @@ class RegistrationForm extends Component {
                                     : 'form-control'
                                 }
                             />
-                            <ErrorMessage text={errors.name}/>
                         </div>
                         <div className="form-group">
                             <label>Surname</label>
@@ -62,7 +70,6 @@ class RegistrationForm extends Component {
                                     : 'form-control'
                                 }
                             />
-                            <ErrorMessage text={errors.surname}/>
                         </div>
                         <div className="form-group">
                             <label>Username</label>
@@ -75,7 +82,6 @@ class RegistrationForm extends Component {
                                     : 'form-control'
                                 }
                             />
-                            <ErrorMessage text={errors.username}/>
                         </div>
                         <div className="form-group">
                             <label>Email</label>
@@ -83,12 +89,11 @@ class RegistrationForm extends Component {
                                 name="email"
                                 onChange={this.handleChange}
                                 required={true}
-                                className={ errors.email
+                                className={ errors.error_message
                                     ? 'form-control form-control-danger'
                                     : 'form-control'
                                 }
                             />
-                            <ErrorMessage text={errors.email}/>
                         </div>
                         <div className="form-group">
                             <label>Password</label>
@@ -102,7 +107,6 @@ class RegistrationForm extends Component {
                                     : 'form-control'
                                 }
                             />
-                            <ErrorMessage text={errors.password}/>
                         </div>
                         <div className="form-group">
                             <label>Repeat password</label>
@@ -115,7 +119,6 @@ class RegistrationForm extends Component {
                                     : 'form-control'
                                 }
                             />
-                            <ErrorMessage text={errors.password}/>
                         </div>
                         <FormControl margin="normal" fullWidth={true}>
                             <TextField
@@ -123,7 +126,6 @@ class RegistrationForm extends Component {
                                 type="date"
                                 label="Birthday"
                                 onChange={this.handleChange}
-                                error={!!errors.birthDate}
                             />
                         </FormControl>
                         <button
