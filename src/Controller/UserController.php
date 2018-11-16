@@ -64,7 +64,7 @@ class UserController extends controller
         $serializer = SerializerBuilder::create()->build();
         $response = json_decode($serializer->serialize($user,'json',SerializationContext::create()->setGroups(array('user'))));
 
-        return new JsonResponse($response,Response::HTTP_OK);
+        return new JsonResponse(['user' => $response], Response::HTTP_OK);
     }
 
     /**

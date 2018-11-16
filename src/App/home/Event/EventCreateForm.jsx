@@ -19,12 +19,12 @@ class EventCreateForm extends Component {
         sports: [],
     };
 
-    componentDidMount() {
-        fetchVenues()
-            .then((response) => this.setState({ venues: [response.data] }))
+    async componentDidMount() {
+        await fetchVenues()
+            .then((response) => this.setState({ venues: response.data }))
             .catch((errors) => console.log(errors));
-        fetchSports()
-            .then((response) => this.setState({ sports: [response.data] }))
+        await fetchSports()
+            .then((response) => this.setState({ sports: response.data }))
             .catch((errors) => console.log(errors));
     }
 
@@ -47,7 +47,7 @@ class EventCreateForm extends Component {
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
-                        message: 'Event created',
+                        message: response.data,
                     });
                 }
             })
@@ -59,13 +59,18 @@ class EventCreateForm extends Component {
     };
 
     render() {
-        const { sports, venues } = this.state;
+        const { sports, venues, message } = this.state;
         return (
             <div className="col-md-6">
                 <div className="card">
                     <div className="card-header">
                         Create event
                     </div>
+                    {
+                        message
+                        ? message
+                        : null
+                    }
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group">

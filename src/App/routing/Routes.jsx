@@ -18,7 +18,12 @@ class Routes extends Component {
                         : <Redirect to="/auth"/>
                 )}
                 />
-                <Route exact path="/event/create" render={() => <EventCreateForm/>}/>
+                <Route exact path="/event/create" render={() => (
+                    userAuthorized
+                        ? <EventCreateForm/>
+                        : <Redirect to="/auth"/>
+                )}
+                />
             </Switch>
         );
     };

@@ -7,3 +7,7 @@ export const fetchVenues = async () => {
 export const fetchSports = async () => {
     return await axios.get('/api/public/sport/types');
 };
+
+export const fetchEvents = async () => {
+    return await axios.get('/api/public/sport/events');
+};

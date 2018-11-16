@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Type;
 
 
 /**
@@ -62,6 +63,7 @@ class SportEvent
      * @ORM\Column(type="datetime")
      *
      * @Groups({"sportEvent","sportType","sportVenue","user"})
+     * @Type("DateTime<'Y-m-d H:i:s'>")
      */
     private $date;
 

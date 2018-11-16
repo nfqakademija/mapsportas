@@ -43,8 +43,7 @@ class App extends Component {
     };
 
     render() {
-        const { user } = this.state;
-        const { isAuthorized } = this.state;
+        const { user, isAuthorized } = this.state;
         return (
             <MuiThemeProvider theme={Theme}>
                 <BrowserRouter>
