@@ -22,7 +22,9 @@ class SportVenueController extends AbstractController
     {
         $sportVenues = $this->getDoctrine()->getRepository(SportVenue::class)->findAll();
         $serializer = SerializerBuilder::create()->build();
-        $response = json_decode($serializer->serialize($sportVenues, 'json', SerializationContext::create()->setGroups(array('sportVenue'))));
+        $response = json_decode(
+            $serializer->serialize($sportVenues, 'json', SerializationContext::create()->setGroups(array('sportVenue')))
+        );
 
         return new JsonResponse($response, Response::HTTP_OK);
     }
