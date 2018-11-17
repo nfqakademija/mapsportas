@@ -21,12 +21,7 @@ class SportTypeController extends AbstractController
     {
         $serializer = SerializerBuilder::create()->build();
         $sportTypes = $this->getDoctrine()->getRepository(SportType::class)->findAll();
-        $response = json_decode(
-            $serializer->serialize(
-                $sportTypes,
-                'json',
-                SerializationContext::create()->setGroups(array('sportType'))
-            ));
+        $response = json_decode($serializer->serialize($sportTypes, 'json', SerializationContext::create()->setGroups(array('sportType'))));
 
         return new JsonResponse($response, Response::HTTP_OK);
     }

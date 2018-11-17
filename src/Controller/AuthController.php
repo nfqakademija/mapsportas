@@ -54,7 +54,7 @@ class AuthController extends controller
             $user->setPlainPassword($data["password"]);
             $user->setEnabled(1);
 
-            if ($avatar !== NULL) {
+            if ($avatar !== null) {
                 $avatarDirectory = $this->getParameter('avatars_directory');
                 $filename = Util::upload($avatar, $avatarDirectory);
                 $user->setAvatar($filename);

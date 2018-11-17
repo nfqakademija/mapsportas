@@ -44,10 +44,8 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $users = [];
-        for ($i = 0; $i < 10; $i++)
-        {
-            for ($j = 1; $j < 11; $j++)
-            {
+        for ($i = 0; $i < 10; $i++) {
+            for ($j = 1; $j < 11; $j++) {
                 $user = $this->createUser(self::USERNAMES[$i].$j, self::NAMES[$i], self::SURNAMES[$i], $manager);
                 array_push($users, $user);
             }
@@ -58,8 +56,8 @@ class AppFixtures extends Fixture
             for ($i = 1; $i < 4; $i++) {
                 $sportVenue = $this->createSportVenue($sportType, $manager);
                 if ($i < 3) {
-                    for ($j = 1; $j < rand(3,7); $j++) {
-                        $this->createSportEvent($users[rand(0,30)], $sportVenue, $sportType, $manager);
+                    for ($j = 1; $j < rand(3, 7); $j++) {
+                        $this->createSportEvent($users[rand(0, 30)], $sportVenue, $sportType, $manager);
                     }
                 }
             }
@@ -95,8 +93,8 @@ class AppFixtures extends Fixture
     {
         $sportVenue = new SportVenue();
         $sportVenue->setSportType($sportType);
-        $sportVenue->setName($sportType->getName().' Aikštelė '.rand(1,10));
-        $sportVenue->setAdress(self::ADRESSES[rand(0,7)]);
+        $sportVenue->setName($sportType->getName().' Aikštelė '.rand(1, 10));
+        $sportVenue->setAdress(self::ADRESSES[rand(0, 7)]);
         $sportVenue->setCity('Vilnius');
         $sportVenue->setDescription('Lauko aikštelė');
         $sportVenue->setVenuePhoto('default.png');
@@ -107,8 +105,8 @@ class AppFixtures extends Fixture
     public function createSportEvent(User $user, SportVenue $sportVenue, SportType $sportType, ObjectManager $manager)
     {
         $sportEvent = new SportEvent();
-        $sportEvent->setMaxMembers(rand(2,10));
-        $date = new \DateTime('2019-'.rand(1,5).'-'.rand(1,28).' '.rand(8,20).":00");
+        $sportEvent->setMaxMembers(rand(2, 10));
+        $date = new \DateTime('2019-'.rand(1, 5).'-'.rand(1, 28).' '.rand(8, 20).":00");
         $sportEvent->setDate($date);
         $sportEvent->setSportType($sportVenue->getSportType());
         $sportEvent->setSportVenue($sportVenue);

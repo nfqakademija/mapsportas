@@ -22,10 +22,7 @@ class RegistrationForm extends AbstractType
             ->add('surname', TextType::class)
             ->add('password', PasswordType::class)
             ->add('birthDate',TextType::class)
-            ->add('avatar',
-                FileType::class,
-                ['mapped' => false]
-            )
+            ->add('avatar', FileType::class, ['mapped' => false])
             ->add('submit', SubmitType::class);
     }
 

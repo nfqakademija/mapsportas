@@ -22,9 +22,9 @@ class SportVenueController extends AbstractController
     {
         $sportVenues = $this->getDoctrine()->getRepository(SportVenue::class)->findAll();
         $serializer = SerializerBuilder::create()->build();
-        $response = json_decode($serializer->serialize($sportVenues,'json',SerializationContext::create()->setGroups(array('sportVenue'))));
+        $response = json_decode($serializer->serialize($sportVenues, 'json', SerializationContext::create()->setGroups(array('sportVenue'))));
 
-        return new JsonResponse($response,Response::HTTP_OK);
+        return new JsonResponse($response, Response::HTTP_OK);
     }
 
     /**
@@ -37,11 +37,11 @@ class SportVenueController extends AbstractController
 
         $venuePhoto = $request->files->get('form')['venuePhoto'];
 
-        $form = $this->createForm(SportVenueType::class,$sportVenue);
+        $form = $this->createForm(SportVenueType::class, $sportVenue);
         $form->setData($sportVenue);
         $form->submit($data, false);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($venuePhoto !== NULL) {
+            if ($venuePhoto !== null) {
                 $venueDirectory = $this->getParameter('venues_directory');
                 $filename = Util::upload($venuePhoto, $venueDirectory);
                 $sportVenue->setVenuePhoto($filename);
@@ -82,6 +82,6 @@ class SportVenueController extends AbstractController
 
         return new JSONResponse([
             'success_message' => 'Successfully deleted Sport Venue',
-        ],Response::HTTP_OK);
+        ], Response::HTTP_OK);
     }
 }

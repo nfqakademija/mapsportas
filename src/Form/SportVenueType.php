@@ -19,11 +19,8 @@ class SportVenueType extends AbstractType
             ->add('adress')
             ->add('city')
             ->add('sportType')
-            ->add('venuePhoto',
-                 FileType::class,
-                 ['mapped' => false]
-            )
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class)
+            ->add('venuePhoto', FileType::class, ['mapped' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
