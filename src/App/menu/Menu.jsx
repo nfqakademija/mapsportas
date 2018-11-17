@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import MenuUserAvatar from './MenuUserAvatar';
 
 const Menu = (user) => (
     <React.Fragment>
@@ -18,7 +19,7 @@ const Menu = (user) => (
                     <li className="nav-item">
                         {
                             user.user.username
-                                ? <Link className="nav-link" to="/profile">{user.user.username}</Link>
+                                ? <MenuUserAvatar user={user.user}/>
                                 : <Link className="nav-link" to='/auth'>Login</Link>
                         }
                     </li>

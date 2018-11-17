@@ -4,6 +4,7 @@ import AuthenticationHandler from '../Authentication/AuthenticationHandler';
 import Home from '../home/Home';
 import Profile from '../User/Profile/Profile';
 import EventCreateForm from '../../App/home/Event/EventCreateForm';
+import AddNewVenueForm from '../Admin/AddNewVenueForm';
 
 class Routes extends Component {
     render() {
@@ -24,6 +25,7 @@ class Routes extends Component {
                         : <Redirect to="/auth"/>
                 )}
                 />
+                <Route exact path="/admin" render={() => <AddNewVenueForm/> }/>
             </Switch>
         );
     };
