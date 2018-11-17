@@ -85,7 +85,7 @@ class SportEventController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        if(count($event->getApplyedUsers()) >= $maxMembers) {
+        if (count($event->getApplyedUsers()) >= $maxMembers) {
             return new JsonResponse([
                 'error_message' => 'Event is full, you can\'t apply for it.'
             ], Response::HTTP_BAD_REQUEST);

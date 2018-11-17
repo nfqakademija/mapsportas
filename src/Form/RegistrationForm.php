@@ -18,10 +18,10 @@ class RegistrationForm extends AbstractType
         $builder
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
-            ->add('name',TextType::class)
+            ->add('name', TextType::class)
             ->add('surname', TextType::class)
             ->add('password', PasswordType::class)
-            ->add('birthDate',TextType::class)
+            ->add('birthDate', TextType::class)
             ->add('avatar', FileType::class, ['mapped' => false])
             ->add('submit', SubmitType::class);
     }
