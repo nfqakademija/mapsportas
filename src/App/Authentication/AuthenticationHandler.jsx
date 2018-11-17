@@ -45,18 +45,20 @@ class AuthenticationHandler extends Component {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
             },
-            body: JSON.stringify(user)
-        }).then(response =>
-            response.json()
-        ).then(data => {
-            if ('token' in data) {
-                localStorage.setItem('user_token', data.token);
-            } else {
-                this.setState({registrationErrors: data});
-            }
+            body: JSON.stringify(user),
         })
+            .then(response =>
+                response.json(),
+            )
+            .then(data => {
+                if ('token' in data) {
+                    localStorage.setItem('user_token', data.token);
+                } else {
+                    this.setState({ registrationErrors: data });
+                }
+            });
     };
 
     render() {
@@ -66,9 +68,11 @@ class AuthenticationHandler extends Component {
                 <div className="container col-md-5 mt-5">
                     <div className="card">
                         {
-                            isLoginShown ? <LoginForm errors={this.state.loginErrors} onSubmit={this.handleLogin}/> :
-                                <RegistrationForm errors={this.state.registrationErrors}
-                                                  onSubmit={this.handleRegistration}/>
+                            isLoginShown
+                                ? <LoginForm errors={this.state.loginErrors} onSubmit={this.handleLogin}/>
+                                : <RegistrationForm errors={this.state.registrationErrors}
+                                                    onSubmit={this.handleRegistration}
+                            />
                         }
                         <AuthenticationNavigation isLoginShown={isLoginShown} onClick={this.toggleShow}/>
                     </div>
