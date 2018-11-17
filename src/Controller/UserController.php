@@ -52,7 +52,7 @@ class UserController extends controller
 
         return new JsonResponse([
             'success_message' => 'Successfully updated user'
-        ],Response::HTTP_OK);
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -62,7 +62,12 @@ class UserController extends controller
     {
         $user = $this->getUser();
         $serializer = SerializerBuilder::create()->build();
-        $response = json_decode($serializer->serialize($user,'json',SerializationContext::create()->setGroups(array('user'))));
+        $response = json_decode(
+            $serializer->serialize(
+                $user,
+                'json',
+                SerializationContext::create()->setGroups(array('user'))
+            ));
 
         return new JsonResponse(['user' => $response], Response::HTTP_OK);
     }
@@ -78,7 +83,6 @@ class UserController extends controller
 
         return new JsonResponse([
             'success_message' => 'Successfully promoted user'
-        ],Response::HTTP_OK);
-
+        ], Response::HTTP_OK);
     }
 }

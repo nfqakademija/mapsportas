@@ -24,9 +24,14 @@ class SportEventController extends AbstractController
     {
         $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findAll();
         $serializer = SerializerBuilder::create()->build();
-        $response = json_decode($serializer->serialize($sportEvents,'json',SerializationContext::create()->setGroups(array('sportEvent'))));
+        $response = json_decode(
+            $serializer->serialize(
+                $sportEvents,
+                'json',
+                SerializationContext::create()->setGroups(array('sportEvent'))
+            ));
 
-        return new JsonResponse($response,Response::HTTP_OK);
+        return new JsonResponse($response, Response::HTTP_OK);
     }
 
     /**
@@ -38,7 +43,7 @@ class SportEventController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $data['creator'] = $this->getUser()->getId();
         $data['date'] = new \DateTime($data['date']);
-        $form = $this->createForm(SportEventType::class,$sportEvent);
+        $form = $this->createForm(SportEventType::class, $sportEvent);
         $form->setData($sportEvent);
         $form->submit($data, false);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,7 +84,7 @@ class SportEventController extends AbstractController
                 'user' => $data['user'],
                 'sportEvent' => $data['sportEvent'],
             ]);
-        if(count($applications) !== 0 ) {
+        if (count($applications) !== 0) {
             return new JsonResponse([
                 'error_message' => 'You have already applyed for this Event.'
             ], Response::HTTP_BAD_REQUEST);
@@ -91,9 +96,9 @@ class SportEventController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $form = $this->createForm(ApplicationType::class,$application);
+        $form = $this->createForm(ApplicationType::class, $application);
         $form->setData($application);
-        $form->submit($data,false);
+        $form->submit($data, false);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
@@ -103,7 +108,7 @@ class SportEventController extends AbstractController
             return new JsonResponse([
                 'success_message' => 'Successfully applyed for Sport Event'
             ], Response::HTTP_CREATED);
-        }else {
+        } else {
             $errors = [];
             foreach ($form->getErrors(true) as $error) {
                 if ($error->getCause()) {
@@ -116,5 +121,4 @@ class SportEventController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
     }
-
 }

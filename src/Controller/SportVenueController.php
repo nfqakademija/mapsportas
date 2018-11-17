@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\SportVenue;
+use App\Utilities\Utilities as Util;
 use App\Form\SportVenueType;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
@@ -33,10 +34,19 @@ class SportVenueController extends AbstractController
     {
         $sportVenue = new SportVenue();
         $data = json_decode($request->getContent(), true);
+
+        $venuePhoto = $request->files->get('form')['venuePhoto'];
+
         $form = $this->createForm(SportVenueType::class,$sportVenue);
         $form->setData($sportVenue);
         $form->submit($data, false);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($venuePhoto !== NULL) {
+                $venueDirectory = $this->getParameter('venues_directory');
+                $filename = Util::upload($venuePhoto, $venueDirectory);
+                $sportVenue->setVenuePhoto($filename);
+            }
+
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($sportVenue);
             $manager->flush();

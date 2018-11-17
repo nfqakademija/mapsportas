@@ -13,7 +13,7 @@ class ApplicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('createdAt',TextType::class)
+            ->add('createdAt', TextType::class)
             ->add('updatedAt')
             ->add('user')
             ->add('sportEvent')

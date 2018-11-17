@@ -109,6 +109,12 @@ class User extends BaseUser implements UserInterface
      */
     private $userApplications;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
+     */
+    private $avatar;
+
     public function __construct()
     {
         parent::__construct();
@@ -166,7 +172,8 @@ class User extends BaseUser implements UserInterface
 
     /**
      * @return mixed
-     */public function getCreatedAt()
+     */
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -253,6 +260,18 @@ class User extends BaseUser implements UserInterface
                 $userApplication->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

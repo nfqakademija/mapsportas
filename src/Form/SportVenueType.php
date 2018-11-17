@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\SportVenue;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +19,11 @@ class SportVenueType extends AbstractType
             ->add('adress')
             ->add('city')
             ->add('sportType')
-        ;
+            ->add('venuePhoto',
+                 FileType::class,
+                 ['mapped' => false]
+            )
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

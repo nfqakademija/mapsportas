@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\Type;
 
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SportEventRepository")
  */

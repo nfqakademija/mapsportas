@@ -21,9 +21,14 @@ class SportTypeController extends AbstractController
     {
         $serializer = SerializerBuilder::create()->build();
         $sportTypes = $this->getDoctrine()->getRepository(SportType::class)->findAll();
-        $response = json_decode($serializer->serialize($sportTypes,'json',SerializationContext::create()->setGroups(array('sportType'))));
+        $response = json_decode(
+            $serializer->serialize(
+                $sportTypes,
+                'json',
+                SerializationContext::create()->setGroups(array('sportType'))
+            ));
 
-        return new JsonResponse($response,Response::HTTP_OK);
+        return new JsonResponse($response, Response::HTTP_OK);
     }
 
     /**
@@ -33,7 +38,7 @@ class SportTypeController extends AbstractController
     {
         $sportType = new SportType();
         $data = json_decode($request->getContent(), true);
-        $form = $this->createForm(SportTypeType::class,$sportType);
+        $form = $this->createForm(SportTypeType::class, $sportType);
         $form->setData($sportType);
         $form->submit($data, false);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,6 +77,6 @@ class SportTypeController extends AbstractController
 
         return new JSONResponse([
             'success_message' => 'Successfully deleted Sport Type',
-        ],Response::HTTP_OK);
+        ], Response::HTTP_OK);
     }
 }

@@ -75,6 +75,12 @@ class SportVenue
      */
     private $sportEvents;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
+     */
+    private $venuePhoto;
+
     public function __construct()
     {
         $this->sportEvents = new ArrayCollection();
@@ -172,6 +178,18 @@ class SportVenue
                 $sportEvent->setSportVenue(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVenuePhoto(): ?string
+    {
+        return $this->venuePhoto;
+    }
+
+    public function setVenuePhoto(?string $venuePhoto): self
+    {
+        $this->venuePhoto = $venuePhoto;
 
         return $this;
     }
