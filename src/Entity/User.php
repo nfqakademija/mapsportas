@@ -10,6 +10,7 @@ use FOS\UserBundle\Model\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Type;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -78,6 +79,7 @@ class User extends BaseUser implements UserInterface
      * @Assert\DateTime(format="Y/m/d")
      *
      * @Groups({"user"})
+     * @Type("DateTime<'Y-m-d'>")
      */
     protected $birthDate;
 

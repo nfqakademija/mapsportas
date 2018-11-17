@@ -6,6 +6,7 @@ class Profile extends Component {
         return (
             <div className="container-fluid col-md-5 ml-5">
                 <div className="card">
+                    <img className="card-img-top" src="..." alt="Card image cap" />
                     <div className="card-header">
                         {user.username}
                     </div>
@@ -13,7 +14,10 @@ class Profile extends Component {
                         {user.name}
                         {user.surname}
                         {user.email}
-                        {user.birthDate}
+                        {user.birth_date}
+                        <div>
+                            Events created: {user.sport_events.length}
+                        </div>
                     </div>
                 </div>
             </div>
