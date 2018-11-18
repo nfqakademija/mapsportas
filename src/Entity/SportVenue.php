@@ -78,6 +78,8 @@ class SportVenue
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
+     *
+     * @Groups({"sportVenue"})
      */
     private $venuePhoto;
 
