@@ -19,7 +19,7 @@ class SportEvent
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      *
-     * @Groups({"sportEvent","sportType","sportVenue","user"})
+     * @Groups({"sportEvent", "sportType", "sportVenue", "user"})
      */
     private $id;
 
@@ -37,7 +37,7 @@ class SportEvent
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="Sport type is required")
      *
-     * @Groups({"sportEvent"})
+     * @Groups({"sportEvent", "user"})
      */
     private $sportType;
 
@@ -54,7 +54,7 @@ class SportEvent
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Maximum number of people is required!")
      *
-     * @Groups({"sportEvent","sportType","sportVenue","user"})
+     * @Groups({"sportEvent", "sportType", "sportVenue", "user"})
      */
     private $maxMembers;
 
@@ -70,7 +70,7 @@ class SportEvent
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\EventApplication", mappedBy="sportEvent")
      *
-     * @Groups({"sportEvent","sportType","sportVenue"})
+     * @Groups({"sportEvent", "sportType", "sportVenue"})
      */
     private $applyedUsers;
 

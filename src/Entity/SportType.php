@@ -18,7 +18,7 @@ class SportType
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      *
-     * @Groups({"sportType","sportEvent","sportVenue"})
+     * @Groups({"sportType", "sportEvent", "sportVenue"})
      */
     private $id;
 
@@ -26,7 +26,7 @@ class SportType
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Name is required.")
      *
-     * @Groups({"sportType","sportEvent","sportVenue"})
+     * @Groups({"sportType", "sportEvent", "sportVenue", "user"})
      */
     private $name;
 
