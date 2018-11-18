@@ -26,9 +26,7 @@ class SportEventController extends AbstractController
         $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findAll();
         $serializer = SerializerBuilder::create()->build();
         $response = json_decode(
-            $serializer->serialize(
-                $sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent'))
-            )
+            $serializer->serialize($sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent')))
         );
 
         return new JsonResponse($response, Response::HTTP_OK);
@@ -41,11 +39,11 @@ class SportEventController extends AbstractController
     {
         $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findUpcomingEvents();
         $serializer = SerializerBuilder::create()->build();
-        return new JsonResponse(
-            json_decode(
-                $serializer->serialize($sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent')))
-            )
+        $response =  json_decode(
+            $serializer->serialize($sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent')))
         );
+
+        return new JsonResponse($response, Response::HTTP_OK);
     }
 
     /**
@@ -156,6 +154,27 @@ class SportEventController extends AbstractController
                 'error_message' => $errors
             ], Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    /**
+     * @Route("/api/sport/event/leave/{event}", name="leave_sport_event", methods="DELETE")
+     */
+    public function leaveEvent(int $event)
+    {
+        $user = $this->getUser()->getId();
+        $application = $this->getDoctrine()
+            ->getRepository(EventApplication::class)
+            ->findOneBy([
+                'sportEvent' => $event,
+                'user' => $user
+            ]);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($application);
+        $manager->flush();
+
+        return new JSONResponse([
+            'success_message' => 'Successfully left Sport Event',
+        ], Response::HTTP_OK);
     }
 
     public function autoApply(User $user, SportEvent $event) :void

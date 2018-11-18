@@ -112,6 +112,11 @@ POST /api/sport/event/apply
 }
 ```
 
+*  Leave Event
+```bash
+DELETE /api/sport/event/leave/{event}
+```
+
 * Delete sport type
 ```bash
 DELETE /api/admin/sport/type/{id}
