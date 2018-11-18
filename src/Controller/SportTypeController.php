@@ -29,6 +29,20 @@ class SportTypeController extends AbstractController
     }
 
     /**
+     * @Route("/api/public/sport/types/{id}", name="get_sport_type", methods="GET")
+     */
+    public function show(int $id)
+    {
+        $sportType = $this->getDoctrine()->getRepository(SportType::class)->find($id);
+        $serializer = SerializerBuilder::create()->build();
+        $response = json_decode(
+            $serializer->serialize($sportType, 'json', SerializationContext::create()->setGroups(array('sportType')))
+        );
+
+        return new JsonResponse($response, Response::HTTP_OK);
+    }
+
+    /**
      * @Route("/api/admin/sport/type", name="add_sport_type", methods="POST")
      */
     public function addSportType(Request $request)

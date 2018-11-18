@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\RegistrationForm;
 use FOS\UserBundle\Model\UserManagerInterface;
 use JMS\Serializer\SerializerBuilder;
@@ -25,7 +26,7 @@ class UserController extends controller
     }
 
     /**
-     * @Route("api/user/edit", name="api_user_edit", methods="PUT")
+     * @Route("/api/user/edit", name="api_user_edit", methods="PUT")
      */
     public function editUser(Request $request)
     {
@@ -56,7 +57,7 @@ class UserController extends controller
     }
 
     /**
-     * @Route("api/user", name="api_user", methods="GET")
+     * @Route("/api/user", name="api_user", methods="GET")
      */
     public function getCurrentUser()
     {
@@ -70,13 +71,15 @@ class UserController extends controller
     }
 
     /**
-     * @Route("api/admin/promote", name="promote_to_admin", methods="GET")
+     * @Route("/api/admin/promote/{id}", name="promote_to_admin", methods="GET")
      */
-    public function promoteToAdmin(Request $request)
+    public function promoteToAdmin(int $id)
     {
-        $user = $this->getUser();
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
         $user->addRole("ROLE_ADMIN");
-        $this->userManager->updateUser($user);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($user);
+        $manager->flush();
 
         return new JsonResponse([
             'success_message' => 'Successfully promoted user'

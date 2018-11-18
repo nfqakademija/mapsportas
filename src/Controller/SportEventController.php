@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\EventApplication;
 use App\Entity\SportEvent;
+use App\Entity\User;
 use App\Form\ApplicationType;
 use App\Form\SportEventType;
 use JMS\Serializer\SerializerBuilder;
@@ -32,6 +33,32 @@ class SportEventController extends AbstractController
     }
 
     /**
+     * @Route("/api/public/sport/events/upcoming", name="get_sport_events_upcoming", methods="GET")
+     */
+    public function getUpcomingEvents()
+    {
+        $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findUpcomingEvents();
+        $serializer = SerializerBuilder::create()->build();
+        return new JsonResponse(
+            json_decode($serializer->serialize($sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent'))))
+        );
+    }
+
+    /**
+     * @Route("/api/public/sport/events/{id}", name="get_sport_event", methods="GET")
+     */
+    public function show(int $id)
+    {
+        $sportEvent = $this->getDoctrine()->getRepository(SportEvent::class)->find($id);
+        $serializer = SerializerBuilder::create()->build();
+        $response = json_decode(
+            $serializer->serialize($sportEvent, 'json', SerializationContext::create()->setGroups(array('sportEvent')))
+        );
+
+        return new JsonResponse($response, Response::HTTP_OK);
+    }
+
+    /**
      * @Route("/api/sport/event", name="add_sport_event", methods="POST")
      */
     public function addSportEvent(Request $request)
@@ -47,6 +74,11 @@ class SportEventController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($sportEvent);
             $manager->flush();
+
+//            apply for new event
+            $user = $this->getUser();
+            $this->autoApply($user, $sportEvent);
+
 
             return new JsonResponse([
                 'success_message' => 'Successfully created new Sport Event'
@@ -76,6 +108,8 @@ class SportEventController extends AbstractController
         $data['createdAt'] = new \DateTime('now');
         $event = $this->getDoctrine()->getRepository(SportEvent::class)->find($data['sportEvent']);
         $maxMembers = $event->getMaxMembers();
+
+//        check if user have already applyed for this event
         $applications = $this->getDoctrine()->getRepository(EventApplication::class)
             ->findby([
                 'user' => $data['user'],
@@ -87,6 +121,7 @@ class SportEventController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
+//        check if there still place for event
         if (count($event->getApplyedUsers()) >= $maxMembers) {
             return new JsonResponse([
                 'error_message' => 'Event is full, you can\'t apply for it.'
@@ -117,5 +152,17 @@ class SportEventController extends AbstractController
                 'error_message' => $errors
             ], Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    public function autoApply(User $user, SportEvent $event) :void
+    {
+        $application = new EventApplication();
+        $application->setSportEvent($event);
+        $application->setUser($user);
+        $date = new \DateTime('now');
+        $application->setCreatedAt($date);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($application);
+        $manager->flush();
     }
 }

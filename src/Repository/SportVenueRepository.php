@@ -19,6 +19,15 @@ class SportVenueRepository extends ServiceEntityRepository
         parent::__construct($registry, SportVenue::class);
     }
 
+    public function findVenuesLimitedNumber(): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->setMaxResults(9)
+            ->getQuery();
+
+        return $qb->execute();
+    }
+
     // /**
     //  * @return SportVenue[] Returns an array of SportVenue objects
     //  */

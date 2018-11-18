@@ -68,9 +68,9 @@ GET /api/user
 GET /api/refresh/token
 ```
 
-* Promote Yourself to Admin
+* Promote user
 ```bash
-GET /api/admin/promote
+GET /api/admin/promote/{id}
 ```
 
 * Create new Sport Type
@@ -130,9 +130,24 @@ DELETE /api/admin/sport/venue/{id}
 GET /api/public/sport/types
 ```
 
+* Get sport type by id
+```bash
+GET /api/public/sport/types/{id}
+```
+
 * Get List of Sport Venues
 ```bash
 GET /api/public/sport/venues
+```
+
+* Get 9 sport venues
+```bash
+GET /api/public/sport/venues/limited
+```
+
+* Get sport venue by id
+```bash
+GET /api/public/sport/venues/{id}
 ```
 
 * Get List of Sport Events
@@ -140,4 +155,13 @@ GET /api/public/sport/venues
 GET /api/public/sport/events
 ```
 
+* Get upcoming sport Events (returns 10 events)
+```bash
+GET /api/public/sport/events/upcoming
+```
+
+* Get sport event by id
+```bash
+GET /api/public/sport/events/{id}
+```
 

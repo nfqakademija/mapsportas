@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\EventApplication;
 use App\Entity\SportEvent;
 use App\Entity\SportType;
 use App\Entity\SportVenue;
@@ -43,6 +44,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+        $this->createAdmin($manager);
         $users = [];
         for ($i = 0; $i < 10; $i++) {
             for ($j = 1; $j < 11; $j++) {
@@ -57,7 +59,15 @@ class AppFixtures extends Fixture
                 $sportVenue = $this->createSportVenue($sportType, $manager);
                 if ($i < 3) {
                     for ($j = 1; $j < rand(3, 7); $j++) {
-                        $this->createSportEvent($users[rand(0, 30)], $sportVenue, $sportType, $manager);
+                        $sportEvent = $this->createSportEvent($users[rand(1, 31)], $sportVenue, $manager);
+                        $temp = rand(0, 5);
+                        if ($temp == 1) {
+                            $this->applyForEvent($users[rand(32, 66)], $sportEvent, $manager);
+                        }
+                        if ($temp == 2) {
+                            $this->applyForEvent($users[rand(32, 44)], $sportEvent, $manager);
+                            $this->applyForEvent($users[rand(45, 66)], $sportEvent, $manager);
+                        }
                     }
                 }
             }
@@ -81,6 +91,22 @@ class AppFixtures extends Fixture
         return $user;
     }
 
+    public function createAdmin(ObjectManager $manager)
+    {
+        $user = new User();
+        $user->setUsername('admin');
+        $user->setName('admin');
+        $user->setSurname('admin');
+        $user->setEmail("admin@gmail.com");
+        $user->setPlainPassword('admin');
+        $user->setEnabled(1);
+        $user->setBirthDate(new \DateTime('1990-01-01'));
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setAvatar('default.png');
+        $user->setCreatedAt(new \DateTime('now'));
+        $manager->persist($user);
+    }
+
     public function createSportType($name, ObjectManager $manager)
     {
         $sportType = new SportType();
@@ -94,7 +120,7 @@ class AppFixtures extends Fixture
         $sportVenue = new SportVenue();
         $sportVenue->setSportType($sportType);
         $sportVenue->setName($sportType->getName().' Aikštelė '.rand(1, 10));
-        $sportVenue->setAdress(self::ADRESSES[rand(0, 7)]);
+        $sportVenue->setAddress(self::ADRESSES[rand(0, 7)]);
         $sportVenue->setCity('Vilnius');
         $sportVenue->setDescription('Lauko aikštelė');
         $sportVenue->setVenuePhoto('default.png');
@@ -102,7 +128,7 @@ class AppFixtures extends Fixture
         return $sportVenue;
     }
 
-    public function createSportEvent(User $user, SportVenue $sportVenue, SportType $sportType, ObjectManager $manager)
+    public function createSportEvent(User $user, SportVenue $sportVenue, ObjectManager $manager)
     {
         $sportEvent = new SportEvent();
         $sportEvent->setMaxMembers(rand(2, 10));
@@ -112,5 +138,17 @@ class AppFixtures extends Fixture
         $sportEvent->setSportVenue($sportVenue);
         $sportEvent->setCreator($user);
         $manager->persist($sportEvent);
+        $this->applyForEvent($user, $sportEvent, $manager);
+        return $sportEvent;
+    }
+
+    public function applyForEvent(User $user, SportEvent $sportEvent, ObjectManager $manager)
+    {
+        $application = new EventApplication();
+        $application->setUser($user);
+        $application->setSportEvent($sportEvent);
+        $date = new \DateTime('2018-'.rand(11, 12).'-'.rand(1, 28).' '.rand(8, 20).":00");
+        $application->setCreatedAt($date);
+        $manager->persist($application);
     }
 }

@@ -30,6 +30,34 @@ class SportVenueController extends AbstractController
     }
 
     /**
+     * @Route("/api/public/sport/venues/limited", name="get_sport_venues_limit", methods="GET")
+     */
+    public function getNineVenues()
+    {
+        $sportVenues = $this->getDoctrine()->getRepository(SportVenue::class)->findVenuesLimitedNumber();
+        $serializer = SerializerBuilder::create()->build();
+        $response = json_decode(
+            $serializer->serialize($sportVenues, 'json', SerializationContext::create()->setGroups(array('sportVenue')))
+        );
+
+        return new JsonResponse($response, Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/api/public/sport/venues/{id}", name="get_sport_venue", methods="GET")
+     */
+    public function show(int $id)
+    {
+        $sportVenue = $this->getDoctrine()->getRepository(SportVenue::class)->find($id);
+        $serializer = SerializerBuilder::create()->build();
+        $response = json_decode(
+            $serializer->serialize($sportVenue, 'json', SerializationContext::create()->setGroups(array('sportVenue')))
+        );
+
+        return new JsonResponse($response, Response::HTTP_OK);
+    }
+
+    /**
      * @Route("/api/admin/sport/venue", name="add_sport_venue", methods="POST")
      */
     public function addSportType(Request $request)
