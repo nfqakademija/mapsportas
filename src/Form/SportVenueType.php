@@ -16,7 +16,7 @@ class SportVenueType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('adress')
+            ->add('address')
             ->add('city')
             ->add('sportType')
             ->add('submit', SubmitType::class)

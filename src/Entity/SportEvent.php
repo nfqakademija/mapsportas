@@ -60,7 +60,7 @@ class SportEvent
 
     /**
      * @ORM\Column(type="datetime")
-     * @Type("DateTime<'Y-m-d H:i:s'>")
+     * @Type("DateTime<'Y-m-d H:i'>")
      * @Assert\GreaterThan("today", message="Only future dates!")
      *
      * @Groups({"sportEvent","sportType","sportVenue","user"})

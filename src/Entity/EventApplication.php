@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Type;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventApplicationRepository")
@@ -39,6 +40,7 @@ class EventApplication
      * @ORM\Column(type="datetime")
      *
      * @Groups({"user"})
+     * @Type("DateTime<'Y-m-d H:i'>")
      */
     private $createdAt;
 

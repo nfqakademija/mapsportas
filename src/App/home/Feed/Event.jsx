@@ -24,7 +24,6 @@ class Event extends Component {
                 this.setState({
                     message: response.data,
                 });
-                alert(this.state.message);
             });
     };
 
@@ -36,11 +35,12 @@ class Event extends Component {
                 <div className="card">
                     <div className="card-body">
                         <div className="card-title">
+                            <span className="font-weight-bold">{event.date}</span>
                             <a data-toggle="collapse" href={`#collapse-${event.id}`}>{sport_type.name}</a>
                             {' '}
                             <span>{sport_venue.name}</span>
                             {' '}
-                            <span>{event.date}</span>
+                            <span> by {creator.username}</span>
                         </div>
                         <div id={`collapse-${event.id}`} className="card-collapse collapse">
                             <div>
@@ -55,7 +55,6 @@ class Event extends Component {
             </React.Fragment>
         );
     }
-
 }
 
 export default Event;

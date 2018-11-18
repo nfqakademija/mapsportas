@@ -3,14 +3,14 @@ import axios from 'axios';
 
 class UploadImage extends Component {
     state = {
-        file: null
+        file: null,
     };
 
     fileSelectHandler = (event) => {
         console.log(event.target.files);
         this.setState({
-            file: event.target.files
-        })
+            file: event.target.files,
+        });
     };
 
     fileUploadHandler = () => {
@@ -19,17 +19,15 @@ class UploadImage extends Component {
     };
 
     render() {
+        const { onChange, name } = this.props;
         return (
             <React.Fragment>
                 <div>
                     <input
-                        style={{display: 'none'}}
+                        name={name}
                         type="file"
-                        onChange={this.fileSelectHandler}
-                        ref={fileInput => this.fileInput = fileInput}
+                        onChange={onChange}
                     />
-                    <button onClick={() => this.fileInput.click()}>Pick a file</button>
-                    <button onClick={this.fileUploadHandler}>Upload</button>
                 </div>
             </React.Fragment>
         );
