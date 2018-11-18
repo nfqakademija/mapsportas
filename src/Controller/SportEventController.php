@@ -26,7 +26,9 @@ class SportEventController extends AbstractController
         $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findAll();
         $serializer = SerializerBuilder::create()->build();
         $response = json_decode(
-            $serializer->serialize($sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent')))
+            $serializer->serialize(
+                $sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent'))
+            )
         );
 
         return new JsonResponse($response, Response::HTTP_OK);
