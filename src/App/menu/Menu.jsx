@@ -4,7 +4,7 @@ import MenuUserAvatar from './MenuUserAvatar';
 
 const Menu = (user) => (
     <React.Fragment>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
             <Link className="navbar-brand" to="/">Home</Link>
             <div className="collapse navbar-collapse">
                 <ul className="navbar-nav mr-auto">

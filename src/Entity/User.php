@@ -114,6 +114,8 @@ class User extends BaseUser implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
+     *
+     * @Groups({"user"})
      */
     private $avatar;
 
