@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UploadImage from '../../../../assets/js/UploadImage';
-// import AppliedEvent from './AppliedEvent';
+import AppliedEvent from './AppliedEvent';
 
 class Profile extends Component {
     state = {
@@ -22,7 +22,6 @@ class Profile extends Component {
 
     render() {
         const {
-            user,
             user: {
                 user_applications,
                 avatar,
@@ -35,8 +34,6 @@ class Profile extends Component {
             }
         } = this.props;
         const { isImageUploadVisible } = this.state;
-        console.log(user);
-
         return (
             <div className="container-fluid col-md-9 ml-5">
                 <div className="card-deck">
