@@ -22,7 +22,7 @@ class SportVenueRepository extends ServiceEntityRepository
     public function findVenuesLimitedNumber(): array
     {
         $qb = $this->createQueryBuilder('e')
-            ->setMaxResults(9)
+            ->setMaxResults(6)
             ->getQuery();
 
         return $qb->execute();

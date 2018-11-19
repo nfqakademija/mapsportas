@@ -28,27 +28,45 @@ class Event extends Component {
     };
 
     render() {
-        const { event } = this.props;
-        const { sport_type, sport_venue, creator } = event;
+        const {
+            event: {
+                sport_type,
+                sport_venue,
+                creator,
+                date,
+                id,
+                max_members,
+                applyed_users
+            }
+        } = this.props;
         return (
             <React.Fragment>
-                <div className="card">
-                    <div className="card-body">
-                        <div className="card-title">
-                            <span className="font-weight-bold">{event.date}</span>
-                            <a data-toggle="collapse" href={`#collapse-${event.id}`}>{sport_type.name}</a>
-                            {' '}
-                            <span>{sport_venue.name}</span>
-                            {' '}
-                            <span> by {creator.username}</span>
-                        </div>
-                        <div id={`collapse-${event.id}`} className="card-collapse collapse">
-                            <div>
-                                {event.date}
+                <div className="card my-4">
+                    <div className="card-body bg-dark text-warning">
+                        <a className="text-warning" data-toggle="collapse" href={`#collapse-${id}`}>
+                            <div className="card-title d-flex justify-content-around py-2 text-info">
+                                <span className="font-weight-bold">{date}</span>
+                                <span>{sport_type.name}</span>
+                                <span>{sport_venue.name}</span>
+                                <span> by {creator.username}</span>
                             </div>
-                            <button className="btn btn-default" onClick={this.handleApplication.bind(this, event.id)}>
-                                Apply
-                            </button>
+                        </a>
+                        <div id={`collapse-${id}`} className="card-collapse collapse">
+                            <div className="row">
+                                <div className="col-12 col-md-6 d-flex justify-content-around my-2">
+                                    <span>Address: </span>
+                                    <span>{sport_venue.address}</span>
+                                </div>
+                                <div className="col-12 col-md-6 d-flex justify-content-around my-2">
+                                    <span>People IN: </span>
+                                    <span>{applyed_users.length}/{max_members}</span>
+                                </div>
+                                <div className="col-12 text-center">
+                                    <button className="btn btn-success" onClick={this.handleApplication.bind(this, id)}>
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

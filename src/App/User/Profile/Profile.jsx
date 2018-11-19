@@ -21,35 +21,64 @@ class Profile extends Component {
     };
 
     render() {
-        const { user, } = this.props;
-        const { user_applications } = user;
+        const {
+            user: {
+                user_applications,
+                avatar,
+                name,
+                surname,
+                email,
+                sport_events,
+                username,
+                birth_date
+            }
+        } = this.props;
         const { isImageUploadVisible } = this.state;
         return (
             <div className="container-fluid col-md-9 ml-5">
                 <div className="card-deck">
                     <div className="card">
-                        <img className="card-img-top" src="..." alt="Card image cap"/>
+                        <img className="card-img-top" src={"/images/avatars/" + avatar} alt="Card image cap"/>
                         <div className="card-header">
-                            {user.username}
+                            {username}
                         </div>
-                        <div className="card-body">
-                            {user.name}
-                            {user.surname}
-                            {user.email}
-                            {user.birth_date}
-                            Events created: {user.sport_events.length}
-                            <div style={{ cursor: 'pointer' }} onClick={this.changeImageUploadVisibility}>
-                                Upload picture
+                        <div className="card-body bg-dark text-info">
+                            <div className="row justify-content-between my-2">
+                               <div>Name:</div>
+                                <div>{name}</div>
                             </div>
-                            {
-                                isImageUploadVisible
-                                    ? <UploadImage
-                                    name="avatar"
-                                    onSubmit={this.handleSubmit}
-                                    onChange={this.handleChange}
-                                />
-                                    : null
-                            }
+                            <div className="row justify-content-between my-2">
+                                <div>Surame:</div>
+                                <div>{surname}</div>
+                            </div>
+                            <div className="row justify-content-between my-2">
+                                <div>Email:</div>
+                                <div>{email}</div>
+                            </div>
+                            <div className="row justify-content-between my-2">
+                                <div>Birth date:</div>
+                                <div>{birth_date}</div>
+                            </div>
+                            <div className="row justify-content-between my-2">
+                                <div>Events created:</div>
+                                <div>{sport_events.length}</div>
+                            </div>
+                            <div className="text-center">
+                                <button className="btn btn-info" style={{ cursor: 'pointer' }} onClick={this.changeImageUploadVisibility}>
+                                    Upload picture
+                                </button>
+                                <div className="text-center">
+                                    {
+                                        isImageUploadVisible
+                                            ? <UploadImage
+                                            name="avatar"
+                                            onSubmit={this.handleSubmit}
+                                            onChange={this.handleChange}
+                                        />
+                                            : null
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {
