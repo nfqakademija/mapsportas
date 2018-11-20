@@ -6,8 +6,19 @@ class Event extends Component {
         super(props);
         this.state = {
             message: '',
+            opened: false,
+            participiants: this.props.event.applyed_users.length
         };
     }
+
+
+    toggleInfo = () => {
+        const { opened } = this.state;
+
+        this.setState({
+            opened: !opened
+        });
+    };
 
     handleApplication = (id) => {
         axios
@@ -21,6 +32,12 @@ class Event extends Component {
                 })
             .then((response) => {
                 console.log(response);
+                if (response.status === 201 ) {
+                    this.setState({
+                       participiants: this.state.participiants + 1,
+                    });
+                }
+
                 this.setState({
                     message: response.data,
                 });
@@ -35,42 +52,55 @@ class Event extends Component {
                 creator,
                 date,
                 id,
-                max_members,
-                applyed_users
+                max_members
             }
         } = this.props;
+        const {
+            opened,
+            participiants,
+        } = this.state;
         return (
-            <React.Fragment>
+            <div className="col-12 col-md-6">
                 <div className="card my-4">
                     <div className="card-body bg-dark text-warning">
-                        <a className="text-warning" data-toggle="collapse" href={`#collapse-${id}`}>
-                            <div className="card-title d-flex justify-content-around py-2 text-info">
-                                <span className="font-weight-bold">{date}</span>
-                                <span>{sport_type.name}</span>
-                                <span>{sport_venue.name}</span>
-                                <span> by {creator.username}</span>
+                        <div className="card-title row py-2 text-info" onClick={this.toggleInfo}>
+                            <div className="col-3">
+                              <img className="card-img-top" src={"/images/sport_types/" + sport_type.name + ".png"} alt="Image" />
                             </div>
-                        </a>
-                        <div id={`collapse-${id}`} className="card-collapse collapse">
-                            <div className="row">
-                                <div className="col-12 col-md-6 d-flex justify-content-around my-2">
-                                    <span>Address: </span>
-                                    <span>{sport_venue.address}</span>
+                            <div className="col-9">
+                                <div className="row">
+                                    <span className="font-weight-bold mb-2 text-center px-4">{date}</span>
                                 </div>
-                                <div className="col-12 col-md-6 d-flex justify-content-around my-2">
-                                    <span>People IN: </span>
-                                    <span>{applyed_users.length}/{max_members}</span>
-                                </div>
-                                <div className="col-12 text-center">
-                                    <button className="btn btn-success" onClick={this.handleApplication.bind(this, id)}>
-                                        Apply
-                                    </button>
+                                <div className="row justify-content-between mb-2 px-4">
+                                  <span>Vieta:</span><span>{sport_venue.name}</span>
                                 </div>
                             </div>
                         </div>
+                        {opened
+                            ?
+                            <div className="px-4">
+                                <div className="row justify-content-between mb-2">
+                                    <span>Organizatorius:</span><span>{creator.username}</span>
+                                </div>
+                                <div className="row justify-content-between mb-2">
+                                    <span>Adresas: </span>
+                                    <span>{sport_venue.address}</span>
+                                </div>
+                                <div className="row justify-content-between mb-2">
+                                    <span>Dalyviai: </span>
+                                    <span>{participiants}/{max_members}</span>
+                                </div>
+                                <div className="row text-center mb-2">
+                                    <button className="btn btn-success px-5" onClick={this.handleApplication.bind(this, id)}>
+                                        Dalyvauti
+                                    </button>
+                                </div>
+                            </div>
+                            : null
+                        }
                     </div>
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 }

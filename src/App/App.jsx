@@ -45,14 +45,14 @@ class App extends Component {
     render() {
         const { user, isAuthorized } = this.state;
         return (
-            <MuiThemeProvider theme={Theme}>
-                <BrowserRouter>
-                    <div className="container">
-                        <Menu user={user}/>
-                        <Routes user={user} userAuthorized={isAuthorized}/>
-                    </div>
-                </BrowserRouter>
-            </MuiThemeProvider>
+
+            <BrowserRouter>
+                <div>
+                    <Menu user={user}/>
+                    <Routes user={user} userAuthorized={isAuthorized}/>
+                </div>
+            </BrowserRouter>
+
         );
     }
 }

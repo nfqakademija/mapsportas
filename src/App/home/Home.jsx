@@ -41,21 +41,27 @@ class Home extends Component {
         const { events, venues } = this.state;
         return (
             <React.Fragment>
-                <div className="card-columns">
-                {
-                    venues.map((venue) => {
-                        return <Venue key={venue.id} venue={venue}/>;
-                    })
-                }
+                <div className="container">
+                    <div className="row">
+                        {
+                            venues.map((venue) => {
+                                return <Venue key={venue.id} venue={venue}/>;
+                            })
+                        }
+                    </div>
                 </div>
-                {
-                    events.map((event) => {
-                        return (
-                            <Event key={event.id} event={event}/>
-                        );
-                    })
-                }
-                <PeopleFeed />
+                <div className="container">
+                    <div className="row">
+                        {
+                            events.map((event) => {
+                                return (
+                                    <Event key={event.id} event={event}/>
+                                );
+                            })
+                        }
+                    </div>
+                </div>
+                {/*<PeopleFeed />*/}
             </React.Fragment>
         );
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UploadImage from '../../../../assets/js/UploadImage';
-import AppliedEvent from './AppliedEvent';
+// import AppliedEvent from './AppliedEvent';
 
 class Profile extends Component {
     state = {
@@ -35,16 +35,16 @@ class Profile extends Component {
         } = this.props;
         const { isImageUploadVisible } = this.state;
         return (
-            <div className="container-fluid col-md-9 ml-5">
+            <div className="container-fluid">
                 <div className="card-deck">
-                    <div className="card">
+                    <div className="card col-12 col-md-6 bg-dark text-info px-0">
                         <img className="card-img-top" src={"/images/avatars/" + avatar} alt="Card image cap"/>
-                        <div className="card-header">
+                        <div className="card-header bg-light">
                             {username}
                         </div>
-                        <div className="card-body bg-dark text-info">
+                        <div className="card-body">
                             <div className="row justify-content-between my-2">
-                               <div>Name:</div>
+                                <div>Name:</div>
                                 <div>{name}</div>
                             </div>
                             <div className="row justify-content-between my-2">
@@ -71,10 +71,10 @@ class Profile extends Component {
                                     {
                                         isImageUploadVisible
                                             ? <UploadImage
-                                            name="avatar"
-                                            onSubmit={this.handleSubmit}
-                                            onChange={this.handleChange}
-                                        />
+                                                name="avatar"
+                                                onSubmit={this.handleSubmit}
+                                                onChange={this.handleChange}
+                                               />
                                             : null
                                     }
                                 </div>
@@ -84,19 +84,19 @@ class Profile extends Component {
                     {
                         user_applications
                             ? (
-                            <div className="card">
-                                <div className="card-header">
-                                    Applied events
+                                <div className="card">
+                                    <div className="card-header">
+                                        Applied events
+                                    </div>
+                                    <div className="card-body">
+                                        {
+                                            user_applications.map((application, index) => {
+                                                return <AppliedEvent key={index} application={application}/>;
+                                            })
+                                        }
+                                    </div>
                                 </div>
-                                <div className="card-body">
-                                    {
-                                        user_applications.map((application, index) => {
-                                            return <AppliedEvent key={index} application={application}/>;
-                                        })
-                                    }
-                                </div>
-                            </div>
-                        )
+                            )
                             : null
                     }
                 </div>
