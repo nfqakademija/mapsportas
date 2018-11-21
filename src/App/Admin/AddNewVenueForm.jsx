@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import UploadImage from '../../../assets/js/UploadImage';
 
 class AddNewVenueForm extends Component {
     state = {
@@ -9,6 +10,7 @@ class AddNewVenueForm extends Component {
             description: '',
             address: '',
             city: '',
+            venuePhoto: null,
         },
         message: '',
     };
@@ -17,6 +19,12 @@ class AddNewVenueForm extends Component {
         const { name, value } = e.target;
         this.setState({
             venue: { ...this.state.venue, [name]: value },
+        });
+    };
+
+    handleFileChange = (e) => {
+        this.setState({
+            venue: { ...this.state.venue, venuePhoto: e.target.files[0] },
         });
     };
 
@@ -51,7 +59,7 @@ class AddNewVenueForm extends Component {
                         )
                             : null
                     }
-                    <form onSubmit={(event) => this.handleSubmit(event)}>
+                    <form onSubmit={(event) => this.handleSubmit(event)} encType="multipart/form-data">
                         <div className="form-group">
                             <label>Sport type</label>
                             <input
@@ -92,6 +100,7 @@ class AddNewVenueForm extends Component {
                                 onChange={this.handleChange}
                             />
                         </div>
+                        <UploadImage name="venuePhoto" onChange={this.handleFileChange}/>
                         <button
                             className="btn btn-primary btn-block"
                             type="Submit">

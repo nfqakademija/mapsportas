@@ -12,7 +12,7 @@ class Routes extends Component {
         return (
             <Switch>
                 <Route exact path="/" render={() => <Home/>}/>
-                <Route exact path="/auth" render={() => <AuthenticationHandler/>}/>
+                <Route exact path="/auth" render={() => userAuthorized ? <Redirect to="/"/> : <AuthenticationHandler/>}/>
                 <Route exact path="/profile" render={() => (
                     userAuthorized
                         ? <Profile user={user}/>

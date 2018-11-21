@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UploadImage from '../../../../assets/js/UploadImage';
-// import AppliedEvent from './AppliedEvent';
+import AppliedEvent from './AppliedEvent';
 
 class Profile extends Component {
     state = {
