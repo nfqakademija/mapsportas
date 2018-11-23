@@ -37,7 +37,7 @@ const Menu = (user) => (
                                         </li>
                                     </ul>
                                 </div>
-                            </div>/event/create
+                            </div>
                         </nav>
                     </div>
                 </div>
