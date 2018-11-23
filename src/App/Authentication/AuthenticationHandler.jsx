@@ -10,6 +10,7 @@ class AuthenticationHandler extends Component {
         loginErrors: [],
         registrationErrors: [],
         authorized: false,
+        isLoading: false,
     };
 
     toggleShow = () => {
@@ -17,6 +18,9 @@ class AuthenticationHandler extends Component {
     };
 
     handleLogin = async (username, password) => {
+        this.setState({
+            isLoading: !this.state.isLoading,
+        });
         await fetch('/api/login', {
             method: 'post',
             headers: {
@@ -39,9 +43,13 @@ class AuthenticationHandler extends Component {
                     this.setState({ loginErrors: data });
                 }
             });
+        this.setState({ isLoading: false });
     };
 
     handleRegistration = async (user) => {
+        this.setState({
+            isLoading: true,
+        });
         await fetch('/api/register', {
             method: 'post',
             headers: {
@@ -61,6 +69,7 @@ class AuthenticationHandler extends Component {
                     this.setState({ registrationErrors: data });
                 }
             });
+        this.setState({ isLoading: false });
     };
 
     renderForms = () => (
@@ -68,9 +77,15 @@ class AuthenticationHandler extends Component {
             <div className="card">
                 {
                     this.state.isLoginShown
-                        ? <LoginForm errors={this.state.loginErrors} onSubmit={this.handleLogin}/>
-                        : <RegistrationForm errors={this.state.registrationErrors}
-                                            onSubmit={this.handleRegistration}
+                        ? <LoginForm
+                        isLoading={this.state.isLoading}
+                        errors={this.state.loginErrors}
+                        onSubmit={this.handleLogin}
+                    />
+                        : <RegistrationForm
+                        isLoading={this.state.isLoading}
+                        errors={this.state.registrationErrors}
+                        onSubmit={this.handleRegistration}
                     />
                 }
                 <AuthenticationNavigation isLoginShown={this.state.isLoginShown} onClick={this.toggleShow}/>
@@ -83,7 +98,7 @@ class AuthenticationHandler extends Component {
             this.state.authorized
                 ? <Redirect to="/"/>
                 : this.renderForms()
-        )
+        );
     };
 }
 

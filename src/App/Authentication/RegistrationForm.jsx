@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import ErrorMessage from './partials/ErrorMessage';
+import Loader from 'react-loader-spinner';
 
 class RegistrationForm extends Component {
     state = {
@@ -34,7 +35,7 @@ class RegistrationForm extends Component {
     };
 
     render() {
-        const { errors } = this.props;
+        const { errors, isLoading } = this.props;
         return (
             <React.Fragment>
                 <div className="card-header">
@@ -44,6 +45,11 @@ class RegistrationForm extends Component {
                     errors.map((error) => {
                         return <ErrorMessage text={this.normalizeString(error)}/>;
                     })
+                }
+                {
+                    isLoading
+                        ? <Loader type="Oval" color="#00BFFF" height="100" width="100"/>
+                        : null
                 }
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
@@ -131,6 +137,7 @@ class RegistrationForm extends Component {
                         <button
                             className="btn btn-primary btn-block"
                             type="Submit"
+                            disabled={isLoading}
                         >
                             Register
                         </button>

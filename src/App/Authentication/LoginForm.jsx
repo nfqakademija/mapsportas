@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ErrorMessage from './partials/ErrorMessage';
+import Loader from 'react-loader-spinner';
 
 class LoginForm extends Component {
     state = {
@@ -15,11 +16,14 @@ class LoginForm extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
+        this.setState({
+            isLoading: !this.state.isLoading,
+        });
         this.props.onSubmit(this.state.username, this.state.password);
     };
 
     render() {
-        const { errors } = this.props;
+        const { errors, isLoading } = this.props;
         return (
             <React.Fragment>
                 {
@@ -32,6 +36,11 @@ class LoginForm extends Component {
                     )
                 }
                 <div className="card-body">
+                    {
+                        isLoading
+                            ? <Loader type="Oval" color="green" height="50" width="50"/>
+                            : null
+                    }
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label>Username</label>
@@ -55,6 +64,7 @@ class LoginForm extends Component {
                         <button
                             className="btn btn-primary btn-block"
                             type="Submit"
+                            disabled={isLoading}
                         >
                             Login
                         </button>
