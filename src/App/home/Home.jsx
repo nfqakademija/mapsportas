@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Slider from './slider/Slider';
 import Venue from './Feed/Venue';
 import Event from './Feed/Event';
 import PeopleFeed from './Feed/PeopleFeed';
@@ -41,6 +42,7 @@ class Home extends Component {
         const { events, venues } = this.state;
         return (
             <React.Fragment>
+                <Slider />
                 <div className="container">
                     <div className="row">
                         {
@@ -50,15 +52,18 @@ class Home extends Component {
                         }
                     </div>
                 </div>
-                <div className="container">
-                    <div className="row">
-                        {
-                            events.map((event) => {
-                                return (
-                                    <Event key={event.id} event={event}/>
-                                );
-                            })
-                        }
+                <div className="fitness-pricing-table-area section-padding-100-0 bg-img bg-overlay bg-fixed"
+                     style={{backgroundImage: `url(img/bg-img/bg-7.jpg)`}}>
+                    <div className="container">
+                        <div className="row justify-content-center">
+                            {
+                                events.map((event) => {
+                                    return (
+                                        <Event key={event.id} event={event}/>
+                                    );
+                                })
+                            }
+                        </div>
                     </div>
                 </div>
                 {/*<PeopleFeed />*/}

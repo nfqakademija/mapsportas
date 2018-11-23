@@ -4,28 +4,45 @@ import MenuUserAvatar from './MenuUserAvatar';
 
 const Menu = (user) => (
     <React.Fragment>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-            <Link className="navbar-brand" to="/">Home</Link>
-            <div className="collapse navbar-collapse">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/venues">Venues</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/event/create">Create event</Link>
-                    </li>
-                </ul>
-                <ul className="navbar-nav form-inline my-2 my-lg-0">
-                    <li className="nav-item">
-                        {
-                            user.user.username
-                                ? <MenuUserAvatar user={user.user}/>
-                                : <Link className="nav-link" to='/auth'>Login</Link>
-                        }
-                    </li>
-                </ul>
+        <div id="preloader">
+            <i className="circle-preloader"></i>
+        </div>
+        <header className="header-area">
+            <div className="fitness-main-menu">
+                <div className="classy-nav-container breakpoint-off">
+                    <div className="container">
+                        <nav className="classy-navbar justify-content-between" id="fitnessNav">
+                            <Link className="navbar-brand" to="/"><img src="img/core-img/logo.png" alt=""></img></Link>
+
+                            <div className="classy-navbar-toggler">
+                                <span className="navbarToggler"><span></span><span></span><span></span></span>
+                            </div>
+
+                            <div className="classy-menu">
+
+                                <div className="classycloseIcon">
+                                    <div className="cross-wrap"><span className="top"></span><span className="bottom"></span></div>
+                                </div>
+
+                                <div className="classynav">
+                                    <ul>
+                                        <li><Link to="/venues">Vietos</Link></li>
+                                        <li><Link to="/event/create">Sukurti</Link></li>
+                                        <li className="nav-item">
+                                            {
+                                                user.user.username
+                                                    ? <MenuUserAvatar user={user.user}/>
+                                                    : <Link className="nav-link" to='/auth'>Login</Link>
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>/event/create
+                        </nav>
+                    </div>
+                </div>
             </div>
-        </nav>
+        </header>
     </React.Fragment>
 );
 

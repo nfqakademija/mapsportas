@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import Menu from './menu/Menu';
 import Routes from './routing/Routes';
 import axios from 'axios';
@@ -49,10 +50,13 @@ class App extends Component {
         return (
 
             <BrowserRouter>
-                <div>
-                    <Menu user={user}/>
-                    <Routes user={user} userAuthorized={isAuthorized}/>
-                </div>
+                <React.Fragment>
+                    <Helmet>
+                        <title>Sporto Draugas</title>
+                    </Helmet>
+                    <Menu user={user} />
+                    <Routes user={user} userAuthorized={isAuthorized} />
+                </React.Fragment>
             </BrowserRouter>
 
         );
