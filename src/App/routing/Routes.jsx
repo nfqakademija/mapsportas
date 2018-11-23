@@ -11,7 +11,7 @@ class Routes extends Component {
         const { userAuthorized, user } = this.props;
         return (
             <Switch>
-                <Route exact path="/" render={() => <Home/>}/>
+                <Route exact path="/" render={() => <Home user={user}/>}/>
                 <Route exact path="/auth" render={() => userAuthorized ? <Redirect to="/"/> : <AuthenticationHandler/>}/>
                 <Route exact path="/profile" render={() => (
                     userAuthorized
