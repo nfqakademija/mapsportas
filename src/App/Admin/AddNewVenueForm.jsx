@@ -30,9 +30,26 @@ class AddNewVenueForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const { venue } = this.state;
+        const {
+            venue: {
+                sportType,
+                name,
+                description,
+                address,
+                city,
+                venuePhoto
+            },
+        } = this.state;
+        const formData = new FormData();
+        formData.append('venuePhoto', venuePhoto);
+        formData.append('sportType', sportType);
+        formData.append('name', name);
+        formData.append('description', description);
+        formData.append('address', address);
+        formData.append('city', city);
+
         axios
-            .post('/api/admin/sport/venue', venue,
+            .post('/api/admin/sport/venue', formData,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('user_token')}`,
@@ -59,7 +76,7 @@ class AddNewVenueForm extends Component {
                         )
                             : null
                     }
-                    <form onSubmit={(event) => this.handleSubmit(event)} encType="multipart/form-data">
+                    <form onSubmit={(event) => this.handleSubmit(event)}>
                         <div className="form-group">
                             <label>Sport type</label>
                             <input

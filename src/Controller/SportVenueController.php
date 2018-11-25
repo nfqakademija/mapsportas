@@ -63,9 +63,8 @@ class SportVenueController extends AbstractController
     public function addSportType(Request $request)
     {
         $sportVenue = new SportVenue();
-        $data = json_decode($request->getContent(), true);
-
-        $venuePhoto = $request->files->get('form')['venuePhoto'];
+        $data = $request->request->all();
+        $venuePhoto = $request->files->get('venuePhoto');
 
         $form = $this->createForm(SportVenueType::class, $sportVenue);
         $form->setData($sportVenue);
