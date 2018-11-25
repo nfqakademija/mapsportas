@@ -29,4 +29,3 @@ class FileUploadSubscriber implements EventSubscriberInterface
         $event->getUser()->setAvatar($fileName);
     }
 }
-

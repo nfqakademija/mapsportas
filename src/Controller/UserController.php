@@ -95,7 +95,7 @@ class UserController extends controller
     {
         /** @var UploadedFile $file */
         $file = $request->files->get('avatar');
-        if (!in_array($file->getMimeType(), ['image/png', 'image/jpeg', 'image/jpg'])){
+        if (!in_array($file->getMimeType(), ['image/png', 'image/jpeg', 'image/jpg'])) {
             return new JsonResponse('Wrong file uploded', JsonResponse::HTTP_BAD_REQUEST);
         }
         /** @var User $user */
