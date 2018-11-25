@@ -1,19 +1,40 @@
 import React, { Component } from 'react';
 import UploadImage from '../../../../assets/js/UploadImage';
 import AppliedEvent from './AppliedEvent';
+import axios from 'axios';
 
 class Profile extends Component {
     state = {
         isImageUploadVisible: false,
         file: null,
+        message: '',
     };
 
     handleChange = (event) => {
-        this.setState({ file: event.target.files });
+        this.setState({ file: event.target.files[0] });
     };
 
-    handleSubmit = () => {
-
+    handleSubmit = (event) => {
+        event.preventDefault();
+        const { file } = this.state;
+        const formData = new FormData();
+        formData.append('avatar', file);
+        axios
+            .post('/api/user/avatar', formData, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('user_token')}`,
+                    },
+                },
+            )
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({ message: response.data });
+                }
+            })
+            .catch((error) => {
+                this.setState({message: error.response.data});
+            })
+        ;
     };
 
     changeImageUploadVisibility = () => {
@@ -30,10 +51,10 @@ class Profile extends Component {
                 email,
                 sport_events,
                 username,
-                birth_date
-            }
+                birth_date,
+            },
         } = this.props;
-        const { isImageUploadVisible } = this.state;
+        const { isImageUploadVisible, message } = this.state;
         return (
             <div className="container-fluid">
                 <div className="card-deck">
@@ -64,18 +85,34 @@ class Profile extends Component {
                                 <div>{sport_events.length}</div>
                             </div>
                             <div className="text-center">
-                                <button className="btn btn-info" style={{ cursor: 'pointer' }} onClick={this.changeImageUploadVisibility}>
+                                <button className="btn btn-info" style={{ cursor: 'pointer' }}
+                                        onClick={this.changeImageUploadVisibility}>
                                     Upload picture
                                 </button>
                                 <div className="text-center">
-                                    {
-                                        isImageUploadVisible
-                                            ? <UploadImage
-                                                name="avatar"
-                                                onSubmit={this.handleSubmit}
-                                                onChange={this.handleChange}
-                                               />
-                                            : null
+                                    {isImageUploadVisible
+                                        ? (
+                                            <form>
+                                                <div>
+                                                    <input
+                                                        name="avatar"
+                                                        type="file"
+                                                        onChange={(e) => this.handleChange(e)}
+                                                    />
+                                                    <button
+                                                        className="btn btn-sm btn-info"
+                                                        onClick={(event) => this.handleSubmit(event)}
+                                                    >
+                                                        Upload
+                                                    </button>
+                                                </div>
+                                                {message
+                                                    ? <span>{message}</span>
+                                                    : null
+                                                }
+                                            </form>
+                                        )
+                                        : null
                                     }
                                 </div>
                             </div>
@@ -84,19 +121,19 @@ class Profile extends Component {
                     {
                         user_applications
                             ? (
-                                <div className="card">
-                                    <div className="card-header">
-                                        Applied events
-                                    </div>
-                                    <div className="card-body">
-                                        {
-                                            user_applications.map((application, index) => {
-                                                return <AppliedEvent key={index} application={application}/>;
-                                            })
-                                        }
-                                    </div>
+                            <div className="card">
+                                <div className="card-header">
+                                    Applied events
                                 </div>
-                            )
+                                <div className="card-body">
+                                    {
+                                        user_applications.map((application, index) => {
+                                            return <AppliedEvent key={index} application={application}/>;
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        )
                             : null
                     }
                 </div>

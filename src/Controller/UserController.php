@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Event\FileUploadedEvent;
 use App\Form\RegistrationForm;
 use FOS\UserBundle\Model\UserManagerInterface;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,5 +86,31 @@ class UserController extends controller
         return new JsonResponse([
             'success_message' => 'Successfully promoted user'
         ], Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/api/user/avatar", name="api_user_avatar_create", methods="POST")
+     */
+    public function createAvatar(Request $request)
+    {
+        /** @var UploadedFile $file */
+        $file = $request->files->get('avatar');
+        if (!in_array($file->getMimeType(), ['image/png', 'image/jpeg', 'image/jpg'])){
+            return new JsonResponse('Wrong file uploded', JsonResponse::HTTP_BAD_REQUEST);
+        }
+        /** @var User $user */
+        $user = $this->getUser();
+        $fileUploadedEvent = new FileUploadedEvent(
+            $file,
+            $user,
+            $this->getParameter('avatars_directory')
+        );
+        $this->get('event_dispatcher')->dispatch('user.file.uploaded', $fileUploadedEvent);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($user);
+        $manager->flush();
+
+        return new JsonResponse('Success.', JsonResponse::HTTP_OK);
     }
 }
