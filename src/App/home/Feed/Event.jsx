@@ -54,8 +54,10 @@ class Event extends Component {
 
 
             <div className="col-12 col-md-6 col-lg-4">
-                <div className="single-event-table mb-100">
-                    <img src="img/bg-img/bg-8.jpg" alt=""></img>
+                <div className="single-event-table mb-100" style={{
+                    border: 'rgb(56, 177, 67) solid 3px'
+                }}>
+                    <img src={"/images/venues/" + sport_venue.venue_photo} alt=""></img>
                     <div className="event-table-content">
                         <h2 className="event">
                             {sport_venue.name}

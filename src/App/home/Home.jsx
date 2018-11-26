@@ -17,7 +17,7 @@ class Home extends Component {
     }
 
     fetchAllEvents = async () => {
-        await fetchEventsUpcoming(8)
+        await fetchEventsUpcoming(8,1)
             .then((response) => {
                 this.setState({ events: response.data });
             })

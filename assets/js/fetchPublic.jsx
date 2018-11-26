@@ -16,6 +16,6 @@ export const fetchEvents = async () => {
     return await axios.get('/api/public/sport/events');
 };
 
-export const fetchEventsUpcoming = async (i) => {
-    return await axios.get('/api/public/sport/events/upcoming/'+i);
+export const fetchEventsUpcoming = async (i,first) => {
+    return await axios.get('/api/public/sport/events/upcoming/' + i + '/' + first);
 };

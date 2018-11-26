@@ -19,13 +19,14 @@ class SportEventRepository extends ServiceEntityRepository
         parent::__construct($registry, SportEvent::class);
     }
 
-    public function findUpcomingEvents(int $i): array
+    public function findUpcomingEvents(int $i, int $first): array
     {
         $date = new \DateTime('now');
         $qb = $this->createQueryBuilder('e')
             ->andWhere('e.date > :date')
             ->setParameter('date', $date)
             ->orderBy('e.date', 'ASC')
+            ->setFirstResult($first)
             ->setMaxResults($i)
             ->getQuery();
 

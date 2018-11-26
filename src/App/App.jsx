@@ -52,9 +52,6 @@ class App extends Component {
 
             <BrowserRouter>
                 <React.Fragment>
-                    <Helmet>
-                        <title>Sporto Draugas</title>
-                    </Helmet>
                     <Menu user={user} />
                     <Slider />
 

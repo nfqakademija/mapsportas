@@ -33,11 +33,11 @@ class SportEventController extends AbstractController
     }
 
     /**
-     * @Route("/api/public/sport/events/upcoming/{i}", name="get_sport_events_upcoming", methods="GET")
+     * @Route("/api/public/sport/events/upcoming/{i}/{first}", name="get_sport_events_upcoming", methods="GET")
      */
-    public function getUpcomingEvents($i)
+    public function getUpcomingEvents(int $i, int $first)
     {
-        $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findUpcomingEvents($i);
+        $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findUpcomingEvents($i, $first);
         $serializer = SerializerBuilder::create()->build();
         $response =  json_decode(
             $serializer->serialize($sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent')))
