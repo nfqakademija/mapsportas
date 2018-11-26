@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import Menu from './menu/Menu';
 import Routes from './routing/Routes';
 import axios from 'axios';
+import Slider from "./home/Slider/Slider";
 
 class App extends Component {
     state = {
@@ -55,6 +56,8 @@ class App extends Component {
                         <title>Sporto Draugas</title>
                     </Helmet>
                     <Menu user={user} />
+                    <Slider />
+
                     <Routes user={user} userAuthorized={isAuthorized} />
                 </React.Fragment>
             </BrowserRouter>

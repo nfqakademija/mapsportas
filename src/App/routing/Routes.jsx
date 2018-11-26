@@ -5,6 +5,7 @@ import Home from '../home/Home';
 import Profile from '../User/Profile/Profile';
 import EventCreateForm from '../../App/home/Event/EventCreateForm';
 import AddNewVenueForm from '../Admin/AddNewVenueForm';
+import Events from '../Events/Events';
 
 class Routes extends Component {
     render() {
@@ -26,6 +27,7 @@ class Routes extends Component {
                 )}
                 />
                 <Route exact path="/admin" render={() => <AddNewVenueForm/> }/>
+                <Route exact path="/events" render={() => <Events user={user}/> }/>
             </Switch>
         );
     };

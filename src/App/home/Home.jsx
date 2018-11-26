@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Slider from './slider/Slider';
 import Venue from './Feed/Venue';
 import Event from './Feed/Event';
 import PeopleFeed from './Feed/PeopleFeed';
@@ -18,7 +17,7 @@ class Home extends Component {
     }
 
     fetchAllEvents = async () => {
-        await fetchEventsUpcoming()
+        await fetchEventsUpcoming(8)
             .then((response) => {
                 this.setState({ events: response.data });
             })
@@ -43,7 +42,6 @@ class Home extends Component {
         const { user } = this.props;
         return (
             <React.Fragment>
-                <Slider />
                 <div className="container">
                     <div className="row">
                         {

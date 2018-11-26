@@ -26,6 +26,7 @@ const Menu = (user) => (
 
                                 <div className="classynav">
                                     <ul>
+                                        <li><Link to="/events">Renginiai</Link></li>
                                         <li><Link to="/venues">Vietos</Link></li>
                                         <li><Link to="/event/create">Sukurti</Link></li>
                                         <li className="nav-item">

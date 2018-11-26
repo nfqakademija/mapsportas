@@ -19,7 +19,7 @@ const Slider = () => (
             <div className="single-hero-slide bg-img" style={slide1}>
                 <div className="container h-100">
                     <div className="row h-100 align-items-center">
-                        <div className="col-12 col-md-10 offset-md-2 col-lg-9 offset-lg-0">
+                        <div className="col-12 col-md-10 offset-2 col-lg-9 ">
                             <div className="hero-slides-content">
                                 <h2 data-animation="fadeInUp" data-delay="100ms">Nori, bet nežinai kur?</h2>
                                 <p data-animation="fadeInUp" data-delay="400ms">Rask sau tinkamiausią vietą!</p>
@@ -34,7 +34,7 @@ const Slider = () => (
             <div className="single-hero-slide bg-img" style={slide2}>
                 <div className="container h-100">
                     <div className="row h-100 align-items-center">
-                        <div className="col-12 col-md-10 offset-md-2 col-lg-9 offset-lg-0">
+                        <div className="col-12 col-md-10 offset-2 col-lg-9">
                             <div className="hero-slides-content">
                                 <h2 data-animation="fadeInUp" data-delay="100ms">Nori, bet neturi su kuo?</h2>
                                 <p data-animation="fadeInUp" data-delay="400ms">Prisijunk prie kitų!</p>
@@ -49,7 +49,7 @@ const Slider = () => (
             <div className="single-hero-slide bg-img" style={slide3}>
                 <div className="container h-100">
                     <div className="row h-100 align-items-center">
-                        <div className="col-12 col-md-10 offset-md-2 col-lg-9 offset-lg-0">
+                        <div className="col-12 col-md-10 offset-2 col-lg-9 ">
                             <div className="hero-slides-content">
                                 <h2 data-animation="fadeInUp" data-delay="100ms">Nori, bet nieko nerandi?</h2>
                                 <p data-animation="fadeInUp" data-delay="400ms">Suorganizuok tai, ko nori!.</p>
