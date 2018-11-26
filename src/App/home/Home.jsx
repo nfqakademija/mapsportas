@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import Slider from './slider/Slider';
 import Venue from './Feed/Venue';
 import Event from './Feed/Event';
 import PeopleFeed from './Feed/PeopleFeed';
+import ModalLoader from '../modal/ModalLoader';
 import { fetchEventsUpcoming, fetchVenuesLimited } from '../../../assets/js/fetchPublic';
 
 class Home extends Component {
@@ -9,11 +11,13 @@ class Home extends Component {
         venues: [],
         events: [],
         people: [],
+        isLoading: true,
     };
 
     async componentDidMount() {
         this.fetchAllEvents();
         this.fetchAllVenues();
+        this.setState({ isLoading: false });
     }
 
     fetchAllEvents = async () => {
@@ -38,10 +42,16 @@ class Home extends Component {
     };
 
     render() {
-        const { events, venues } = this.state;
+        const { events, venues, isLoading } = this.state;
         const { user } = this.props;
         return (
             <React.Fragment>
+                {
+                    isLoading
+                        ? <ModalLoader/>
+                        : null
+                }
+                <Slider />
                 <div className="container">
                     <div className="row">
                         {
@@ -52,7 +62,7 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="fitness-pricing-table-area section-padding-100-0 bg-img bg-overlay bg-fixed"
-                     style={{backgroundImage: `url(img/bg-img/bg-7.jpg)`}}>
+                     style={{ backgroundImage: `url(img/bg-img/bg-7.jpg)` }}>
                     <div className="container">
                         <div className="row justify-content-center">
                             {

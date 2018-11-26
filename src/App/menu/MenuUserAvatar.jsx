@@ -1,10 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const MenuUserAvatar = (user) => {
+const MenuUserAvatar = ({user, onClick}) => {
     return (
         <React.Fragment>
-            <Link className="nav-link" to="/profile">{user.user.username}</Link>
+            <li><Link className="nav-link" to="/profile">{user.username}</Link></li>
+            <li><Link
+                to="/"
+                className="nav-link"
+                onClick={onClick}
+            >
+                Logout
+            </Link></li>
         </React.Fragment>
     );
 };
