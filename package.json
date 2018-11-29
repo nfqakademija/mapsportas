@@ -36,7 +36,7 @@
     },
     "babel": {
         "presets": [
-            "React"
+            "react"
         ],
         "plugins": [
             "transform-class-properties",
