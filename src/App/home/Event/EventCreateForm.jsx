@@ -31,15 +31,15 @@ class EventCreateForm extends Component {
         this.setState(
             { event: { ...this.state.event, [name]: value } },
         );
-        if (name === 'sportType'){
+        if (name === 'sportType') {
             this.filterSportVenues(value);
         }
     };
 
     filterSportVenues = (sportType) => {
-        const {sports} = this.state;
+        const { sports } = this.state;
         const venues = sports.filter(sport => sport.id == sportType)[0].sport_venues;
-        this.setState({venues});
+        this.setState({ venues });
     };
 
     handleSubmit = (event) => {
