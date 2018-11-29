@@ -19,11 +19,56 @@ class SportEventController extends AbstractController
 {
 
     /**
-     * @Route("/api/public/sport/events", name="get_sport_events", methods="GET")
+     * @Route("/api/public/sport/events", name="get_sport_events", methods="POST")
      */
-    public function getSportEvents()
+    public function getSportEvents(Request $request)
     {
-        $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findAll();
+        $data = json_decode($request->getContent(), true);
+        if (isset($data['perPage'])) {
+            $perPage = $data['perPage'];
+        } else {
+            $perPage = null;
+        }
+
+        if (isset($data['first'])) {
+            $first = $data['first'];
+        } else {
+            $first = null;
+        }
+
+        if (isset($data['sportId'])) {
+            $sportId = $data['sportId'];
+        } else {
+            $sportId = null;
+        }
+
+        if (isset($data['from'])) {
+            $from = $data['from'];
+        } else {
+            $from = null;
+        }
+
+        if (isset($data['to'])) {
+            $to = $data['to'];
+        } else {
+            $to = null;
+        }
+
+        if (isset($data['min'])) {
+            $min = $data['min'];
+        } else {
+            $min = null;
+        }
+
+        if (isset($data['max'])) {
+            $max = $data['max'];
+        } else {
+            $max = null;
+        }
+
+        $sportEvents = $this->getDoctrine()
+            ->getRepository(SportEvent::class)
+            ->findFilteredEvents($perPage, $first, $sportId, $from, $to, $min, $max);
         $serializer = SerializerBuilder::create()->build();
         $response = json_decode(
             $serializer->serialize($sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent')))

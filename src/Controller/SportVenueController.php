@@ -16,11 +16,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class SportVenueController extends AbstractController
 {
     /**
-     * @Route("/api/public/sport/venues", name="get_sport_venues", methods="GET")
+     * @Route("/api/public/sport/venues/{perPage}/{first}/{sportId}", name="get_sport_venues", methods="GET")
      */
-    public function getSportVenues()
+    public function getSportVenues(int $perPage, int $first, $sportId)
     {
-        $sportVenues = $this->getDoctrine()->getRepository(SportVenue::class)->findAll();
+        if ($sportId == 0) {
+            $sportId = null;
+        }
+        $sportVenues = $this->getDoctrine()->getRepository(SportVenue::class)->findVenuesLimitedNumber($perPage, $first, $sportId);
         $serializer = SerializerBuilder::create()->build();
         $response = json_decode(
             $serializer->serialize($sportVenues, 'json', SerializationContext::create()->setGroups(array('sportVenue')))
@@ -34,7 +37,7 @@ class SportVenueController extends AbstractController
      */
     public function getNineVenues()
     {
-        $sportVenues = $this->getDoctrine()->getRepository(SportVenue::class)->findVenuesLimitedNumber();
+        $sportVenues = $this->getDoctrine()->getRepository(SportVenue::class)->findVenuesLimitedNumber(4);
         $serializer = SerializerBuilder::create()->build();
         $response = json_decode(
             $serializer->serialize($sportVenues, 'json', SerializationContext::create()->setGroups(array('sportVenue')))

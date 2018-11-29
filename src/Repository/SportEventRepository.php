@@ -19,7 +19,46 @@ class SportEventRepository extends ServiceEntityRepository
         parent::__construct($registry, SportEvent::class);
     }
 
-    public function findUpcomingEvents(int $i, int $first): array
+    public function findFilteredEvents(int $perPage, int $first, $sportId, $from, $to, $min, $max): array
+    {
+        if ($from) {
+            $from = new \DateTime($from);
+        } else {
+            $from = new \DateTime('now');
+        }
+        if ($to !== null) {
+            $to = new \DateTime($to);
+        }
+        $qb = $this->createQueryBuilder('e')
+            ->andWhere('e.date > :from')
+            ->setParameter('from', $from);
+
+        if ($to !== null) {
+            $qb->andWhere('e.date < :to')
+                ->setParameter('to', $to);
+        }
+
+        if ($sportId !== null) {
+            $qb->andWhere('e.sportType = :sportId')
+                ->setParameter('sportId', $sportId);
+        }
+
+        if ($min !== null) {
+            $qb->andWhere('e.maxMembers > :min')
+                ->setParameter('min', $min);
+        }
+
+        if ($max !== null) {
+            $qb->andWhere('e.maxMembers < :max')
+                ->setParameter('max', $max);
+        }
+        $qb->orderBy('e.date', 'ASC')
+            ->setFirstResult($first)
+            ->setMaxResults($perPage);
+        return $qb->getQuery()->execute();
+    }
+
+    public function findUpcomingEvents(int $perPage, int $first): array
     {
         $date = new \DateTime('now');
         $qb = $this->createQueryBuilder('e')
@@ -27,7 +66,7 @@ class SportEventRepository extends ServiceEntityRepository
             ->setParameter('date', $date)
             ->orderBy('e.date', 'ASC')
             ->setFirstResult($first)
-            ->setMaxResults($i)
+            ->setMaxResults($perPage)
             ->getQuery();
 
         return $qb->execute();

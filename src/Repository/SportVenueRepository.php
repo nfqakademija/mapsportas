@@ -19,13 +19,18 @@ class SportVenueRepository extends ServiceEntityRepository
         parent::__construct($registry, SportVenue::class);
     }
 
-    public function findVenuesLimitedNumber(): array
+    public function findVenuesLimitedNumber(int $perPage,int $first, $sportId): array
     {
-        $qb = $this->createQueryBuilder('e')
-            ->setMaxResults(4)
-            ->getQuery();
+        $qb = $this->createQueryBuilder('e');
+        if ($sportId !== null) {
+            $qb->andWhere('e.sportType = :sportId')
+                ->setParameter('sportId', $sportId);
+        }
 
-        return $qb->execute();
+        $qb->setFirstResult($first)
+            ->setMaxResults($perPage);
+
+        return $qb->getQuery()->execute();
     }
 
     // /**

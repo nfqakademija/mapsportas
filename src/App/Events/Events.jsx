@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 import Event from '../home/Feed/Event';
-import { fetchEventsUpcoming, fetchSports } from "../../../assets/js/fetchPublic";
+import { fetchEventsFiltered, fetchSports } from "../../../assets/js/fetchPublic";
 import FilterBar from "./filterBar";
+import InfiniteScroll from 'react-infinite-scroller';
+import axios from "axios";
 
 class Events extends Component {
     state = {
         events: [],
         page: 0,
-        perPage: 12,
+        perPage: 6,
         sportId: null,
         from: null,
         to: null,
         min: null,
         max: null,
     };
-
-    async componentDidMount() {
-        this.fetchEvents();
-    }
 
     fetchEvents = async () => {
         const {
@@ -29,13 +27,28 @@ class Events extends Component {
             min,
             max,
         } = this.state;
-        await fetchEventsUpcoming(perPage, page * perPage + 1)
+        let first = page * perPage;
+        let data = {
+            perPage: perPage,
+            first: first,
+            sportId: sportId,
+            from: from,
+            to: to,
+            min: min,
+            max: max
+        };
+
+        await axios
+            .post('/api/public/sport/events', data)
             .then((response) => {
                 this.setState({events: this.state.events.concat(response.data)});
-                this.setState({page: this.state.page + 1});
+                this.setState({page: page + 1});
+                console.log(`puslapis:` + page);
             })
             .catch((error) => {
-                console.log(error);
+                this.setState({
+                    errors: error,
+                });
             });
     };
 
@@ -45,34 +58,43 @@ class Events extends Component {
         this.state.to = to;
         this.state.min = min;
         this.state.max = max;
+        this.state.page = 0;
+        console.log(this.state.sportId)
         this.filterEvents();
     };
 
     filterEvents = () => {
-
+        this.setState({events:[]});
     };
 
     render() {
         const { events } = this.state;
         const { user } = this.props;
         return (
-                <div className="fitness-pricing-table-area section-padding-100-0">
-                    <div className="container">
-                        <FilterBar setFilters={this.setFilters}/>
-                        <div className="row justify-content-center">
-                            {
-                                events.map((event) => {
-                                    return (
-                                        <Event key={event.id} event={event} user={user}/>
-                                    );
-                                })
-                            }
-                            <div>
-                                <button className="btn fitness-btn btn-2 m-2 mb-5" onClick={ this.fetchEvents }>Rodyti Daugiau</button>
+            <div className="fitness-pricing-table-area section-padding-100-0">
+                <div className="container">
+                    <FilterBar setFilters={this.setFilters}/>
+                    <InfiniteScroll
+                        pageStart={0}
+                        loadMore={this.fetchEvents}
+                        hasMore={true || false}
+                        loader={
+                            <div className="text-center" key={0}>
+                                <div className="btn btn-info mb-5">Loading ...</div>
+                            </div>}
+                >
+                            <div className="row justify-content-center">
+                                {
+                                    events.map((event) => {
+                                        return (
+                                            <Event key={event.id} event={event} user={user}/>
+                                        );
+                                    })
+                                }
                             </div>
-                        </div>
-                    </div>
+                    </InfiniteScroll>
                 </div>
+            </div>
         );
     }
 }

@@ -80,7 +80,7 @@ class Event extends Component {
                                 </button>
                             )
                                 : <Link className="btn fitness-btn mt-30" to="/auth">
-                                Prisijunk, kad dalyvautum!
+                                Prisijunk
                             </Link>
                         }
                         <div className="mt-15">

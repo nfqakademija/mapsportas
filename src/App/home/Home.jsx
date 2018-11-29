@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Venue from './Feed/Venue';
 import Event from './Feed/Event';
 import PeopleFeed from './Feed/PeopleFeed';
-import { fetchEventsUpcoming, fetchVenuesLimited } from '../../../assets/js/fetchPublic';
+import { fetchEventsUpcoming, fetchVenues } from '../../../assets/js/fetchPublic';
 
 class Home extends Component {
     state = {
@@ -17,7 +17,7 @@ class Home extends Component {
     }
 
     fetchAllEvents = async () => {
-        await fetchEventsUpcoming(8,1)
+        await fetchEventsUpcoming(8,0)
             .then((response) => {
                 this.setState({ events: response.data });
             })
@@ -28,7 +28,7 @@ class Home extends Component {
     };
 
     fetchAllVenues = async () => {
-        await fetchVenuesLimited()
+        await fetchVenues(4,0,0)
             .then((response) => {
                 this.setState({ venues: response.data });
             })

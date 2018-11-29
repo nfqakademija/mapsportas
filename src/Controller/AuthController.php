@@ -9,19 +9,10 @@ use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\FormBuilderInterface;
 
 class AuthController extends controller
 {
@@ -43,22 +34,15 @@ class AuthController extends controller
         $user = $this->userManager->createUser();
         $user->setCreatedAt(new \DateTime('now'));
 
-        $avatar = $request->files->get('form')['avatar'];
-
         $data = json_decode($request->getContent(), true);
         $data['birthDate'] = new \DateTime($data['birthDate']);
+
         $form = $this->createForm(RegistrationForm::class, $user);
         $form->setData($user);
         $form->submit($data, false);
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPlainPassword($data["password"]);
             $user->setEnabled(1);
-
-            if ($avatar !== null) {
-                $avatarDirectory = $this->getParameter('avatars_directory');
-                $filename = Util::upload($avatar, $avatarDirectory);
-                $user->setAvatar($filename);
-            }
 
             $this->userManager->updateUser($user);
         } else {

@@ -1,11 +1,7 @@
 import axios from 'axios';
 
-export const fetchVenues = async () => {
-    return await axios.get('/api/public/sport/venues');
-};
-
-export const fetchVenuesLimited =  async () => {
-    return await axios.get('/api/public/sport/venues/limited');
+export const fetchVenues = async (perPage, first, sportId) => {
+    return await axios.get('/api/public/sport/venues/' + perPage + '/' + first + '/' + sportId);
 };
 
 export const fetchSports = async () => {
