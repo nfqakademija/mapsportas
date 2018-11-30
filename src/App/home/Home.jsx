@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import Slider from './slider/Slider';
+import Slider from './Slider/Slider';
 import Venue from './Feed/Venue';
 import Event from './Feed/Event';
 import PeopleFeed from './Feed/PeopleFeed';
-import ModalLoader from '../modal/ModalLoader';
 import { fetchEventsUpcoming, fetchVenuesLimited } from '../../../assets/js/fetchPublic';
 
 class Home extends Component {
@@ -42,15 +41,10 @@ class Home extends Component {
     };
 
     render() {
-        const { events, venues, isLoading } = this.state;
+        const { events, venues } = this.state;
         const { user } = this.props;
         return (
             <React.Fragment>
-                {
-                    isLoading
-                        ? <ModalLoader/>
-                        : null
-                }
                 <Slider />
                 <div className="container">
                     <div className="row">
