@@ -23,7 +23,9 @@ class SportVenueController extends AbstractController
         if ($sportId == 0) {
             $sportId = null;
         }
-        $sportVenues = $this->getDoctrine()->getRepository(SportVenue::class)->findVenuesLimitedNumber($perPage, $first, $sportId);
+        $sportVenues = $this->getDoctrine()
+            ->getRepository(SportVenue::class)
+            ->findVenuesLimitedNumber($perPage, $first, $sportId);
         $serializer = SerializerBuilder::create()->build();
         $response = json_decode(
             $serializer->serialize($sportVenues, 'json', SerializationContext::create()->setGroups(array('sportVenue')))
