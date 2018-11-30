@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Slider from './Slider/Slider';
 import Venue from './Feed/Venue';
 import Event from './Feed/Event';
 import PeopleFeed from './Feed/PeopleFeed';
@@ -9,11 +10,13 @@ class Home extends Component {
         venues: [],
         events: [],
         people: [],
+        isLoading: true,
     };
 
     async componentDidMount() {
         this.fetchAllEvents();
         this.fetchAllVenues();
+        this.setState({ isLoading: false });
     }
 
     fetchAllEvents = async () => {
@@ -42,6 +45,7 @@ class Home extends Component {
         const { user } = this.props;
         return (
             <React.Fragment>
+                <Slider />
                 <div className="container">
                     <div className="row">
                         {
@@ -52,7 +56,7 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="fitness-pricing-table-area section-padding-100-0 bg-img bg-overlay bg-fixed"
-                     style={{backgroundImage: `url(img/bg-img/bg-7.jpg)`}}>
+                     style={{ backgroundImage: `url(img/bg-img/bg-7.jpg)` }}>
                     <div className="container">
                         <div className="row justify-content-center">
                             {

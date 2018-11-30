@@ -13,6 +13,19 @@ class AuthenticationHandler extends Component {
         isLoading: false,
     };
 
+    componentDidMount() {
+        this.props.onLoad();
+    }
+
+    handleUserSuccess = (token) => {
+        localStorage.setItem('user_token', token);
+        this.setState({
+            authorized: true,
+            isLoading: false,
+        });
+        this.props.getUser();
+    };
+
     toggleShow = () => {
         this.setState(state => ({ isLoginShown: !this.state.isLoginShown }));
     };
@@ -36,14 +49,12 @@ class AuthenticationHandler extends Component {
                 response.json(),
             )
             .then(data => {
-                if ('token' in data) {
-                    localStorage.setItem('user_token', data.token);
-                    this.setState({ authorized: true });
+                if (data.token) {
+                    this.handleUserSuccess(data.token);
                 } else {
                     this.setState({ loginErrors: data });
                 }
             });
-        this.setState({ isLoading: false });
     };
 
     handleRegistration = async (user) => {
@@ -62,18 +73,16 @@ class AuthenticationHandler extends Component {
                 response.json(),
             )
             .then(data => {
-                if ('token' in data) {
-                    localStorage.setItem('user_token', data.token);
-                    this.setState({ authorized: true });
+                if (data.token) {
+                    this.handleUserSuccess(data.token);
                 } else {
                     this.setState({ registrationErrors: data });
                 }
             });
-        this.setState({ isLoading: false });
     };
 
     renderForms = () => (
-        <div className="container col-md-5 mt-5">
+        <div className="container col-md-5 mt-5" id="auth-form">
             <div className="card">
                 {
                     this.state.isLoginShown

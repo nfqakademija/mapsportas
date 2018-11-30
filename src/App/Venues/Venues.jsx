@@ -8,8 +8,9 @@ class Venues extends Component {
         venues: [],
         sports: [],
         page: 0,
-        perPage: 4,
+        perPage: 12,
         sportId: 0,
+        letFetch: true,
     };
 
     async componentDidMount() {
@@ -27,17 +28,21 @@ class Venues extends Component {
     };
 
     getVenues = async () => {
-        const { page, perPage, sportId } = this.state;
-        let first = page * perPage;
-        await fetchVenues(perPage, first, sportId)
-            .then((response) => {
-                this.setState({ venues: this.state.venues.concat(response.data) });
-                this.setState({page: page + 1});
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-        ;
+        const { page, perPage, sportId, letFetch } = this.state;
+        if (letFetch) {
+            this.state.letFetch = false;
+            let first = page * perPage;
+            await fetchVenues(perPage, first, sportId)
+                .then((response) => {
+                    this.setState({ venues: [...this.state.venues, ...response.data] });
+                    this.setState({page: page + 1});
+                    this.state.letFetch = true;
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+            ;
+        }
     };
 
     setFilters = (e) => {
@@ -65,10 +70,10 @@ class Venues extends Component {
                             </select>
                         </label>
                     </div>
-                    <InfiniteScroll
+                     <InfiniteScroll
                         pageStart={0}
                         loadMore={this.getVenues}
-                        hasMore={true || false}
+                        hasMore={true}
                         loader={
                             <div className="text-center" key={0}>
                                 <div className="btn btn-info mb-5">Loading ...</div>

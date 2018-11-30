@@ -9,7 +9,7 @@ class Events extends Component {
     state = {
         events: [],
         page: 0,
-        perPage: 6,
+        perPage: 12,
         sportId: null,
         from: null,
         to: null,
@@ -59,7 +59,6 @@ class Events extends Component {
         this.state.min = min;
         this.state.max = max;
         this.state.page = 0;
-        console.log(this.state.sportId)
         this.filterEvents();
     };
 
