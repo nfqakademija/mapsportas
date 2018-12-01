@@ -24,7 +24,7 @@ class SportEvent
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sportEvents")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sportEvents", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="Creator of Event is required")
      *

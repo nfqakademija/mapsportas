@@ -1,5 +1,5 @@
 parameters:
-  mailer_email: "no-replay@nfqakademija.lt"
+  mailer_email: "no-reply@nfqakademija.lt"
   mailer_name: "NFQ Akademija"
 
 fos_user:

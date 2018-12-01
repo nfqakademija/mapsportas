@@ -23,7 +23,6 @@ class User extends BaseUser implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
-     *
      * @Groups({"user","sportEvent"})
      */
     protected $id;
@@ -31,7 +30,6 @@ class User extends BaseUser implements UserInterface
     /**
      * @Assert\NotBlank(message="Email is required")
      * @Assert\Email(message="This email is invalid")
-     *
      * @Groups({"user"})
      */
     protected $email;
@@ -44,7 +42,6 @@ class User extends BaseUser implements UserInterface
      *     minMessage="Username must be between 2 and 20 characters long.",
      *     maxMessage="Username must be between 2 and 20 characters long."
      * )
-     *
      * @Groups({"user","sportEvent"})
      */
     protected $username;
@@ -62,14 +59,12 @@ class User extends BaseUser implements UserInterface
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     *
      * @Groups({"user"})
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     *
      * @Groups({"user"})
      */
     protected $surname;
@@ -77,7 +72,6 @@ class User extends BaseUser implements UserInterface
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Assert\DateTime(format="Y/m/d")
-     *
      * @Groups({"user"})
      * @Type("DateTime<'Y-m-d'>")
      */
@@ -85,28 +79,24 @@ class User extends BaseUser implements UserInterface
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @Groups({"user"})
      */
     protected $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      * @Groups({"user"})
      */
     protected $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SportEvent", mappedBy="creator")
-     *
      * @Groups({"user"})
      */
     private $sportEvents;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\EventApplication", mappedBy="user")
-     *
      * @Groups({"user"})
      */
     private $userApplications;
@@ -114,16 +104,22 @@ class User extends BaseUser implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
-     *
      * @Groups({"user"})
      */
     private $avatar;
+
+    /**
+     * @var Notification|Notification[]
+     * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="recipient")
+     */
+    private $emailList;
 
     public function __construct()
     {
         parent::__construct();
         $this->sportEvents = new ArrayCollection();
         $this->userApplications = new ArrayCollection();
+        $this->emailList = new ArrayCollection();
     }
 
     /**
@@ -276,6 +272,29 @@ class User extends BaseUser implements UserInterface
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Notification|Notification[]
+     */
+    public function getEmailList()
+    {
+        return $this->emailList;
+    }
+
+    /**
+     * @param Notification|Notification[] $emailList
+     *
+     * @return $this
+     */
+    public function addEmailList(Notification $emailList)
+    {
+        if (!$this->emailList->contains($emailList)) {
+            $this->emailList[] = $emailList;
+            $emailList->setRecipient($this);
+        }
 
         return $this;
     }

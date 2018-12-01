@@ -11,6 +11,9 @@ use JMS\Serializer\Annotation\Type;
  */
 class EventApplication
 {
+    const EVENT_JOIN = 'join';
+    const EVENT_LEAVE = 'leave';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
