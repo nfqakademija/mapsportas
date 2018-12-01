@@ -23,8 +23,7 @@ class NotificationManager
         EntityManagerInterface $entityManager,
         NotificationMapper $notificationMapper,
         Twig_Environment $environment
-    )
-    {
+    ) {
         $this->swiftMailer = $swiftMailer;
         $this->entityManager = $entityManager;
         $this->notificationMapper = $notificationMapper;
@@ -52,18 +51,15 @@ class NotificationManager
     private function buildEmail(
         Notification $notification,
         EventApplication $application
-    ): Swift_Message
-    {
+    ): Swift_Message {
         return (new Swift_Message())
             ->setTo($notification->getRecipient()->getEmail())
             ->setSubject($notification->getTitle())
             ->setBody($this->renderer->render($this->resolveTemplate($notification->getAction()),
-                [
-                    'recipient' => $notification->getRecipient(),
+                ['recipient' => $notification->getRecipient(),
                     'user' => $application->getUser(),
                     'sport_event' => $application->getSportEvent()
-                ])
-            );
+                ]));
     }
 
     private function resolveTemplate(string $action): string
