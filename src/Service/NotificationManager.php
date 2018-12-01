@@ -56,10 +56,7 @@ class NotificationManager
             ->setTo($notification->getRecipient()->getEmail())
             ->setSubject($notification->getTitle())
             ->setBody($this->renderer->render($this->resolveTemplate($notification->getAction()),
-                ['recipient' => $notification->getRecipient(),
-                    'user' => $application->getUser(),
-                    'sport_event' => $application->getSportEvent()
-                ]));
+                ['recipient' => $notification->getRecipient(), 'user' => $application->getUser(), 'sport_event' => $application->getSportEvent()]));
     }
 
     private function resolveTemplate(string $action): string
