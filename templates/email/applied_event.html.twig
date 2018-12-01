@@ -1,0 +1,16 @@
+{% block subject %}{% endblock %}
+
+{% block body_html %}
+    <body>
+        <h4>
+            Labas {{ recipient.username }} !
+        </h4>
+    <p>
+        Prie tavo event'o prisijungė žmogus.
+        Data: {{ sport_event.date|date('Y-m-d H:i') }}
+        Prisijungė: {{ user.username }}
+        Gali su juo susisiekti {{ user.email }}
+    </p>
+    Linkejimai,
+    </body>
+{% endblock %}

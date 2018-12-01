@@ -27,7 +27,7 @@ class AppliedEvent extends Component {
                     sport: {application.sport_event.sport_type.name}
                 </div>
                 <button className="btn btn-sm btn-danger"
-                        onClick={this.handleCancelApplication.bind(this, application.id)}>
+                        onClick={this.handleCancelApplication.bind(this, application.sport_event.id)}>
                     Cancel application
                 </button>
             </React.Fragment>

@@ -7,9 +7,11 @@ use App\Entity\SportEvent;
 use App\Entity\User;
 use App\Form\ApplicationType;
 use App\Form\SportEventType;
+use App\Service\NotificationManager;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +19,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SportEventController extends AbstractController
 {
+    private $notificationManager;
+    private $eventDispatcher;
+
+    public function __construct(
+        NotificationManager $notificationManager,
+        EventDispatcherInterface $eventDispatcher
+    )
+    {
+        $this->notificationManager = $notificationManager;
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
     /**
      * @Route("/api/public/sport/events", name="get_sport_events", methods="POST")
@@ -84,7 +97,7 @@ class SportEventController extends AbstractController
     {
         $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findUpcomingEvents($i, $first);
         $serializer = SerializerBuilder::create()->build();
-        $response =  json_decode(
+        $response = json_decode(
             $serializer->serialize($sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent')))
         );
 
@@ -149,6 +162,7 @@ class SportEventController extends AbstractController
      */
     public function applyForEvent(Request $request)
     {
+
         $application = new EventApplication();
         $data = json_decode($request->getContent(), true);
         $data['user'] = $this->getUser()->getId();
@@ -174,16 +188,20 @@ class SportEventController extends AbstractController
                 'error_message' => 'Event is full, you can\'t apply for it.'
             ], Response::HTTP_BAD_REQUEST);
         }
-
         $form = $this->createForm(ApplicationType::class, $application);
         $form->setData($application);
         $form->submit($data, false);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($application);
             $manager->flush();
-
+            $this->notificationManager->notify(
+                $event,
+                [
+                    'application' => $application,
+                    'action' => EventApplication::EVENT_JOIN
+                ]
+            );
             return new JsonResponse([
                 'success_message' => 'Successfully applyed for Sport Event'
             ], Response::HTTP_CREATED);
@@ -206,23 +224,31 @@ class SportEventController extends AbstractController
      */
     public function leaveEvent(int $event)
     {
-        $user = $this->getUser()->getId();
+        $user = $this->getUser();
         $application = $this->getDoctrine()
             ->getRepository(EventApplication::class)
             ->findOneBy([
                 'sportEvent' => $event,
-                'user' => $user
+                'user' => $user->getId(),
             ]);
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($application);
         $manager->flush();
+
+        $this->notificationManager->notify(
+            $application->getSportEvent(),
+            [
+                'application' => $application,
+                'action' => EventApplication::EVENT_LEAVE
+            ]
+        );
 
         return new JSONResponse([
             'success_message' => 'Successfully left Sport Event',
         ], Response::HTTP_OK);
     }
 
-    public function autoApply(User $user, SportEvent $event) :void
+    public function autoApply(User $user, SportEvent $event): void
     {
         $application = new EventApplication();
         $application->setSportEvent($event);
