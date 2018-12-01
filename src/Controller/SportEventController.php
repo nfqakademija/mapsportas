@@ -11,7 +11,6 @@ use App\Service\NotificationManager;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,15 +19,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class SportEventController extends AbstractController
 {
     private $notificationManager;
-    private $eventDispatcher;
 
-    public function __construct(
-        NotificationManager $notificationManager,
-        EventDispatcherInterface $eventDispatcher
-    )
+    public function __construct(NotificationManager $notificationManager)
     {
         $this->notificationManager = $notificationManager;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
