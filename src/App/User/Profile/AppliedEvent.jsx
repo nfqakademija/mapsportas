@@ -16,6 +16,7 @@ class AppliedEvent extends Component {
                 this.setState({
                     message: response.data,
                 });
+                this.props.onLeave(id);
             });
     };
 

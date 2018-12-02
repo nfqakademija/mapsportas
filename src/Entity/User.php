@@ -277,7 +277,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * @return Notification|Notification[]
+     * @return ArrayCollection|Notification[]
      */
     public function getEmailList()
     {

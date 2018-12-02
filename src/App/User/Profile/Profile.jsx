@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import UploadImage from '../../../../assets/js/UploadImage';
 import AppliedEvent from './AppliedEvent';
 import axios from 'axios';
 
@@ -8,6 +7,37 @@ class Profile extends Component {
         isImageUploadVisible: false,
         file: null,
         message: '',
+        applications: [],
+        applicationsLoaded: false,
+    };
+
+    componentDidMount() {
+        this.fetchUserApplications();
+    }
+
+    fetchUserApplications = async () => {
+        await axios
+            .get('api/user/applications', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('user_token')}`,
+                    },
+                },
+            )
+            .then(response => {
+                this.setState({
+                    applications: response.data,
+                    applicationsLoaded: true,
+                });
+            })
+            .catch(error => console.log(error));
+    };
+
+    onEventLeave = (id) => {
+        const { applications } = this.state;
+        const apps = applications.filter(application => application.sport_event.id !== id);
+        this.setState({
+            applications: apps,
+        });
     };
 
     handleChange = (event) => {
@@ -32,7 +62,7 @@ class Profile extends Component {
                 }
             })
             .catch((error) => {
-                this.setState({message: error.response.data});
+                this.setState({ message: error.response.data });
             })
         ;
     };
@@ -44,7 +74,6 @@ class Profile extends Component {
     render() {
         const {
             user: {
-                user_applications,
                 avatar,
                 name,
                 surname,
@@ -54,12 +83,17 @@ class Profile extends Component {
                 birth_date,
             },
         } = this.props;
-        const { isImageUploadVisible, message } = this.state;
+        const {
+            isImageUploadVisible,
+            message,
+            applications,
+            applicationsLoaded
+        } = this.state;
         return (
             <div className="container-fluid">
                 <div className="card-deck">
                     <div className="card col-12 col-md-6 bg-dark text-info px-0">
-                        <img className="card-img-top" src={"/images/avatars/" + avatar} alt="Card image cap"/>
+                        <img className="card-img-top" src={'/images/avatars/' + avatar} alt="Card image cap"/>
                         <div className="card-header bg-light">
                             {username}
                         </div>
@@ -69,7 +103,7 @@ class Profile extends Component {
                                 <div>{name}</div>
                             </div>
                             <div className="row justify-content-between my-2">
-                                <div>Surame:</div>
+                                <div>Surname:</div>
                                 <div>{surname}</div>
                             </div>
                             <div className="row justify-content-between my-2">
@@ -118,23 +152,22 @@ class Profile extends Component {
                             </div>
                         </div>
                     </div>
-                    {
-                        user_applications
-                            ? (
-                            <div className="card">
-                                <div className="card-header">
-                                    Applied events
-                                </div>
-                                <div className="card-body">
-                                    {
-                                        user_applications.map((application, index) => {
-                                            return <AppliedEvent key={index} application={application}/>;
-                                        })
-                                    }
-                                </div>
-                            </div>
-                        )
-                            : null
+                    {applicationsLoaded
+                    &&
+                    <div className="card">
+                        <div className="card-header">
+                            Applied events
+                        </div>
+                        <div className="card-body">
+                            {applications.length > 0
+                                ? applications.map((application, index) => {
+                                    return <AppliedEvent key={index} application={application}
+                                                         onLeave={this.onEventLeave}/>;
+                                })
+                                : <p>Dar niekur neaplikavai.</p>
+                            }
+                        </div>
+                    </div>
                     }
                 </div>
             </div>
