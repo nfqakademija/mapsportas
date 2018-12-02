@@ -33,7 +33,7 @@ class Home extends Component {
     fetchAllVenues = async () => {
         await fetchVenues(4,0,0)
             .then((response) => {
-                this.setState({ venues: response.data });
+                this.setState({ venues: response.data.sportVenues });
             })
             .catch((error) => {
                 console.log(error);

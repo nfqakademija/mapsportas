@@ -43,7 +43,7 @@ class SportEventController extends AbstractController
             $first = null;
         }
 
-        if (isset($data['sportId'])) {
+        if (isset($data['sportId']) && $data['sportId'] != 0) {
             $sportId = $data['sportId'];
         } else {
             $sportId = null;
@@ -73,13 +73,21 @@ class SportEventController extends AbstractController
             $max = null;
         }
 
-        $sportEvents = $this->getDoctrine()
-            ->getRepository(SportEvent::class)
-            ->findFilteredEvents($perPage, $first, $sportId, $from, $to, $min, $max);
+        $repository = $this->getDoctrine()->getRepository(SportEvent::class);
+        $sportEvents = $repository->findFilteredEvents($perPage, $first, $sportId, $from, $to, $min, $max);
+        $count = $repository->findEventsCount($perPage, $first, $sportId, $from, $to, $min, $max);
         $serializer = SerializerBuilder::create()->build();
-        $response = json_decode(
+
+        $sportEvents = json_decode(
             $serializer->serialize($sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent')))
         );
+        $count = json_decode(
+            $serializer->serialize($count[0][1], 'json')
+        );
+        $response = [
+            'sportEvents' => $sportEvents,
+            'count' => $count
+        ];
 
         return new JsonResponse($response, Response::HTTP_OK);
     }

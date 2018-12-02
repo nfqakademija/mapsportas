@@ -72,6 +72,44 @@ class SportEventRepository extends ServiceEntityRepository
         return $qb->execute();
     }
 
+    public function findEventsCount(int $perPage, int $first, $sportId, $from, $to, $min, $max)
+    {
+        if ($from) {
+            $from = new \DateTime($from);
+        } else {
+            $from = new \DateTime('now');
+        }
+        if ($to !== null) {
+            $to = new \DateTime($to);
+        }
+        $qb = $this->createQueryBuilder('e')
+            ->select('count(e.id)')
+            ->andWhere('e.date > :from')
+            ->setParameter('from', $from);
+
+        if ($to !== null) {
+            $qb->andWhere('e.date < :to')
+                ->setParameter('to', $to);
+        }
+
+        if ($sportId !== null) {
+            $qb->andWhere('e.sportType = :sportId')
+                ->setParameter('sportId', $sportId);
+        }
+
+        if ($min !== null) {
+            $qb->andWhere('e.maxMembers > :min')
+                ->setParameter('min', $min);
+        }
+
+        if ($max !== null) {
+            $qb->andWhere('e.maxMembers < :max')
+                ->setParameter('max', $max);
+        }
+
+        return $qb->getQuery()->execute();
+    }
+
 
     // /**
     //  * @return SportEvent[] Returns an array of SportEvent objects

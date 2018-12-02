@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import Venue from '../home/Feed/Venue';
 import InfiniteScroll from 'react-infinite-scroller';
-import { fetchVenues, fetchSports } from '../../../assets/js/fetchPublic';
+import { fetchVenues, fetchSports, getVenuesCount } from '../../../assets/js/fetchPublic';
 
 class Venues extends Component {
     state = {
         venues: [],
         sports: [],
         page: 0,
-        perPage: 12,
+        perPage: 8,
         sportId: 0,
         letFetch: true,
+        count: null,
+        hasMore: true
     };
 
     async componentDidMount() {
         this.fetchSportTypes();
-    }
+    };
 
     fetchSportTypes = async () => {
         await fetchSports()
@@ -27,32 +29,50 @@ class Venues extends Component {
             })
     };
 
+    fetchVenues = async () => {
+        const { page, perPage, sportId } = this.state;
+        this.state.letFetch = false;
+        let first = page * perPage;
+        await fetchVenues(perPage, first, sportId)
+            .then((response) => {
+                console.log(response.data);
+                this.setState({ venues: [...this.state.venues, ...response.data.sportVenues] });
+                this.setState({ count: response.data.count })
+                this.setState({ page: page + 1 });
+                this.setState({ letFetch: true });
+                this.hasMore();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        ;
+    };
+
     getVenues = async () => {
-        const { page, perPage, sportId, letFetch } = this.state;
+        const { letFetch } = this.state;
         if (letFetch) {
-            this.state.letFetch = false;
-            let first = page * perPage;
-            await fetchVenues(perPage, first, sportId)
-                .then((response) => {
-                    this.setState({ venues: [...this.state.venues, ...response.data] });
-                    this.setState({page: page + 1});
-                    this.state.letFetch = true;
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            ;
+            this.fetchVenues();
         }
     };
 
+    hasMore = () => {
+        const { count, venues } = this.state;
+        if (count > venues.length || count == null) {
+            this.setState({ hasMore: true })
+        }
+        this.setState({ hasMore: false })
+    };
+
     setFilters = (e) => {
-        this.setState({sportId: e.target.value});
-        this.state.page = 0;
-        this.setState({venues:[]});
+        this.setState({ sportId: e.target.value});
+        this.setState({ page: 0 });
+        this.setState({ venues: [] });
+        this.setState({ letFetch: true });
+        this.setState({ hasMore: true });
     };
 
     render() {
-        const { venues, sports } = this.state;
+        const { venues, sports, hasMore } = this.state;
         return (
             <div className="fitness-pricing-table-area section-padding-100-0">
                 <div className="container">
@@ -70,14 +90,15 @@ class Venues extends Component {
                             </select>
                         </label>
                     </div>
-                     <InfiniteScroll
+                    <InfiniteScroll
                         pageStart={0}
                         loadMore={this.getVenues}
-                        hasMore={true}
+                        hasMore={hasMore}
                         loader={
                             <div className="text-center" key={0}>
                                 <div className="btn btn-info mb-5">Loading ...</div>
-                            </div>}
+                            </div>
+                        }
                     >
                         <div className="row justify-content-center">
                             {
