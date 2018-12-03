@@ -35,7 +35,7 @@ class LoginForm extends Component {
                         </div>
                     )
                 }
-                <div className="card-body">
+                <div className="card-body text-center">
                     {
                         isLoading
                             ? <Loader type="Oval" color="green" height="50" width="50"/>

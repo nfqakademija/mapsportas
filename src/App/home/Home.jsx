@@ -50,7 +50,7 @@ class Home extends Component {
                     <div className="row">
                         {
                             venues.map((venue) => {
-                                return <Venue key={venue.id} venue={venue}/>;
+                                return <Venue key={venue.id} venue={venue} user={user}/>;
                             })
                         }
                     </div>

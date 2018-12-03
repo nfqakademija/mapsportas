@@ -35,7 +35,6 @@ class Venues extends Component {
         let first = page * perPage;
         await fetchVenues(perPage, first, sportId)
             .then((response) => {
-                console.log(response.data);
                 this.setState({ venues: [...this.state.venues, ...response.data.sportVenues] });
                 this.setState({ count: response.data.count })
                 this.setState({ page: page + 1 });
@@ -103,7 +102,7 @@ class Venues extends Component {
                         <div className="row justify-content-center">
                             {
                                 venues.map((venue) => {
-                                    return <Venue key={venue.id} venue={venue}/>;
+                                    return <Venue key={venue.id} venue={venue} user={user}/>;
                                 })
                             }
                         </div>

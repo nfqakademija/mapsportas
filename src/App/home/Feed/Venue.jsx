@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import VenueModal from '../../Modals/VenueModal';
+
 
 class Venue extends Component {
     constructor() {
@@ -19,6 +21,7 @@ class Venue extends Component {
 
     render() {
         const {
+            user,
             venue: {
                 name,
                 address,
@@ -46,8 +49,14 @@ class Venue extends Component {
                         {opened
                             ? (sport_events.length > 0
                                     ? ( sport_events.map((event, i) =>
-                                        <div className="d-flex justify-content-between border-bottom mb-2" key={i}><span>{event.date}</span> <span>{event.applyed_users.length}/{event.max_members}</span></div>
-                                    ))
+                                        <VenueModal key={i}
+                                                    event={event}
+                                                    name={name}
+                                                    address={address}
+                                                    description={description}
+                                                    photo={venue_photo}
+                                                    user={user}
+                                        />                                    ))
                                     : ( <div>Nėra renginių</div> )
                             )
                             : null
