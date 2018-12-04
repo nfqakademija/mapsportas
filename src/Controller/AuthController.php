@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Utilities\Utilities as Util;
 use App\Form\RegistrationForm;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\Http\Authentication\AuthenticationSuccessHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +19,14 @@ class AuthController extends controller
      */
     private $userManager;
 
-    public function __construct(UserManagerInterface $userManager)
-    {
+    private $authenticationSuccessHandler;
+
+    public function __construct(
+        UserManagerInterface $userManager,
+        AuthenticationSuccessHandler $authenticationSuccessHandler
+    ) {
         $this->userManager = $userManager;
+        $this->authenticationSuccessHandler = $authenticationSuccessHandler;
     }
 
     /**
@@ -89,16 +92,6 @@ class AuthController extends controller
         ], Response::HTTP_OK);
     }
 
-    private function getTokenUser(UserInterface $user)
-    {
-        $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
-        $token = $jwtManager->create($user);
-        $response = new JsonResponse();
-        new AuthenticationSuccessEvent(array('token' => $token), $user, $response);
-
-        return $token;
-    }
-
     /**
      * @Route("/api/refresh/token", name="refresh_token", methods="GET")
      */
@@ -110,5 +103,13 @@ class AuthController extends controller
         return new JsonResponse([
             'token' => $token,
         ], Response::HTTP_OK);
+    }
+
+    private function getTokenUser(UserInterface $user)
+    {
+        $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
+        $token = $jwtManager->create($user);
+
+        return $token;
     }
 }
