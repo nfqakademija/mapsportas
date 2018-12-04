@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
 import ErrorMessage from './partials/ErrorMessage';
 import Loader from 'react-loader-spinner';
 
@@ -126,14 +124,19 @@ class RegistrationForm extends Component {
                                 }
                             />
                         </div>
-                        <FormControl margin="normal" fullWidth={true}>
-                            <TextField
+                        <div className="form-group">
+                            <label>Date of birth</label>
+                            <input
                                 name="birthDate"
                                 type="date"
-                                label="Birthday"
                                 onChange={this.handleChange}
+                                required={true}
+                                className={ errors.birthDate
+                                    ? 'form-control form-control-danger'
+                                    : 'form-control'
+                                }
                             />
-                        </FormControl>
+                        </div>
                         <button
                             className="btn btn-primary btn-block"
                             type="Submit"

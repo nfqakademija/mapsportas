@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import { fetchSports } from '../../../../assets/js/fetchPublic';
 
@@ -118,14 +116,14 @@ class EventCreateForm extends Component {
                             </div>
                             }
                             <div className="form-group">
-                                <FormControl margin="normal" fullWidth={true}>
-                                    <TextField
-                                        name="date"
-                                        type="datetime-local"
-                                        label="Date"
-                                        onChange={this.handleChange}
-                                    />
-                                </FormControl>
+                                <label>Date</label>
+                                <input
+                                    className="form-control"
+                                    name="date"
+                                    type="datetime-local"
+                                    onChange={this.handleChange}
+                                    required={true}
+                                />
                             </div>
                             <button
                                 className="btn btn-primary btn-block"
