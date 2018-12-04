@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Form\RegistrationForm;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Http\Authentication\AuthenticationSuccessHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,14 +18,9 @@ class AuthController extends controller
      */
     private $userManager;
 
-    private $authenticationSuccessHandler;
-
-    public function __construct(
-        UserManagerInterface $userManager,
-        AuthenticationSuccessHandler $authenticationSuccessHandler
-    ) {
+    public function __construct(UserManagerInterface $userManager)
+    {
         $this->userManager = $userManager;
-        $this->authenticationSuccessHandler = $authenticationSuccessHandler;
     }
 
     /**
