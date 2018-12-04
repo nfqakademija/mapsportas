@@ -90,6 +90,7 @@ class Routes extends Component {
                     />
                     <Route exact path="/admin" render={() => <AddNewVenueForm/> }/>
                     <Route exact path="/events" render={() => <Events user={user}/> }/>
+                    <Route exact path="/venues" render={() => <Venues user={user}/> }/>
                 </Switch>
             </React.Fragment>
         );

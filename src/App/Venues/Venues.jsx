@@ -8,7 +8,7 @@ class Venues extends Component {
         venues: [],
         sports: [],
         page: 0,
-        perPage: 8,
+        perPage: 12,
         sportId: 0,
         letFetch: true,
         count: null,
@@ -72,6 +72,7 @@ class Venues extends Component {
 
     render() {
         const { venues, sports, hasMore } = this.state;
+        const { user } = this.props;
         return (
             <div className="fitness-pricing-table-area section-padding-100-0">
                 <div className="container">
