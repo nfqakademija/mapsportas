@@ -45,7 +45,6 @@ class Home extends Component {
         const { user } = this.props;
         return (
             <React.Fragment>
-                <Slider />
                 <div className="container">
                     <div className="row">
                         {
