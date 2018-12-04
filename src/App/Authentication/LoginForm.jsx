@@ -35,12 +35,14 @@ class LoginForm extends Component {
                         </div>
                     )
                 }
-                <div className="card-body text-center">
-                    {
-                        isLoading
-                            ? <Loader type="Oval" color="green" height="50" width="50"/>
-                            : null
-                    }
+                <div className="card-body">
+                    <div className="text-center my-2">
+                        {
+                            isLoading
+                                ? <Loader type="Oval" color="green" height="50" width="50"/>
+                                : null
+                        }
+                    </div>
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label>Username</label>

@@ -44,11 +44,13 @@ class RegistrationForm extends Component {
                         return <ErrorMessage text={this.normalizeString(error)}/>;
                     })
                 }
-                {
-                    isLoading
-                        ? <Loader type="Oval" color="#00BFFF" height="100" width="100"/>
-                        : null
-                }
+                <div className="text-center my-2">
+                    {
+                        isLoading
+                            ? <Loader type="Oval" color="green" height="50" width="50"/>
+                            : null
+                    }
+                </div>
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
