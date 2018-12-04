@@ -21,7 +21,11 @@ class EventApplicationController extends AbstractController
         $serializer = SerializerBuilder::create()->build();
         $applications = json_decode(
             $serializer->serialize(
-                $user->getUserApplications(), 'json', SerializationContext::create()->setGroups(array('user'))
+                $user->getUserApplications(),
+                'json',
+                SerializationContext::create()->setGroups(
+                    array('user')
+                )
             )
         );
 
