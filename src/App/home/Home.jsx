@@ -20,7 +20,7 @@ class Home extends Component {
     }
 
     fetchAllEvents = async () => {
-        await fetchEventsUpcoming(8,0)
+        await fetchEventsUpcoming(12,0)
             .then((response) => {
                 this.setState({ events: response.data });
             })
@@ -31,7 +31,7 @@ class Home extends Component {
     };
 
     fetchAllVenues = async () => {
-        await fetchVenues(4,0,0)
+        await fetchVenues(8,0,0)
             .then((response) => {
                 this.setState({ venues: response.data.sportVenues });
             })
@@ -54,7 +54,7 @@ class Home extends Component {
                         }
                     </div>
                 </div>
-                <div className="fitness-pricing-table-area section-padding-100-0 bg-img bg-overlay bg-fixed"
+                <div className="py-5 bg-img bg-overlay bg-fixed"
                      style={{ backgroundImage: `url(img/bg-img/bg-7.jpg)` }}>
                     <div className="container">
                         <div className="row justify-content-center">

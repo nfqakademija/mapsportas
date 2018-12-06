@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const slide1 = {
     backgroundImage: `url(img/bg-img/bg-1.jpg)`
@@ -13,55 +14,44 @@ const slide3 = {
 };
 
 const Slider = () => (
-    <section className="hero-area">
-        <div className="hero-slides owl-carousel">
 
-            <div className="single-hero-slide bg-img" style={slide1}>
-                <div className="container h-100">
-                    <div className="row h-100 align-items-center">
-                        <div className="col-12 col-md-10 offset-2 col-lg-9 ">
-                            <div className="hero-slides-content">
-                                <h2 data-animation="fadeInUp" data-delay="100ms">Nori, bet nežinai kur?</h2>
-                                <p data-animation="fadeInUp" data-delay="400ms">Rask sau tinkamiausią vietą!</p>
-                                <a href="#" className="btn fitness-btn wel-btn" data-animation="fadeInUp"
-                                   data-delay="700ms">Ieškoti</a>
-                            </div>
-                        </div>
-                    </div>
+    <div id="carouselExampleIndicators" className="carousel slide my-slider" data-ride="carousel">
+        <ol className="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div className="carousel-inner">
+            <div className="carousel-item my-carousel-item active" style={slide1}>
+                <div className="my-caption d-md-block">
+                    <h3>Nori sportuoti, bet nežinai kur?</h3>
+                    <p>Rask sau tinkamiausią vietą!</p>
+                    <Link className="btn my-btn" to="/venues">Ieškoti</Link>
                 </div>
             </div>
-
-            <div className="single-hero-slide bg-img" style={slide2}>
-                <div className="container h-100">
-                    <div className="row h-100 align-items-center">
-                        <div className="col-12 col-md-10 offset-2 col-lg-9">
-                            <div className="hero-slides-content">
-                                <h2 data-animation="fadeInUp" data-delay="100ms">Nori, bet neturi su kuo?</h2>
-                                <p data-animation="fadeInUp" data-delay="400ms">Prisijunk prie kitų!</p>
-                                <a href="#" className="btn fitness-btn wel-btn" data-animation="fadeInUp"
-                                   data-delay="700ms">Jungtis</a>
-                            </div>
-                        </div>
-                    </div>
+            <div className="carousel-item my-carousel-item" style={slide2}>
+                <div className="my-caption d-md-block">
+                    <h3>Nori sportuoti, bet neturi su kuo?</h3>
+                    <p>Prisijunk prie kitų!</p>
+                    <Link className="btn my-btn" to="/events">Jungtis</Link>
                 </div>
             </div>
-
-            <div className="single-hero-slide bg-img" style={slide3}>
-                <div className="container h-100">
-                    <div className="row h-100 align-items-center">
-                        <div className="col-12 col-md-10 offset-2 col-lg-9 ">
-                            <div className="hero-slides-content">
-                                <h2 data-animation="fadeInUp" data-delay="100ms">Nori, bet nieko nerandi?</h2>
-                                <p data-animation="fadeInUp" data-delay="400ms">Suorganizuok tai, ko nori!.</p>
-                                <a href="#" className="btn fitness-btn wel-btn" data-animation="fadeInUp"
-                                   data-delay="700ms">Sukurti</a>
-                            </div>
-                        </div>
-                    </div>
+            <div className="carousel-item my-carousel-item" style={slide3}>
+                <div className="my-caption d-md-block">
+                    <h3>Nieko nerandi?</h3>
+                    <p>Suorganizuok tai, ko nori!</p>
+                    <Link className="btn my-btn" to="/event/create">Sukurti</Link>
                 </div>
             </div>
         </div>
-    </section>
+        <a className="prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            Previous
+        </a>
+        <a className="next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            Next
+        </a>
+    </div>
+
 );
 
 export default Slider;

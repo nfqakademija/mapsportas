@@ -35,7 +35,7 @@ class Venue extends Component {
             <div className="col-12 col-md-6 col-lg-3">
                 <div className="card my-2">
                     <img className="card-img-top" src={"/images/venues/" + venue_photo} alt="Image" />
-                    <div className="card-body bg-dark text-warning">
+                    <div className="card-body bg-dark text-white">
                         <h5 className="card-title my-4 text-info">{name}</h5>
                         <p className="card-text mb-2">Adresas: {address}</p>
                         <p className="card-text">Aprašymas: {description}</p>

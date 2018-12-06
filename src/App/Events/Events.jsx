@@ -82,7 +82,7 @@ class Events extends Component {
         const { events, hasMore } = this.state;
         const { user } = this.props;
         return (
-            <div className="fitness-pricing-table-area section-padding-100-0">
+            <div className="py-4">
                 <div className="container">
                     <FilterBar setFilters={this.setFilters}/>
                     <InfiniteScroll

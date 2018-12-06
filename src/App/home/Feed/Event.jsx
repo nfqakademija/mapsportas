@@ -54,11 +54,11 @@ class Event extends Component {
 
 
             <div className="col-12 col-md-6 col-lg-4">
-                <div className="single-event-table mb-100" style={{
+                <div className="single-event-table mb-5" style={{
                     border: 'rgb(56, 177, 67) solid 3px'
                 }}>
-                    <img src={"/images/venues/" + sport_venue.venue_photo} alt=""></img>
-                    <div className="event-table-content">
+                    <img className="img-fluid" src={"/images/venues/" + sport_venue.venue_photo} alt=""></img>
+                    <div className="event-table-content mt-3">
                         <h2 className="event">
                             {sport_venue.name}
                         </h2>
@@ -71,25 +71,27 @@ class Event extends Component {
                             <li><i className="fa fa-circle" aria-hidden="true"></i> Laikas: {date}</li>
                             <li><i className="fa fa-circle" aria-hidden="true"></i> Adresas: {sport_venue.address}</li>
                         </ul>
-                        {
-                            Object.keys(user).length !== 0
-                                ? (
-                                <button className="btn fitness-btn mt-30"
-                                        onClick={this.handleApplication.bind(this, id)}>
-                                    Dalyvauti
-                                </button>
-                            )
-                                : <Link className="btn fitness-btn mt-30" to="/auth">
-                                Prisijunk
-                            </Link>
-                        }
-                        <div className="mt-15">
-                        {
-                            message.hasOwnProperty('success_message')
-                                ? <span style={{ color: 'green' }}>{message.success_message}</span>
-                                : <span style={{ color: 'red' }}>{message.error_message}</span>
-                        }
-                    </div>
+                        <div className="ml-3 my-3">
+                            {
+                                Object.keys(user).length !== 0
+                                    ? (
+                                    <button className="btn my-btn"
+                                            onClick={this.handleApplication.bind(this, id)}>
+                                        Dalyvauti
+                                    </button>
+                                )
+                                    : <Link className="btn my-btn" to="/auth">
+                                    Prisijunk
+                                </Link>
+                            }
+                        </div>
+                        <div className="ml-3 my-3">
+                            {
+                                message.hasOwnProperty('success_message')
+                                    ? <span style={{ color: 'green' }}>{message.success_message}</span>
+                                    : <span style={{ color: 'red' }}>{message.error_message}</span>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

@@ -69,7 +69,7 @@ class Routes extends Component {
         const { isAuthorized, user, isLoading } = this.state;
         return (
             <React.Fragment>
-                <Menu user={user} isLoading={isLoading} logout={this.logout} />
+                <Menu user={user} isLoading={isLoading} logout={this.logout}/>
                 <Slider />
                 <Switch>
                     <Route exact path="/" render={() => <Home user={user}/>}/>

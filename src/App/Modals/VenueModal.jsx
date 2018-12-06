@@ -58,7 +58,7 @@ class VenueModal extends Component {
         const { event, name, description, photo, address, user } = this.props;
         const { participiants, message, isLoading } = this.state;
         return (
-            <div>
+            <div className="myPointer">
                 <div className="d-flex justify-content-between border-bottom mb-2" onClick={this.handleOpenModal}>
                     <span>{event.date}</span>
                     <span>{participiants}/{event.max_members}</span>
