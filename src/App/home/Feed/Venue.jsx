@@ -40,7 +40,7 @@ class Venue extends Component {
                         <p className="card-text mb-2">Adresas: {address}</p>
                         <p className="card-text">Aprašymas: {description}</p>
                         <button className="btn btn-info my-2" onClick={this.toggleEvents}>
-                            Rodyti Renginius
+                            Rodyti Susitikimus
                         </button>
                         {opened && sport_events.length > 0
                             ? <div className="d-flex justify-content-between mb-2 "><span>Data</span><span>Dalyviai</span></div>

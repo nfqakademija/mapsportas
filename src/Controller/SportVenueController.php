@@ -71,7 +71,7 @@ class SportVenueController extends AbstractController
     /**
      * @Route("/api/admin/sport/venue", name="add_sport_venue", methods="POST")
      */
-    public function addSportType(Request $request)
+    public function addSportVenue(Request $request)
     {
         $sportVenue = new SportVenue();
         $data = $request->request->all();

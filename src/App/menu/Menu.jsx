@@ -18,7 +18,7 @@ const Menu = ({ user, isLoading = true, logout, stickyNav }) => {
                     {
                         !isLoading && (
                             <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
-                                <li className="nav-item"><Link className="nav-link" to="/events">Renginiai</Link></li>
+                                <li className="nav-item"><Link className="nav-link" to="/events">Susitikimai</Link></li>
                                 <li className="nav-item"><Link className="nav-link" to="/venues">Vietos</Link></li>
                                 <li className="nav-item"><Link className="nav-link" to="/event/create">Sukurti</Link></li>
                                 {user.username
