@@ -78,7 +78,7 @@ class Routes extends Component {
                                <AuthenticationHandler onLoad={this.scrollToContent} getUser={this.getUser}/>}/>
                     <Route exact path="/profile" render={() => (
                         isAuthorized
-                            ? <Profile user={user}/>
+                            ? <Profile />
                             : <Redirect to="/auth"/>
                     )}
                     />

@@ -7,17 +7,17 @@ class Profile extends Component {
         isImageUploadVisible: false,
         file: null,
         message: '',
-        applications: [],
         applicationsLoaded: false,
+        user: {},
     };
 
     componentDidMount() {
-        this.fetchUserApplications();
+        this.fetchUser();
     }
 
-    fetchUserApplications = async () => {
+    fetchUser = async () => {
         await axios
-            .get('api/user/applications', {
+            .get('api/user', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('user_token')}`,
                     },
@@ -25,7 +25,7 @@ class Profile extends Component {
             )
             .then(response => {
                 this.setState({
-                    applications: response.data,
+                    user: response.data.user,
                     applicationsLoaded: true,
                 });
             })
@@ -33,10 +33,10 @@ class Profile extends Component {
     };
 
     onEventLeave = (id) => {
-        const { applications } = this.state;
-        const apps = applications.filter(application => application.sport_event.id !== id);
+        const { user: { user_applications } } = this.state;
+        const apps = user_applications.filter(application => application.sport_event.id !== id);
         this.setState({
-            applications: apps,
+            user: { user_applications: apps },
         });
     };
 
@@ -73,6 +73,9 @@ class Profile extends Component {
 
     render() {
         const {
+            isImageUploadVisible,
+            message,
+            applicationsLoaded,
             user: {
                 avatar,
                 name,
@@ -81,13 +84,8 @@ class Profile extends Component {
                 sport_events,
                 username,
                 birth_date,
+                user_applications,
             },
-        } = this.props;
-        const {
-            isImageUploadVisible,
-            message,
-            applications,
-            applicationsLoaded
         } = this.state;
         return (
             <div className="container-fluid">
@@ -116,7 +114,12 @@ class Profile extends Component {
                             </div>
                             <div className="row justify-content-between my-2">
                                 <div>Events created:</div>
-                                <div>{sport_events.length}</div>
+                                <div>
+                                    {
+                                        sport_events
+                                        && sport_events.length
+                                    }
+                                </div>
                             </div>
                             <div className="text-center">
                                 <button className="btn btn-info" style={{ cursor: 'pointer' }}
@@ -156,11 +159,11 @@ class Profile extends Component {
                     &&
                     <div className="card">
                         <div className="card-header">
-                            Applied events
+                            Event'ai, į kuriuos aplikavai
                         </div>
                         <div className="card-body">
-                            {applications.length > 0
-                                ? applications.map((application, index) => {
+                            {user_applications.length > 0
+                                ? user_applications.map((application, index) => {
                                     return <AppliedEvent key={index} application={application}
                                                          onLeave={this.onEventLeave}/>;
                                 })
