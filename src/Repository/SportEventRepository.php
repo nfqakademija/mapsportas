@@ -88,7 +88,7 @@ class SportEventRepository extends ServiceEntityRepository
                 ->setParameter('sportId', $filter->getContext('sportId'));
         }
 
-        if ($filter->hasInContext('max')) {
+        if ($filter->hasInContext('min')) {
             $qb->andWhere('e.maxMembers > :min')
                 ->setParameter('min', $filter->getContext('min'));
         }
