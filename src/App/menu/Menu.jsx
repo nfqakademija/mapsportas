@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import MenuUserAvatar from './MenuUserAvatar';
 
-const Menu = ({ user, isLoading = true, logout, stickyNav }) => {
+const Menu = ({ user, isLoading = true, logout }) => {
     return (
         <header>
             <nav id="navbar" className="navbar navbar-dark my-navbar navbar-expand-md">

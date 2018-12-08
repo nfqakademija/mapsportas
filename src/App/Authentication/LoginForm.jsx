@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ErrorMessage from './partials/ErrorMessage';
-import Loader from 'react-loader-spinner';
+import Spinner from "../components/Spinner";
 
 class LoginForm extends Component {
     state = {
@@ -24,25 +24,19 @@ class LoginForm extends Component {
 
     render() {
         const { errors, isLoading } = this.props;
+        console.log(errors);
         return (
             <React.Fragment>
-                {
-                    errors.error_message
-                        ? <ErrorMessage text={errors.error_message}/>
-                        : (
                         <div className="card-header">
                             Login
                         </div>
-                    )
-                }
+
                 <div className="card-body">
-                    <div className="text-center my-2">
-                        {
-                            isLoading
-                                ? <Loader type="Oval" color="green" height="50" width="50"/>
-                                : null
-                        }
-                    </div>
+                    <Spinner isLoading={isLoading}/>
+                    {errors
+                        ? <ErrorMessage text={errors}/>
+                        : null
+                    }
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label>Username</label>

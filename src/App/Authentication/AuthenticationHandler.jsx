@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom';
 class AuthenticationHandler extends Component {
     state = {
         isLoginShown: true,
-        loginErrors: [],
+        loginErrors: null,
         registrationErrors: [],
         authorized: false,
         isLoading: false,
@@ -32,7 +32,8 @@ class AuthenticationHandler extends Component {
 
     handleLogin = async (username, password) => {
         this.setState({
-            isLoading: !this.state.isLoading,
+            loginErrors: null,
+            isLoading: true,
         });
         await fetch('/api/login', {
             method: 'post',
@@ -52,13 +53,18 @@ class AuthenticationHandler extends Component {
                 if (data.token) {
                     this.handleUserSuccess(data.token);
                 } else {
-                    this.setState({ loginErrors: data });
+                    console.log(data.message);
+                    this.setState({
+                        loginErrors: data.message,
+                        isLoading: false,
+                    });
                 }
             });
     };
 
     handleRegistration = async (user) => {
         this.setState({
+            registrationErrors: [],
             isLoading: true,
         });
         await fetch('/api/register', {
@@ -76,7 +82,12 @@ class AuthenticationHandler extends Component {
                 if (data.token) {
                     this.handleUserSuccess(data.token);
                 } else {
-                    this.setState({ registrationErrors: data });
+                    console.log(data);
+                    this.setState({
+                        registrationErrors: data,
+                        isLoading: false,
+
+                    });
                 }
             });
     };

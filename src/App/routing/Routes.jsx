@@ -25,7 +25,6 @@ class Routes extends Component {
     getUser = async () => {
         this.setState({ isLoading: true });
         const token = localStorage.getItem('user_token');
-        console.log(this.state);
         if (token) {
             await axios
                 .get(

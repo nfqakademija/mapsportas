@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ErrorMessage from './partials/ErrorMessage';
-import Loader from 'react-loader-spinner';
+import Spinner from "../components/Spinner";
 
 class RegistrationForm extends Component {
     state = {
@@ -40,17 +40,11 @@ class RegistrationForm extends Component {
                     Registration
                 </div>
                 {
-                    errors.map((error) => {
-                        return <ErrorMessage text={this.normalizeString(error)}/>;
+                    errors.map((error,i) => {
+                        return <ErrorMessage key={i} text={this.normalizeString(error)}/>;
                     })
                 }
-                <div className="text-center my-2">
-                    {
-                        isLoading
-                            ? <Loader type="Oval" color="green" height="50" width="50"/>
-                            : null
-                    }
-                </div>
+                <Spinner isLoading={isLoading}/>
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">

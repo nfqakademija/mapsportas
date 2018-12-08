@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import PrimaryButton from "../../components/buttons/PrimaryButton";
+import Spinner from "../../components/Spinner";
 
 class Event extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading: false,
             message: '',
             participiants: this.props.event.applyed_users.length,
         };
     }
 
     handleApplication = (id) => {
+        this.setState({ isLoading: true });
         axios
             .post('/api/sport/event/apply', {
                     sportEvent: id,
@@ -26,11 +29,15 @@ class Event extends Component {
                     this.setState({
                         participiants: this.state.participiants + 1,
                         message: response.data,
+                        isLoading: false,
                     });
                 }
             })
             .catch((error) => {
-                this.setState({ message: error.response.data });
+                this.setState({
+                    message: error.response.data,
+                    isLoading: false,
+                });
             });
     };
 
@@ -47,6 +54,7 @@ class Event extends Component {
             },
         } = this.props;
         const {
+            isLoading,
             participiants,
             message,
         } = this.state;
@@ -74,18 +82,12 @@ class Event extends Component {
                         <div className="ml-3 my-3">
                             {
                                 Object.keys(user).length !== 0
-                                    ? (
-                                    <button className="btn my-btn"
-                                            onClick={this.handleApplication.bind(this, id)}>
-                                        Dalyvauti
-                                    </button>
-                                )
-                                    : <Link className="btn my-btn" to="/auth">
-                                    Prisijunk
-                                </Link>
+                                    ? <PrimaryButton handleClick={this.handleApplication.bind(this, id)} text={"Dalyvauti"}/>
+                                    : <PrimaryButton redirect={"/auth"} text={"Prisijunk"}/>
                             }
                         </div>
-                        <div className="ml-3 my-3">
+                        <Spinner isLoading={isLoading}/>
+                        <div className="text-center my-3">
                             {
                                 message.hasOwnProperty('success_message')
                                     ? <span style={{ color: 'green' }}>{message.success_message}</span>

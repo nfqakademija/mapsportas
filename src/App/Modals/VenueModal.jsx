@@ -3,6 +3,9 @@ import Modal from 'react-modal';
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
+import PrimaryButton from "../components/buttons/PrimaryButton";
+import Spinner from "../components/Spinner";
+import Message from "../components/Message";
 
 class VenueModal extends Component {
     constructor (props) {
@@ -110,28 +113,12 @@ class VenueModal extends Component {
                     <div className="text-center">
                         {
                             Object.keys(user).length !== 0
-                                ? (
-                                    <button className="btn fitness-btn mt-30"
-                                            onClick={this.handleApplication.bind(this, event.id)}>
-                                        Dalyvauti
-                                    </button>
-                                )
-                                : <Link className="btn fitness-btn mt-30" to="/auth">
-                                    Prisijunk
-                                </Link>
+                                ? <PrimaryButton handleClick={this.handleApplication.bind(this, event.id)} text={"Dalyvauti"}/>
+                                : <Link className="btn my-btn" to="/auth">Prisijunk</Link>
                         }
                     </div>
-                    <div className="text-center my-2">
-                        {
-                            isLoading
-                                ? <Loader type="Oval" color="green" height="50" width="50"/>
-                                : (
-                                    message.hasOwnProperty('success_message')
-                                        ? <span style={{ color: 'green' }}>{message.success_message}</span>
-                                        : <span style={{ color: 'red' }}>{message.error_message}</span>
-                                )
-                        }
-                    </div>
+                    <Spinner isLoading={isLoading}/>
+                    <Message message={message}/>
                     <div className="text-center mt-5">
                         <button className="btn btn-danger" onClick={this.handleCloseModal}>Close</button>
                     </div>
