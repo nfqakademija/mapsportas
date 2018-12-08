@@ -24,7 +24,6 @@ class LoginForm extends Component {
 
     render() {
         const { errors, isLoading } = this.props;
-        console.log(errors);
         return (
             <React.Fragment>
                         <div className="card-header">

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import axios from "axios";
-import { Link } from "react-router-dom";
-import Loader from "react-loader-spinner";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import Spinner from "../components/Spinner";
 import Message from "../components/Message";
@@ -14,11 +12,16 @@ class VenueModal extends Component {
             showModal: false,
             participiants: this.props.event.applyed_users.length,
             isLoading: false,
-            message: ''
+            message: '',
+            alreadyInEvent: false,
         };
 
         this.handleOpenModal = this.handleOpenModal.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
+    }
+
+    componentDidMount() {
+        this.isUserInEvent();
     }
 
     handleOpenModal () {
@@ -30,7 +33,10 @@ class VenueModal extends Component {
     }
 
     handleApplication = (id) => {
-        this.setState({ isLoading: true });
+        this.setState({
+            isLoading: true,
+            message: '',
+        });
         axios
             .post('/api/sport/event/apply', {
                     sportEvent: id,
@@ -45,7 +51,8 @@ class VenueModal extends Component {
                     this.setState({
                         participiants: this.state.participiants + 1,
                         message: response.data,
-                        isLoading: false
+                        isLoading: false,
+                        alreadyInEvent: true,
                     });
                 }
             })
@@ -57,9 +64,53 @@ class VenueModal extends Component {
             });
     };
 
+    cancelApplication = () => {
+        const { event: { id } } = this.props;
+        this.setState({
+            isLoading: true,
+            message: '',
+        });
+        axios
+            .delete(`/api/sport/event/leave/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('user_token')}`,
+                },
+            })
+            .then((response) => {
+                this.setState({
+                    message: response.data,
+                    alreadyInEvent: false,
+                    participiants: this.state.participiants - 1,
+                    isLoading: false,
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+                this.setState({
+                    isLoading: false,
+                });
+            });
+    };
+
+    isUserInEvent = () => {
+        const {
+            user: {
+                id,
+            },
+            event: {
+                applyed_users,
+            },
+        } = this.props;
+        applyed_users.map((application) => {
+            if (id == application.user.id) {
+                this.setState({ alreadyInEvent: true})
+            }
+        });
+    };
+
     render () {
         const { event, name, description, photo, address, user } = this.props;
-        const { participiants, message, isLoading } = this.state;
+        const { participiants, message, isLoading, alreadyInEvent } = this.state;
         return (
             <div className="myPointer">
                 <div className="d-flex justify-content-between border-bottom mb-2" onClick={this.handleOpenModal}>
@@ -111,13 +162,15 @@ class VenueModal extends Component {
                         </div>
                     </div>
                     <div className="text-center">
-                        {
-                            Object.keys(user).length !== 0
+                        {alreadyInEvent
+                            ? <PrimaryButton handleClick={this.cancelApplication} text={'Nebedalyvauti'}/>
+                            :  Object.keys(user).length !== 0
                                 ? <PrimaryButton handleClick={this.handleApplication.bind(this, event.id)} text={"Dalyvauti"}/>
-                                : <Link className="btn my-btn" to="/auth">Prisijunk</Link>
+                                : <PrimaryButton redirect={"/auth"} text={"Prisijunk"}/>
                         }
                     </div>
                     <Spinner isLoading={isLoading}/>
+                    {isLoading ? <Message message={message}/> : null}
                     <Message message={message}/>
                     <div className="text-center mt-5">
                         <button className="btn btn-danger" onClick={this.handleCloseModal}>Close</button>

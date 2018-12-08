@@ -36,7 +36,6 @@ class Events extends Component {
         await axios
             .post('/api/public/sport/events', data)
             .then((response) => {
-                console.log(response.data);
                 this.setState({ events: [...this.state.events, ...response.data.sportEvents] });
                 this.setState({ count: response.data.count });
                 this.setState({ page: page + 1 });

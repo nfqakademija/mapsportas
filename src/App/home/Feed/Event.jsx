@@ -7,10 +7,15 @@ class Event extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: this.props.user,
             isLoading: false,
             message: '',
             participiants: this.props.event.applyed_users.length,
+            alreadyInEvent: false,
         };
+    }
+    componentDidMount() {
+        this.isUserInEvent();
     }
 
     handleApplication = (id) => {
@@ -30,6 +35,7 @@ class Event extends Component {
                         participiants: this.state.participiants + 1,
                         message: response.data,
                         isLoading: false,
+                        alreadyInEvent: true,
                     });
                 }
             })
@@ -39,6 +45,42 @@ class Event extends Component {
                     isLoading: false,
                 });
             });
+    };
+
+    cancelApplication = () => {
+        const { event: { id } } = this.props;
+        this.setState({ isLoading: true });
+        axios
+            .delete(`/api/sport/event/leave/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('user_token')}`,
+                },
+            })
+            .then((response) => {
+                this.setState({
+                    message: response.data,
+                    alreadyInEvent: false,
+                    participiants: this.state.participiants - 1,
+                    isLoading: false,
+                });
+                this.props.onLeave(id);
+            });
+    };
+
+    isUserInEvent = () => {
+        const {
+            user: {
+                id,
+            },
+            event: {
+                applyed_users,
+            },
+        } = this.props;
+        applyed_users.map((application) => {
+            if (id == application.user.id) {
+                this.setState({ alreadyInEvent: true})
+            }
+        });
     };
 
     render() {
@@ -57,10 +99,9 @@ class Event extends Component {
             isLoading,
             participiants,
             message,
+            alreadyInEvent,
         } = this.state;
         return (
-
-
             <div className="col-12 col-md-6 col-lg-4">
                 <div className="single-event-table mb-5" style={{
                     border: 'rgb(56, 177, 67) solid 3px'
@@ -80,18 +121,18 @@ class Event extends Component {
                             <li><i className="fa fa-circle" aria-hidden="true"></i> Adresas: {sport_venue.address}</li>
                         </ul>
                         <div className="ml-3 my-3">
-                            {
-                                Object.keys(user).length !== 0
+                            {alreadyInEvent
+                                ? <PrimaryButton handleClick={this.cancelApplication} text={'Nebedalyvauti'}/>
+                                :  Object.keys(user).length !== 0
                                     ? <PrimaryButton handleClick={this.handleApplication.bind(this, id)} text={"Dalyvauti"}/>
                                     : <PrimaryButton redirect={"/auth"} text={"Prisijunk"}/>
                             }
                         </div>
                         <Spinner isLoading={isLoading}/>
                         <div className="text-center my-3">
-                            {
-                                message.hasOwnProperty('success_message')
-                                    ? <span style={{ color: 'green' }}>{message.success_message}</span>
-                                    : <span style={{ color: 'red' }}>{message.error_message}</span>
+                            {message.hasOwnProperty('success_message')
+                                ? <span style={{ color: 'green' }}>{message.success_message}</span>
+                                : <span style={{ color: 'red' }}>{message.error_message}</span>
                             }
                         </div>
                     </div>
@@ -100,5 +141,6 @@ class Event extends Component {
         );
     }
 }
+
 
 export default Event;

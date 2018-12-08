@@ -23,7 +23,7 @@ class User extends BaseUser implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
-     * @Groups({"user","sportEvent"})
+     * @Groups({"user", "sportEvent", "sportVenue"})
      */
     protected $id;
 
@@ -42,7 +42,7 @@ class User extends BaseUser implements UserInterface
      *     minMessage="Username must be between 2 and 20 characters long.",
      *     maxMessage="Username must be between 2 and 20 characters long."
      * )
-     * @Groups({"user","sportEvent"})
+     * @Groups({"user", "sportEvent", "sportVenue"})
      */
     protected $username;
 

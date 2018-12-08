@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import VenueModal from '../../Modals/VenueModal';
+import SecondaryButton from "../../components/buttons/SecondaryButton";
 
 
 class Venue extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             opened: false,
@@ -39,9 +40,10 @@ class Venue extends Component {
                         <h5 className="card-title my-4 text-info">{name}</h5>
                         <p className="card-text mb-2">Adresas: {address}</p>
                         <p className="card-text">Aprašymas: {description}</p>
-                        <button className="btn btn-info my-2" onClick={this.toggleEvents}>
-                            Rodyti Susitikimus
-                        </button>
+                        {opened
+                            ? <SecondaryButton handleClick={this.toggleEvents} text={"Paslėpti"}/>
+                            : <SecondaryButton handleClick={this.toggleEvents} text={"Rodyti Susitikimus"}/>
+                        }
                         {opened && sport_events.length > 0
                             ? <div className="d-flex justify-content-between mb-2 "><span>Data</span><span>Dalyviai</span></div>
                             : null
@@ -61,13 +63,11 @@ class Venue extends Component {
                             )
                             : null
                         }
-
                     </div>
                 </div>
             </div>
         );
     }
 }
-
 
 export default Venue;

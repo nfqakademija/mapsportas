@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PrimaryButton from "../../components/buttons/PrimaryButton";
 
 const slide1 = {
     backgroundImage: `url(img/bg-img/bg-1.jpg)`
@@ -26,29 +26,31 @@ const Slider = () => (
                 <div className="my-caption d-md-block">
                     <h3>Nori sportuoti, bet nežinai kur?</h3>
                     <p>Rask sau tinkamiausią vietą!</p>
-                    <Link className="btn my-btn" to="/venues">Ieškoti</Link>
+                    <PrimaryButton text={"Ieškoti"} redirect={"/venues"}/>
                 </div>
             </div>
             <div className="carousel-item my-carousel-item" style={slide2}>
                 <div className="my-caption d-md-block">
                     <h3>Nori sportuoti, bet neturi su kuo?</h3>
                     <p>Prisijunk prie kitų!</p>
-                    <Link className="btn my-btn" to="/events">Jungtis</Link>
+                    <PrimaryButton text={"Jungtis"} redirect={"/events"}/>
                 </div>
             </div>
             <div className="carousel-item my-carousel-item" style={slide3}>
                 <div className="my-caption d-md-block">
                     <h3>Nieko nerandi?</h3>
                     <p>Suorganizuok tai, ko nori!</p>
-                    <Link className="btn my-btn" to="/event/create">Sukurti</Link>
+                    <PrimaryButton text={"Sukurti"} redirect={"/events/create"}/>
                 </div>
             </div>
         </div>
-        <a className="prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            Previous
+        <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span className="sr-only">Previous</span>
         </a>
-        <a className="next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            Next
+        <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+            <span className="sr-only">Next</span>
         </a>
     </div>
 
