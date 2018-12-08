@@ -1,3 +1,4 @@
+
 ###> symfony/framework-bundle ###
 /.env
 /public/bundles/
@@ -56,11 +57,3 @@ npm-debug.log
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
-###> phpunit/phpunit ###
-/phpunit.xml
-###< phpunit/phpunit ###
-
-###> symfony/phpunit-bridge ###
-.phpunit
-/phpunit.xml
-###< symfony/phpunit-bridge ###
