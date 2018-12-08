@@ -7,6 +7,7 @@ use App\Entity\SportEvent;
 use App\Entity\User;
 use App\Form\ApplicationType;
 use App\Form\SportEventType;
+use App\Service\FilterProvider;
 use App\Service\NotificationManager;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
@@ -19,10 +20,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class SportEventController extends AbstractController
 {
     private $notificationManager;
+    private $filterProvider;
 
-    public function __construct(NotificationManager $notificationManager)
-    {
+    public function __construct(
+        NotificationManager $notificationManager,
+        FilterProvider $filterProvider
+    ) {
         $this->notificationManager = $notificationManager;
+        $this->filterProvider = $filterProvider;
     }
 
     /**
@@ -31,51 +36,11 @@ class SportEventController extends AbstractController
     public function getSportEvents(Request $request)
     {
         $data = json_decode($request->getContent(), true);
-        if (isset($data['perPage'])) {
-            $perPage = $data['perPage'];
-        } else {
-            $perPage = null;
-        }
-
-        if (isset($data['first'])) {
-            $first = $data['first'];
-        } else {
-            $first = null;
-        }
-
-        if (isset($data['sportId']) && $data['sportId'] != 0) {
-            $sportId = $data['sportId'];
-        } else {
-            $sportId = null;
-        }
-
-        if (isset($data['from'])) {
-            $from = $data['from'];
-        } else {
-            $from = null;
-        }
-
-        if (isset($data['to'])) {
-            $to = $data['to'];
-        } else {
-            $to = null;
-        }
-
-        if (isset($data['min'])) {
-            $min = $data['min'];
-        } else {
-            $min = null;
-        }
-
-        if (isset($data['max'])) {
-            $max = $data['max'];
-        } else {
-            $max = null;
-        }
+        $filter = $this->filterProvider->createFilterWithData($data);
 
         $repository = $this->getDoctrine()->getRepository(SportEvent::class);
-        $sportEvents = $repository->findFilteredEvents($perPage, $first, $sportId, $from, $to, $min, $max);
-        $count = $repository->findEventsCount($perPage, $first, $sportId, $from, $to, $min, $max);
+        $sportEvents = $repository->findFilteredEvents($filter);
+        $count = $repository->findEventsCount($filter);
         $serializer = SerializerBuilder::create()->build();
 
         $sportEvents = json_decode(

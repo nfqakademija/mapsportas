@@ -2,7 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Filter;
 use App\Entity\SportEvent;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -19,42 +22,38 @@ class SportEventRepository extends ServiceEntityRepository
         parent::__construct($registry, SportEvent::class);
     }
 
-    public function findFilteredEvents(int $perPage, int $first, $sportId, $from, $to, $min, $max): array
+    public function findFilteredEvents(Filter $filter): array
     {
-        if ($from) {
-            $from = new \DateTime($from);
-        } else {
-            $from = new \DateTime('now');
+        if (!$filter->getFromDate() instanceof DateTimeInterface) {
+            $filter->setFromDate(new DateTimeImmutable('now'));
         }
-        if ($to !== null) {
-            $to = new \DateTime($to);
-        }
+
         $qb = $this->createQueryBuilder('e')
             ->andWhere('e.date > :from')
-            ->setParameter('from', $from);
+            ->setParameter('from', $filter->getFromDate()->format('Y-m-d H:i:s'));
 
-        if ($to !== null) {
+        if ($filter->getToDate() instanceof DateTimeInterface) {
             $qb->andWhere('e.date < :to')
-                ->setParameter('to', $to);
+                ->setParameter('to', $filter->getToDate()->format('Y-m-d H:i:s'));
         }
 
-        if ($sportId !== null) {
+        if ($filter->hasInContext('sportId')) {
             $qb->andWhere('e.sportType = :sportId')
-                ->setParameter('sportId', $sportId);
+                ->setParameter('sportId', $filter->getContext('sportId'));
         }
 
-        if ($min !== null) {
+        if ($filter->hasInContext('min')) {
             $qb->andWhere('e.maxMembers > :min')
-                ->setParameter('min', $min);
+                ->setParameter('min', $filter->getContext('min'));
         }
 
-        if ($max !== null) {
+        if ($filter->hasInContext('max')) {
             $qb->andWhere('e.maxMembers < :max')
-                ->setParameter('max', $max);
+                ->setParameter('max', $filter->getContext('max'));
         }
         $qb->orderBy('e.date', 'ASC')
-            ->setFirstResult($first)
-            ->setMaxResults($perPage);
+            ->setFirstResult($filter->getFirst())
+            ->setMaxResults($filter->getItemsPerPage());
         return $qb->getQuery()->execute();
     }
 
@@ -72,39 +71,31 @@ class SportEventRepository extends ServiceEntityRepository
         return $qb->execute();
     }
 
-    public function findEventsCount(int $perPage, int $first, $sportId, $from, $to, $min, $max)
+    public function findEventsCount(Filter $filter)
     {
-        if ($from) {
-            $from = new \DateTime($from);
-        } else {
-            $from = new \DateTime('now');
-        }
-        if ($to !== null) {
-            $to = new \DateTime($to);
-        }
         $qb = $this->createQueryBuilder('e')
             ->select('count(e.id)')
             ->andWhere('e.date > :from')
-            ->setParameter('from', $from);
+            ->setParameter('from', $filter->getFromDate()->format('Y-m-d H:i:s'));
 
-        if ($to !== null) {
+        if ($filter->getToDate() instanceof DateTimeInterface) {
             $qb->andWhere('e.date < :to')
-                ->setParameter('to', $to);
+                ->setParameter('to', $filter->getToDate()->format('Y-m-d H:i:s'));
         }
 
-        if ($sportId !== null) {
+        if ($filter->hasInContext('sportId')) {
             $qb->andWhere('e.sportType = :sportId')
-                ->setParameter('sportId', $sportId);
+                ->setParameter('sportId', $filter->getContext('sportId'));
         }
 
-        if ($min !== null) {
+        if ($filter->hasInContext('max')) {
             $qb->andWhere('e.maxMembers > :min')
-                ->setParameter('min', $min);
+                ->setParameter('min', $filter->getContext('min'));
         }
 
-        if ($max !== null) {
+        if ($filter->hasInContext('max')) {
             $qb->andWhere('e.maxMembers < :max')
-                ->setParameter('max', $max);
+                ->setParameter('max', $filter->getContext('max'));
         }
 
         return $qb->getQuery()->execute();
