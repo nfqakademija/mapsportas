@@ -21,16 +21,52 @@ class AppliedEvent extends Component {
     };
 
     render() {
-        const { application } = this.props;
+        const {
+            application: {
+                sport_event: {
+                    id,
+                    date,
+                    applyed_users,
+                    max_members,
+                    sport_type,
+                    sport_venue,
+                }
+            }
+        } = this.props;
         return (
             <React.Fragment>
-                <div>applied: {application.created_at}
-                    sport: {application.sport_event.sport_type.name}
+                <div className="border-bottom py-1">
+                    <div className="row p-2">
+                        <div className="col-6">
+                            { sport_type.name }
+                        </div>
+                        <div className="col-6 text-center">
+                            <button className="btn btn-sm btn-danger"
+                                onClick={this.handleCancelApplication.bind(this, id)}>
+                                Nebedalyvauti
+                            </button>
+                        </div>
+                    </div>
+                    <div className="row p-2">
+                        <div className="col-5 col-md-3">
+                            {date}
+                        </div>
+                        <div className="col-7 col-md-6">
+                            {sport_venue.name}
+                        </div>
+                        <div className="d-none d-md-block col-md-3">
+                            {applyed_users.length}/{max_members}
+                        </div>
+                    </div>
                 </div>
-                <button className="btn btn-sm btn-danger"
-                        onClick={this.handleCancelApplication.bind(this, application.sport_event.id)}>
-                    Cancel application
-                </button>
+
+                {/*<div>applied: {application.created_at}*/}
+                    {/*sport: {application.sport_event.sport_type.name}*/}
+                {/*</div>*/}
+                {/*<button className="btn btn-sm btn-danger"*/}
+                        {/*onClick={this.handleCancelApplication.bind(this, application.sport_event.id)}>*/}
+                    {/*Cancel application*/}
+                {/*</button>*/}
             </React.Fragment>
         );
     }

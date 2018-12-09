@@ -7,7 +7,6 @@ class Event extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: this.props.user,
             isLoading: false,
             message: '',
             participiants: this.props.event.applyed_users.length,

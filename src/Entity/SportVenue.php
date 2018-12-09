@@ -26,7 +26,7 @@ class SportVenue
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Name is required")
      *
-     * @Groups({"sportVenue","sportEvent","sportType"})
+     * @Groups({"sportVenue", "sportEvent", "sportType", "user"})
      */
     private $name;
 

@@ -69,7 +69,6 @@ class Routes extends Component {
         return (
             <React.Fragment>
                 <Menu user={user} isLoading={isLoading} logout={this.logout}/>
-                <Slider />
                 <Switch>
                     <Route exact path="/" render={() => <Home user={user}/>}/>
                     <Route exact path="/auth"

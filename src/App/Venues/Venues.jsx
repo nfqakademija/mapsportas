@@ -74,41 +74,39 @@ class Venues extends Component {
         const { venues, sports, hasMore } = this.state;
         const { user } = this.props;
         return (
-            <div className="fitness-pricing-table-area section-padding-100-0">
-                <div className="container">
-                    <div>
-                        <label>Sporto Rūšis
-                            <select className="form-control" name="sport" onChange={this.setFilters}>
-                                <option value="0">Visos</option>
-                                {
-                                    sports.map((sport) => {
-                                        return (
-                                            <option key={sport.id} value={sport.id}>{sport.name}</option>
-                                        );
-                                    })
-                                }
-                            </select>
-                        </label>
-                    </div>
-                    <InfiniteScroll
-                        pageStart={0}
-                        loadMore={this.getVenues}
-                        hasMore={hasMore}
-                        loader={
-                            <div className="text-center" key={0}>
-                                <div className="btn btn-info mb-5">Loading ...</div>
-                            </div>
-                        }
-                    >
-                        <div className="row justify-content-center">
+            <div className="container myTopMargin">
+                <div>
+                    <label>Sporto Rūšis
+                        <select className="form-control" name="sport" onChange={this.setFilters}>
+                            <option value="0">Visos</option>
                             {
-                                venues.map((venue) => {
-                                    return <Venue key={venue.id} venue={venue} user={user}/>;
+                                sports.map((sport) => {
+                                    return (
+                                        <option key={sport.id} value={sport.id}>{sport.name}</option>
+                                    );
                                 })
                             }
-                        </div>
-                    </InfiniteScroll>
+                        </select>
+                    </label>
                 </div>
+                <InfiniteScroll
+                    pageStart={0}
+                    loadMore={this.getVenues}
+                    hasMore={hasMore}
+                    loader={
+                        <div className="text-center" key={0}>
+                            <div className="btn btn-info mb-5">Loading ...</div>
+                        </div>
+                    }
+                >
+                    <div className="row justify-content-center">
+                        {
+                            venues.map((venue) => {
+                                return <Venue key={venue.id} venue={venue} user={user}/>;
+                            })
+                        }
+                    </div>
+                </InfiniteScroll>
             </div>
         );
     }

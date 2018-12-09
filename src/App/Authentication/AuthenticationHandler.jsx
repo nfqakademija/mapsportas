@@ -93,8 +93,8 @@ class AuthenticationHandler extends Component {
     };
 
     renderForms = () => (
-        <div className="container col-md-5 mt-5" id="auth-form">
-            <div className="card">
+        <div className="container col-md-5 myTopMargin" id="auth-form">
+            <div className="card mt-5">
                 {
                     this.state.isLoginShown
                         ? <LoginForm

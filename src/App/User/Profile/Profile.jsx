@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppliedEvent from './AppliedEvent';
 import axios from 'axios';
+import SecondaryButton from "../../components/buttons/SecondaryButton";
 
 class Profile extends Component {
     state = {
@@ -88,92 +89,101 @@ class Profile extends Component {
             },
         } = this.state;
         return (
-            <div className="container-fluid">
-                <div className="card-deck">
-                    <div className="card col-12 col-md-6 bg-dark text-info px-0">
-                        <img className="card-img-top" src={'/images/avatars/' + avatar} alt="Card image cap"/>
-                        <div className="card-header bg-light">
-                            {username}
+            <React.Fragment>
+                <div className="myTopMargin">
+                    <div className="row">
+                        <div className="col-6 offset-3 offset-md-0 col-md-5 text-center p-0 my-3">
+                            <img className="img-fluid avatar" src={'/images/avatars/' + avatar} alt="Card image cap"/>
+                            {/*<SecondaryButton text={"Įkelti nuotrauka"} handleClick={this.changeImageUploadVisibility}/>*/}
                         </div>
-                        <div className="card-body">
-                            <div className="row justify-content-between my-2">
-                                <div>Name:</div>
-                                <div>{name}</div>
-                            </div>
-                            <div className="row justify-content-between my-2">
-                                <div>Surname:</div>
-                                <div>{surname}</div>
-                            </div>
-                            <div className="row justify-content-between my-2">
-                                <div>Email:</div>
-                                <div>{email}</div>
-                            </div>
-                            <div className="row justify-content-between my-2">
-                                <div>Birth date:</div>
-                                <div>{birth_date}</div>
-                            </div>
-                            <div className="row justify-content-between my-2">
-                                <div>Events created:</div>
-                                <div>
-                                    {
-                                        sport_events
-                                        && sport_events.length
-                                    }
+                        <div className="col-10 offset-1 offset-md-0 col-md-7 card bg-dark text-info my-3">
+                            <div className="row card-header bg-light">
+                                <div className="col-12">
+                                    {username}
                                 </div>
                             </div>
-                            <div className="text-center">
-                                <button className="btn btn-info" style={{ cursor: 'pointer' }}
-                                        onClick={this.changeImageUploadVisibility}>
-                                    Upload picture
-                                </button>
-                                <div className="text-center">
-                                    {isImageUploadVisible
-                                        ? (
-                                            <form>
-                                                <div>
-                                                    <input
-                                                        name="avatar"
-                                                        type="file"
-                                                        onChange={(e) => this.handleChange(e)}
-                                                    />
-                                                    <button
-                                                        className="btn btn-sm btn-info"
-                                                        onClick={(event) => this.handleSubmit(event)}
-                                                    >
-                                                        Upload
-                                                    </button>
-                                                </div>
-                                                {message
-                                                    ? <span>{message}</span>
-                                                    : null
-                                                }
-                                            </form>
-                                        )
-                                        : null
-                                    }
+
+                            <div className="row">
+                                <div className="col-7">
+                                    <div className="row py-2">
+                                        <div className="col-12">
+                                            Vardas: {name}
+                                        </div>
+                                    </div>
+                                    <div className="row py-2">
+                                        <div className="col-12">
+                                            Pavardė: {surname}
+                                        </div>
+                                    </div>
+                                    <div className="row py-2">
+                                        <div className="col-12">
+                                            El. Paštas: {email}
+                                        </div>
+                                    </div>
+                                    <div className="row py-2">
+                                        <div className="col-12">
+                                             Gimimo data: {birth_date}
+                                        </div>
+                                    </div>
+                                    <div className="row py-2">
+                                        <div className="col-12">
+                                             Sukurta susitikimų: {sport_events && sport_events.length}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-5">
+                                    <form className="form-group">
+                                        <div className="row justify-content-between">
+                                            <div className="my-4">
+                                                <input
+                                                    name="avatar"
+                                                    type="file"
+                                                    onChange={(e) => this.handleChange(e)}
+                                                />
+                                            </div>
+                                            <div>
+                                                <button
+                                                    className="btn btn-sm btn-info"
+                                                    onClick={(event) => this.handleSubmit(event)}
+                                                >
+                                                    Įkelti
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {message
+                                            ? <span>{message}</span>
+                                            : null
+                                        }
+                                    </form>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
-                    {applicationsLoaded
-                    &&
-                    <div className="card">
-                        <div className="card-header">
-                            Event'ai, į kuriuos aplikavai
-                        </div>
-                        <div className="card-body">
-                            {user_applications.length > 0
-                                ? user_applications.map((application, index) => {
-                                    return <AppliedEvent key={index} application={application}
-                                                         onLeave={this.onEventLeave}/>;
-                                })
-                                : <p>Dar niekur neaplikavai.</p>
-                            }
-                        </div>
-                    </div>
-                    }
                 </div>
-            </div>
+                <div className="container">
+                    <div className="row my-5">
+                        {applicationsLoaded
+                        &&
+                        <div className="card col-12">
+                            <div className="card-header row">
+                                Tavo susitikimai
+                            </div>
+                            <div className="card-body col-12">
+                                {user_applications.length > 0
+                                    ? user_applications.map((application, index) => {
+                                        return <AppliedEvent key={index} application={application}
+                                                             onLeave={this.onEventLeave}/>;
+                                    })
+                                    : <p>Dar niekur neaplikavai.</p>
+                                }
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </React.Fragment>
         );
     }
 }

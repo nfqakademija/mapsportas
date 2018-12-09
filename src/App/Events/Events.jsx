@@ -81,29 +81,27 @@ class Events extends Component {
         const { events, hasMore } = this.state;
         const { user } = this.props;
         return (
-            <div className="py-4">
-                <div className="container">
-                    <FilterBar setFilters={this.setFilters}/>
-                    <InfiniteScroll
-                        pageStart={0}
-                        loadMore={this.getEvents}
-                        hasMore={hasMore}
-                        loader={
-                            <div className="text-center" key={0}>
-                                <div className="btn btn-info mb-5">Loading ...</div>
-                            </div>}
-                    >
-                        <div className="row justify-content-center">
-                            {
-                                events.map((event) => {
-                                    return (
-                                        <Event key={event.id} event={event} user={user}/>
-                                    );
-                                })
-                            }
-                        </div>
-                    </InfiniteScroll>
-                </div>
+            <div className="container myTopMargin">
+                <FilterBar setFilters={this.setFilters}/>
+                <InfiniteScroll
+                    pageStart={0}
+                    loadMore={this.getEvents}
+                    hasMore={hasMore}
+                    loader={
+                        <div className="text-center" key={0}>
+                            <div className="btn btn-info mb-5">Loading ...</div>
+                        </div>}
+                >
+                    <div className="row justify-content-center">
+                        {
+                            events.map((event) => {
+                                return (
+                                    <Event key={event.id} event={event} user={user}/>
+                                );
+                            })
+                        }
+                    </div>
+                </InfiniteScroll>
             </div>
         );
     }

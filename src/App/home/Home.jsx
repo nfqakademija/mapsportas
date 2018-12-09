@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Venue from './Feed/Venue';
 import Event from './Feed/Event';
-import { fetchEventsUpcoming, fetchVenues } from '../../../assets/js/fetchPublic';
+import { fetchEventsUpcoming } from '../../../assets/js/fetchPublic';
+import Slider from "./Slider/Slider";
 
 class Home extends Component {
     state = {
@@ -33,6 +33,7 @@ class Home extends Component {
         const { user } = this.props;
         return (
             <React.Fragment>
+                <Slider/>
                 <div className="py-5">
                     <div className="container">
                         <div className="row justify-content-center">

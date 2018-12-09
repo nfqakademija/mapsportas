@@ -46,7 +46,7 @@ class SportEvent
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="Sport Venue is required")
      *
-     * @Groups({"sportEvent","sportType"})
+     * @Groups({"sportEvent", "sportType", "user"})
      */
     private $sportVenue;
 
@@ -63,14 +63,14 @@ class SportEvent
      * @Type("DateTime<'Y-m-d H:i'>")
      * @Assert\GreaterThan("today", message="Only future dates!")
      *
-     * @Groups({"sportEvent","sportType","sportVenue","user"})
+     * @Groups({"sportEvent", "sportType", "sportVenue", "user"})
      */
     private $date;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\EventApplication", mappedBy="sportEvent")
      *
-     * @Groups({"sportEvent", "sportType", "sportVenue"})
+     * @Groups({"sportEvent", "sportType", "sportVenue", "user"})
      */
     private $applyedUsers;
 
