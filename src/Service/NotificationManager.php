@@ -6,6 +6,7 @@ namespace App\Service;
 use App\Entity\EventApplication;
 use App\Entity\Notification;
 use App\Entity\SportEvent;
+use App\Normalizer\NotificationNormalizer;
 use Doctrine\ORM\EntityManagerInterface;
 use Swift_Mailer;
 use Swift_Message;
@@ -15,26 +16,31 @@ class NotificationManager
 {
     private $swiftMailer;
     private $entityManager;
-    private $notificationMapper;
+    private $notificationNormalizer;
     private $renderer;
 
     public function __construct(
         Swift_Mailer $swiftMailer,
         EntityManagerInterface $entityManager,
-        NotificationMapper $notificationMapper,
+        NotificationNormalizer $notificationNormalizer,
         Twig_Environment $environment
     ) {
         $this->swiftMailer = $swiftMailer;
         $this->entityManager = $entityManager;
-        $this->notificationMapper = $notificationMapper;
+        $this->notificationNormalizer = $notificationNormalizer;
         $this->renderer = $environment;
     }
 
     public function notify(SportEvent $sportEvent, array $context)
     {
-        $notification = $this->notificationMapper->mapToEntity(
-            $sportEvent->getCreator(),
-            $context
+        if (!$context['application'] instanceof EventApplication || !array_key_exists('action', $context)) {
+            throw new \Exception('context does not have application or action');
+        }
+        $notification = $this->notificationNormalizer->mapToEntity(
+            [
+                'creator' => $sportEvent->getCreator(),
+                'context' => $context
+            ]
         );
         $application = $context['application'];
 
