@@ -53,6 +53,7 @@ class SportEvent
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Maximum number of people is required!")
+     * @Assert\Range(min=1, max=100)
      *
      * @Groups({"sportEvent", "sportType", "sportVenue", "user"})
      */

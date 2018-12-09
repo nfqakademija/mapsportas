@@ -6,6 +6,7 @@ use App\Entity\EventApplication;
 use App\Entity\SportEvent;
 use App\Entity\User;
 use App\Form\ApplicationType;
+use App\Form\ViolationExtractor;
 use App\Form\SportEventType;
 use App\Service\FilterProvider;
 use App\Service\NotificationManager;
@@ -21,13 +22,18 @@ class SportEventController extends AbstractController
 {
     private $notificationManager;
     private $filterProvider;
+    private $violationExtractor;
+    private $serializer;
 
     public function __construct(
         NotificationManager $notificationManager,
-        FilterProvider $filterProvider
+        FilterProvider $filterProvider,
+        ViolationExtractor $violationExtractor
     ) {
         $this->notificationManager = $notificationManager;
         $this->filterProvider = $filterProvider;
+        $this->violationExtractor = $violationExtractor;
+        $this->serializer = SerializerBuilder::create()->build();
     }
 
     /**
@@ -111,16 +117,9 @@ class SportEventController extends AbstractController
                 'success_message' => 'Successfully created new Sport Event'
             ], Response::HTTP_CREATED);
         } else {
-            $errors = [];
-            foreach ($form->getErrors(true) as $error) {
-                if ($error->getCause()) {
-                    $errors[substr($error->getCause()->getPropertyPath(), 5)] = $error->getMessage();
-                }
-            }
+            $errors = $this->serializer->serialize($this->violationExtractor->extract($form), 'json');
 
-            return new JsonResponse([
-                'error_message' => $errors
-            ], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(json_decode($errors), Response::HTTP_BAD_REQUEST);
         }
     }
 

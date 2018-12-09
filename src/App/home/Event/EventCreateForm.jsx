@@ -58,7 +58,7 @@ class EventCreateForm extends Component {
             })
             .catch((error) => {
                 this.setState({
-                    errors: error,
+                    errors: error.response.data,
                 });
             });
     };
@@ -90,7 +90,7 @@ class EventCreateForm extends Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <label >Sport</label>
+                                <label>Sport</label>
                                 <select className="form-control" name="sportType"
                                         onChange={() => this.handleChange(event)}>
                                     <option value=""></option>
@@ -101,7 +101,7 @@ class EventCreateForm extends Component {
                                     }
                                 </select>
                             </div>
-                            { venues.length > 0
+                            {venues.length > 0
                             && <div className="form-group">
                                 <label>Venue</label>
                                 <select className="form-control" name="sportVenue"
@@ -138,4 +138,5 @@ class EventCreateForm extends Component {
         );
     }
 }
+
 export default EventCreateForm;

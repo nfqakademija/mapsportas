@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Form\RegistrationForm;
+use App\Form\ViolationExtractor;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
+use JMS\Serializer\SerializerBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +19,16 @@ class AuthController extends controller
      * @var UserManagerInterface
      */
     private $userManager;
+    private $violationExtractor;
+    private $serializer;
 
-    public function __construct(UserManagerInterface $userManager)
-    {
+    public function __construct(
+        UserManagerInterface $userManager,
+        ViolationExtractor $violationExtractor
+    ) {
         $this->userManager = $userManager;
+        $this->violationExtractor = $violationExtractor;
+        $this->serializer = SerializerBuilder::create()->build();
     }
 
     /**
@@ -43,16 +51,9 @@ class AuthController extends controller
 
             $this->userManager->updateUser($user);
         } else {
-            $errors = [];
-            foreach ($form->getErrors(true) as $error) {
-                if ($error->getCause()) {
-                    $errors[substr($error->getCause()->getPropertyPath(), 5)] = $error->getMessage();
-                }
-            }
+            $errors = $this->serializer->serialize($this->violationExtractor->extract($form), 'json');
 
-            return new JsonResponse([
-                $errors
-            ], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse([json_decode($errors)], Response::HTTP_BAD_REQUEST);
         }
         $token = $this->getTokenUser($user);
 
