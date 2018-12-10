@@ -19,7 +19,7 @@ class EventApplication
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      *
-     * @Groups({"sportEvent","sportType","sportVenue","user"})
+     * @Groups({"sportEvent","sportType","sportVenue","user", "application"})
      */
     private $id;
 
@@ -27,7 +27,7 @@ class EventApplication
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userApplications")
      * @ORM\JoinColumn(nullable=false)
      *
-     * @Groups({"sportEvent","sportType","sportVenue","user"})
+     * @Groups({"sportEvent","sportType","sportVenue","user", "application"})
      */
     private $user;
 

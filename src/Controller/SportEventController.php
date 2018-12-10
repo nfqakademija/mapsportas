@@ -168,7 +168,9 @@ class SportEventController extends AbstractController
                     'action' => EventApplication::EVENT_JOIN
                 ]
             );
+            $data = $this->serializer->serialize($application, 'json', SerializationContext::create()->setGroups('application'));
             return new JsonResponse([
+                'application' => json_decode($data),
                 'success_message' => 'Successfully applyed for Sport Event'
             ], Response::HTTP_CREATED);
         } else {
