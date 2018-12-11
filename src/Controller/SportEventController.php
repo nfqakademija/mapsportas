@@ -169,7 +169,8 @@ class SportEventController extends AbstractController
                 ]
             );
             $data = $this->serializer->serialize(
-                $application, 'json',
+                $application,
+                'json',
                 SerializationContext::create()->setGroups('application')
             );
             return new JsonResponse([
