@@ -2,28 +2,22 @@ import React, { Component } from 'react';
 import RegistrationForm from './RegistrationForm';
 import LoginForm from './LoginForm';
 import AuthenticationNavigation from './partials/AuthenticationNavigation';
-import { Redirect } from 'react-router-dom';
 
 class AuthenticationHandler extends Component {
     state = {
         isLoginShown: true,
         loginErrors: null,
         registrationErrors: [],
-        authorized: false,
         isLoading: false,
     };
-
-    componentDidMount() {
-        this.props.onLoad();
-    }
 
     handleUserSuccess = (token) => {
         localStorage.setItem('user_token', token);
         this.setState({
-            authorized: true,
             isLoading: false,
         });
         this.props.getUser();
+        this.props.handleCloseModal();
     };
 
     toggleShow = () => {
@@ -82,9 +76,9 @@ class AuthenticationHandler extends Component {
                 if (data.token) {
                     this.handleUserSuccess(data.token);
                 } else {
-                    console.log(data);
+                    console.log(data[0][0]['violation_message']);
                     this.setState({
-                        registrationErrors: data,
+                        registrationErrors: data[0],
                         isLoading: false,
 
                     });
@@ -93,7 +87,7 @@ class AuthenticationHandler extends Component {
     };
 
     renderForms = () => (
-        <div className="container col-md-5 myTopMargin" id="auth-form">
+        <div className="container col-md-5" id="auth-form">
             <div className="card mt-5">
                 {
                     this.state.isLoginShown
@@ -115,9 +109,7 @@ class AuthenticationHandler extends Component {
 
     render() {
         return (
-            this.state.authorized
-                ? <Redirect to="/"/>
-                : this.renderForms()
+            this.renderForms()
         );
     };
 }

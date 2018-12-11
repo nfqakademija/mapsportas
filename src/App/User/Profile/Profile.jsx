@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import AppliedEvent from './AppliedEvent';
 import axios from 'axios';
-import SecondaryButton from "../../components/buttons/SecondaryButton";
 
 class Profile extends Component {
     state = {
@@ -90,75 +89,73 @@ class Profile extends Component {
         } = this.state;
         return (
             <React.Fragment>
-                <div className="myTopMargin">
+                <div className="myTopMargin container">
                     <div className="row">
-                        <div className="col-6 offset-3 offset-md-0 col-md-5 text-center p-0 my-3">
-                            <img className="img-fluid avatar" src={'/images/avatars/' + avatar} alt="Card image cap"/>
-                            {/*<SecondaryButton text={"Įkelti nuotrauka"} handleClick={this.changeImageUploadVisibility}/>*/}
-                        </div>
-                        <div className="col-10 offset-1 offset-md-0 col-md-7 card bg-dark text-info my-3">
+                        <div className="col-12 card bg-dark text-info my-3">
                             <div className="row card-header bg-light">
                                 <div className="col-12">
                                     {username}
                                 </div>
                             </div>
-
                             <div className="row">
-                                <div className="col-7">
-                                    <div className="row py-2">
-                                        <div className="col-12">
-                                            Vardas: {name}
-                                        </div>
-                                    </div>
-                                    <div className="row py-2">
-                                        <div className="col-12">
-                                            Pavardė: {surname}
-                                        </div>
-                                    </div>
-                                    <div className="row py-2">
-                                        <div className="col-12">
-                                            El. Paštas: {email}
-                                        </div>
-                                    </div>
-                                    <div className="row py-2">
-                                        <div className="col-12">
-                                             Gimimo data: {birth_date}
-                                        </div>
-                                    </div>
-                                    <div className="row py-2">
-                                        <div className="col-12">
-                                             Sukurta susitikimų: {sport_events && sport_events.length}
-                                        </div>
-                                    </div>
+                                <div className="col-6 offset-3 offset-md-0 col-md-4 text-center  my-3">
+                                    <img className="img-fluid avatar" src={'/images/avatars/' + avatar} alt="Card image cap"/>
                                 </div>
-                                <div className="col-5">
-                                    <form className="form-group">
-                                        <div className="row justify-content-between">
-                                            <div className="my-4">
-                                                <input
-                                                    name="avatar"
-                                                    type="file"
-                                                    onChange={(e) => this.handleChange(e)}
-                                                />
+                                <div className="col-6 offset-3 col-md-6 offset-md-0">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="row py-2">
+                                                <div className="col-12">
+                                                    Vardas: {name}
+                                                </div>
                                             </div>
-                                            <div>
-                                                <button
-                                                    className="btn btn-sm btn-info"
-                                                    onClick={(event) => this.handleSubmit(event)}
-                                                >
-                                                    Įkelti
-                                                </button>
+                                            <div className="row py-2">
+                                                <div className="col-12">
+                                                    Pavardė: {surname}
+                                                </div>
+                                            </div>
+                                            <div className="row py-2">
+                                                <div className="col-12">
+                                                    El. Paštas: {email}
+                                                </div>
+                                            </div>
+                                            <div className="row py-2">
+                                                <div className="col-12">
+                                                    Gimimo data: {birth_date}
+                                                </div>
+                                            </div>
+                                            <div className="row py-2">
+                                                <div className="col-12">
+                                                    Sukurta susitikimų: {sport_events && sport_events.length}
+                                                </div>
                                             </div>
                                         </div>
-                                        {message
-                                            ? <span>{message}</span>
-                                            : null
-                                        }
-                                    </form>
+                                    </div>
+                                        <form className="form-group">
+                                            <div className="row justify-content-between">
+                                                <div className="col-12 col-md-6 my-3">
+                                                    <input
+                                                        name="avatar"
+                                                        type="file"
+                                                        onChange={(e) => this.handleChange(e)}
+                                                    />
+                                                </div>
+                                                <div className="col-12 col-md-4 offset-md-2 my-3">
+                                                    <button
+                                                        className="btn btn-sm btn-info px-4"
+                                                        onClick={(event) => this.handleSubmit(event)}
+                                                    >
+                                                        Įkelti
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            {message
+                                                ? <span>{message}</span>
+                                                : null
+                                            }
+                                        </form>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { fetchSports } from '../../../../assets/js/fetchPublic';
+import Spinner from "../../components/Spinner";
 
 class EventCreateForm extends Component {
     state = {
@@ -15,6 +16,7 @@ class EventCreateForm extends Component {
         message: '',
         sports: [],
         venues: [],
+        isLoading: false,
     };
 
     async componentDidMount() {
@@ -41,6 +43,7 @@ class EventCreateForm extends Component {
     };
 
     handleSubmit = (event) => {
+        this.setState({ isLoading: true });
         event.preventDefault();
         const data = this.state.event;
         axios
@@ -53,24 +56,28 @@ class EventCreateForm extends Component {
                 if (response.status === 200) {
                     this.setState({
                         message: response.data,
+                        isLoading: false,
                     });
                 }
+                this.props.handleCloseModal();
             })
             .catch((error) => {
                 this.setState({
                     errors: error.response.data,
+                    isLoading: false,
                 });
             });
     };
 
     render() {
-        const { sports, venues, message } = this.state;
+        const { sports, venues, message, isLoading } = this.state;
         return (
-            <div className="col-md-6">
+            <div className="container col-md-6">
                 <div className="card">
                     <div className="card-header">
                         Create event
                     </div>
+                    <Spinner isLoading={isLoading}/>
                     {
                         message
                         && message

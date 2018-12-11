@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, } from 'react-router-dom';
 import axios from 'axios';
-import AuthenticationHandler from '../Authentication/AuthenticationHandler';
 import Home from '../home/Home';
 import Profile from '../User/Profile/Profile';
-import EventCreateForm from '../../App/home/Event/EventCreateForm';
 import AddNewVenueForm from '../Admin/AddNewVenueForm';
 import Menu from '../menu/Menu';
 import Events from '../Events/Events';
 import Venues from '../Venues/Venues';
-import Slider from '../home/Slider/Slider';
+import Spinner from "../components/Spinner";
 
 class Routes extends Component {
     state = {
         user: {},
         isAuthorized: false,
         isLoading: false,
+        showAuthModal: false,
+        showCreateEventModal: false,
     };
 
     componentDidMount() {
@@ -64,34 +64,62 @@ class Routes extends Component {
         document.getElementById('auth-form').scrollIntoView({behavior: 'smooth'});
     };
 
+    handleOpenAuthModal = () => {
+        this.setState({ showAuthModal: true });
+    };
+
+    handleCloseAuthModal = () => {
+        this.setState({ showAuthModal: false });
+    };
+
+    handleOpenCreateEventModal = () => {
+        this.setState({ showCreateEventModal: true });
+    };
+
+    handleCloseCreateEventModal = () => {
+        this.setState({ showCreateEventModal: false });
+    };
+
     render() {
-        const { isAuthorized, user, isLoading } = this.state;
+        const { isAuthorized, user, isLoading, showAuthModal, showCreateEventModal } = this.state;
         return (
-            <React.Fragment>
-                <Menu user={user} isLoading={isLoading} logout={this.logout}/>
-                <Switch>
-                    <Route exact path="/" render={() => <Home user={user}/>}/>
-                    <Route exact path="/auth"
-                           render={() => isAuthorized ? <Redirect to="/"/> :
-                               <AuthenticationHandler onLoad={this.scrollToContent} getUser={this.getUser}/>}/>
-                    <Route exact path="/profile" render={() => (
-                        isAuthorized
-                            ? <Profile />
-                            : <Redirect to="/auth"/>
-                    )}
+            !isLoading
+            ?
+                <React.Fragment>
+                    <Menu
+                        user={user}
+                        isLoading={isLoading}
+                        logout={this.logout}
+                        showAuthModal={showAuthModal}
+                        showCreateEventModal={showCreateEventModal}
+                        handleOpenAuthModal={this.handleOpenAuthModal}
+                        handleCloseAuthModal={this.handleCloseAuthModal}
+                        handleOpenCreateEventModal={this.handleOpenCreateEventModal}
+                        handleCloseCreateEventModal={this.handleCloseCreateEventModal}
+                        getUser={this.getUser}
                     />
-                    <Route exact path="/event/create" render={() => (
-                        isAuthorized
-                            ? <EventCreateForm/>
-                            : <Redirect to="/auth"/>
-                    )}
-                    />
-                    <Route exact path="/admin" render={() => <AddNewVenueForm/> }/>
-                    <Route exact path="/events" render={() => <Events user={user}/> }/>
-                    <Route exact path="/venues" render={() => <Venues user={user}/> }/>
-                </Switch>
-            </React.Fragment>
+                    <Switch>
+                        <Route exact path="/" render={() => <Home user={user}/>}/>
+                        <Route exact path="/profile" render={() => (
+                            isAuthorized
+                                ? <Profile/>
+                                : <Redirect to="/"/>
+                        )}
+                        />
+                        <Route exact path="/admin" render={() => <AddNewVenueForm/>}/>
+                        <Route exact path="/events" render={() => <Events user={user}/>}/>
+                        <Route exact path="/venues" render={() => <Venues user={user}/>}/>
+                    </Switch>
+                </React.Fragment>
+                : <div style={{
+                    position: 'absolute',
+                    top: '45%',
+                    right: '45%'
+                }}>
+                    <Spinner isLoading={isLoading}/>
+                </div>
         );
+
     };
 }
 

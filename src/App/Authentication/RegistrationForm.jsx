@@ -39,15 +39,17 @@ class RegistrationForm extends Component {
                 <div className="card-header">
                     Registration
                 </div>
-                {
-                    errors.map((error,i) => {
-                        return <ErrorMessage key={i} text={this.normalizeString(error)}/>;
-                    })
-                }
                 <Spinner isLoading={isLoading}/>
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
+                            {
+                                errors.map((error,i) => {
+                                        return error.field == 'name'
+                                            ? <ErrorMessage key={i} text={error.violation_message}/>
+                                            : null
+                                })
+                            }
                             <label>Name</label>
                             <input
                                 name="name"
@@ -60,6 +62,13 @@ class RegistrationForm extends Component {
                             />
                         </div>
                         <div className="form-group">
+                            {
+                                errors.map((error,i) => {
+                                    return error.field == 'surname'
+                                        ? <ErrorMessage key={i} text={error.violation_message}/>
+                                        : null
+                                })
+                            }
                             <label>Surname</label>
                             <input
                                 name="surname"
@@ -72,6 +81,13 @@ class RegistrationForm extends Component {
                             />
                         </div>
                         <div className="form-group">
+                            {
+                                errors.map((error,i) => {
+                                    return error.field == 'username'
+                                        ? <ErrorMessage key={i} text={error.violation_message}/>
+                                        : null
+                                })
+                            }
                             <label>Username</label>
                             <input
                                 name="username"
@@ -84,6 +100,13 @@ class RegistrationForm extends Component {
                             />
                         </div>
                         <div className="form-group">
+                            {
+                                errors.map((error,i) => {
+                                    return error.field == 'email'
+                                        ? <ErrorMessage key={i} text={error.violation_message}/>
+                                        : null
+                                })
+                            }
                             <label>Email</label>
                             <input
                                 name="email"
@@ -96,6 +119,13 @@ class RegistrationForm extends Component {
                             />
                         </div>
                         <div className="form-group">
+                            {
+                                errors.map((error,i) => {
+                                    return error.field == 'password'
+                                        ? <ErrorMessage key={i} text={error.violation_message}/>
+                                        : null
+                                })
+                            }
                             <label>Password</label>
                             <input
                                 name="password"
@@ -121,6 +151,13 @@ class RegistrationForm extends Component {
                             />
                         </div>
                         <div className="form-group">
+                            {
+                                errors.map((error,i) => {
+                                    return error.field == 'birthDate'
+                                        ? <ErrorMessage key={i} text={error.violation_message}/>
+                                        : null
+                                })
+                            }
                             <label>Date of birth</label>
                             <input
                                 name="birthDate"

@@ -1,8 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MenuUserAvatar from './MenuUserAvatar';
+import MainModal from "../components/MainModal";
+import AuthenticationHandler from "../Authentication/AuthenticationHandler";
+import EventCreateForm from "../home/Event/EventCreateForm";
 
-const Menu = ({ user, isLoading = true, logout }) => {
+const Menu = (
+    {
+        user,
+        isLoading = true,
+        logout,
+        handleCloseAuthModal,
+        handleOpenAuthModal,
+        showAuthModal,
+        getUser,
+        handleCloseCreateEventModal,
+        handleOpenCreateEventModal,
+        showCreateEventModal
+    }) => {
     return (
         <header>
             <nav id="navbar" className="navbar navbar-dark my-navbar navbar-expand-md">
@@ -20,18 +35,36 @@ const Menu = ({ user, isLoading = true, logout }) => {
                             <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                                 <li className="nav-item"><Link className="nav-link" to="/events">Susitikimai</Link></li>
                                 <li className="nav-item"><Link className="nav-link" to="/venues">Vietos</Link></li>
-                                <li className="nav-item"><Link className="nav-link" to="/event/create">Sukurti</Link></li>
+                                <li className="nav-item"><span className="nav-link" onClick={handleOpenCreateEventModal}>Sukurti</span></li>
+                                <MainModal
+                                    isOpen={showCreateEventModal}
+                                    handleCloseModal={handleCloseCreateEventModal}
+                                    content={
+                                        <EventCreateForm handleCloseModal={handleCloseCreateEventModal}/>
+                                    }
+                                />
                                 {user.username
                                     ? <MenuUserAvatar user={user} onClick={logout}/>
                                     : (
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to='/auth'>Login</Link>
-                                        </li>
+                                        <React.Fragment>
+                                            <li className="nav-item"><span className="nav-link" onClick={handleOpenAuthModal}>Prisijungti</span></li>
+                                            <MainModal
+                                                isOpen={showAuthModal}
+                                                handleCloseModal={handleCloseAuthModal}
+                                                content={
+                                                    <AuthenticationHandler
+                                                        getUser={getUser}
+                                                        handleCloseModal={handleCloseAuthModal}
+                                                    />
+                                                }
+                                            />
+                                        </React.Fragment>
                                     )
                                 }
                             </ul>
                         )
                     }
+
                 </div>
             </nav>
         </header>
