@@ -4,6 +4,7 @@ import { fetchEventsFiltered, getEventsCount, getVenuesCount } from "../../../as
 import FilterBar from "./filterBar";
 import InfiniteScroll from 'react-infinite-scroller';
 import axios from "axios";
+import Spinner from "../components/Spinner";
 
 class Events extends Component {
     state = {
@@ -88,9 +89,8 @@ class Events extends Component {
                     loadMore={this.getEvents}
                     hasMore={hasMore}
                     loader={
-                        <div className="text-center" key={0}>
-                            <div className="btn btn-info mb-5">Loading ...</div>
-                        </div>}
+                        <Spinner isLoading={hasMore}/>
+                    }
                 >
                     <div className="row justify-content-center">
                         {

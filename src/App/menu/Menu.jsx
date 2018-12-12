@@ -21,7 +21,7 @@ const Menu = (
     return (
         <header>
             <nav id="navbar" className="navbar navbar-dark my-navbar navbar-expand-md">
-                <Link className="navbar-brand ml-5" to="/">
+                <Link className="navbar-brand" to="/">
                     <img src="img/core-img/logo.png" alt=""></img>
                 </Link>
                 <button className="navbar-toggler ml-auto" type="button" data-toggle="collapse"

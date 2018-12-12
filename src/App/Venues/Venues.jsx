@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Venue from '../home/Feed/Venue';
 import InfiniteScroll from 'react-infinite-scroller';
 import { fetchVenues, fetchSports, getVenuesCount } from '../../../assets/js/fetchPublic';
+import Spinner from "../components/Spinner";
 
 class Venues extends Component {
     state = {
@@ -94,9 +95,7 @@ class Venues extends Component {
                     loadMore={this.getVenues}
                     hasMore={hasMore}
                     loader={
-                        <div className="text-center" key={0}>
-                            <div className="btn btn-info mb-5">Loading ...</div>
-                        </div>
+                        <Spinner isLoading={hasMore}/>
                     }
                 >
                     <div className="row justify-content-center">
