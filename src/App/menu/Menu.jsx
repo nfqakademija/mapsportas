@@ -21,7 +21,7 @@ const Menu = (
     return (
         <header>
             <nav id="navbar" className="navbar navbar-dark my-navbar navbar-expand-md">
-                <Link className="navbar-brand" to="/">
+                <Link className="navbar-brand ml-5" to="/">
                     <img src="img/core-img/logo.png" alt=""></img>
                 </Link>
                 <button className="navbar-toggler ml-auto" type="button" data-toggle="collapse"
@@ -35,7 +35,6 @@ const Menu = (
                             <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                                 <li className="nav-item"><Link className="nav-link" to="/events">Susitikimai</Link></li>
                                 <li className="nav-item"><Link className="nav-link" to="/venues">Vietos</Link></li>
-                                <li className="nav-item"><span className="nav-link" onClick={handleOpenCreateEventModal}>Sukurti</span></li>
                                 <MainModal
                                     isOpen={showCreateEventModal}
                                     handleCloseModal={handleCloseCreateEventModal}
@@ -44,10 +43,30 @@ const Menu = (
                                     }
                                 />
                                 {user.username
-                                    ? <MenuUserAvatar user={user} onClick={logout}/>
+                                    ? (
+                                        <li className="dropdown nav-item">
+                                            <span className="myPointer dropdown-toggle nav-link"
+                                                  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                  aria-expanded="false">
+                                                {user.username}
+                                            </span>
+                                            <div className="dropdown-menu myDropdown" aria-labelledby="dropdownMenuButton">
+                                                <a className="dropdown-item myPointer my-1" onClick={handleOpenCreateEventModal}>Sukurti Susitikimą</a>
+                                                <MainModal
+                                                    isOpen={showCreateEventModal}
+                                                    handleCloseModal={handleCloseCreateEventModal}
+                                                    content={
+                                                        <EventCreateForm handleCloseModal={handleCloseCreateEventModal}/>
+                                                    }
+                                                />
+                                                <Link className="dropdown-item my-1" to={"/profile"} >Profilis</Link>
+                                                <a className="dropdown-item myPointer my-1" onClick={logout}>Atsijungti</a>
+                                            </div>
+                                        </li>
+                                    )
                                     : (
                                         <React.Fragment>
-                                            <li className="nav-item"><span className="nav-link" onClick={handleOpenAuthModal}>Prisijungti</span></li>
+                                            <li className="nav-item"><span className="nav-link myPointer" onClick={handleOpenAuthModal}>Prisijungti</span></li>
                                             <MainModal
                                                 isOpen={showAuthModal}
                                                 handleCloseModal={handleCloseAuthModal}
