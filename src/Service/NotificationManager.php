@@ -59,9 +59,7 @@ class NotificationManager
         EventApplication $application
     ): Swift_Message {
         return (new Swift_Message())
-            ->setFrom(getenv(
-                'MAILER_USERNAME'
-            ))
+            ->setFrom(getenv('MAILER_USERNAME'))
             ->setTo($notification->getRecipient()->getEmail())
             ->setSubject($notification->getTitle())
             ->setBody(
@@ -74,7 +72,8 @@ class NotificationManager
                         'user' => $application->getUser(),
                         'sport_event' => $application->getSportEvent()
                     ]
-                ), 'text/html'
+                ),
+                'text/html'
             );
     }
 

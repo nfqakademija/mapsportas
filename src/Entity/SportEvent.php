@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -74,6 +76,18 @@ class SportEvent
      * @Groups({"sportEvent", "sportType", "sportVenue", "user"})
      */
     private $applyedUsers;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $status;
+
+    /**
+     * @var DateTimeImmutable
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
     public function __construct()
     {
@@ -172,6 +186,31 @@ class SportEvent
                 $applyedUser->setSportEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): DateTimeImmutable
+    {
+        return $this->deletedAt;
+    }
+
+   
+    public function setDeletedAt(DateTimeImmutable $deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }
