@@ -5,7 +5,7 @@ swiftmailer:
     host: localhost
     port: 465
     encryption: ssl
-    auth-mode: login
+    auth_mode: login
     spool: { type: 'memory' }
     stream_options:
         allow_self_signed: true
