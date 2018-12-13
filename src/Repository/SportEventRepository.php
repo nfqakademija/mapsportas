@@ -71,6 +71,18 @@ class SportEventRepository extends ServiceEntityRepository
         return $qb->execute();
     }
 
+    public function findUpcomingEventsCount(): array
+    {
+        $date = new \DateTime('now');
+        $qb = $this->createQueryBuilder('e')
+            ->select('count(e.id)')
+            ->andWhere('e.date > :date')
+            ->setParameter('date', $date)
+            ->getQuery();
+
+        return $qb->execute();
+    }
+
     public function findEventsCount(Filter $filter)
     {
         $qb = $this->createQueryBuilder('e')

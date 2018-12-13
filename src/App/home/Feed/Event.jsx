@@ -105,7 +105,7 @@ class Event extends Component {
                 <div className="single-event-table mb-5" style={{
                     border: 'rgb(56, 177, 67) solid 3px'
                 }}>
-                    <img className="img-fluid" src={"/images/venues/" + sport_venue.venue_photo} alt=""></img>
+                    <img className="myWidth" src={"/images/venues/" + sport_venue.venue_photo} alt=""></img>
                     <div className="event-table-content mt-3">
                         <h2 className="event">
                             {sport_venue.name}

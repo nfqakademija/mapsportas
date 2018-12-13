@@ -37,10 +37,12 @@ class Events extends Component {
         await axios
             .post('/api/public/sport/events', data)
             .then((response) => {
-                this.setState({ events: [...this.state.events, ...response.data.sportEvents] });
-                this.setState({ count: response.data.count });
-                this.setState({ page: page + 1 });
-                this.setState({ letFetch: true });
+                this.setState({
+                    events: [...this.state.events, ...response.data.sportEvents],
+                    count: response.data.count,
+                    page: page + 1,
+                    letFetch: true
+                });
                 this.hasMore();
             })
             .catch((error) => {
@@ -89,7 +91,7 @@ class Events extends Component {
                     loadMore={this.getEvents}
                     hasMore={hasMore}
                     loader={
-                        <Spinner isLoading={hasMore}/>
+                        <Spinner key={0} isLoading={hasMore}/>
                     }
                 >
                     <div className="row justify-content-center">

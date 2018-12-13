@@ -91,14 +91,12 @@ class FilterBar extends Component {
                                     </div>
                                     <div className="form-group">
                                         <label>Sporto Rūšis </label>
-                                        <select className="form-control" name="sport" onChange={this.handleSportChange}>
+                                        <select defaultValue={sport} className="form-control" name="sport" onChange={this.handleSportChange}>
                                             <option value="0">Visos</option>
                                             {
-                                                sports.map((sport) => {
-                                                    return (
-                                                        <option key={sport.id} value={sport.id}>{sport.name}</option>
-                                                    );
-                                                })
+                                                sports.map((sportType) => (
+                                                    <option key={sportType.id} value={sportType.id}>{sportType.name}</option>
+                                                ))
                                             }
                                         </select>
                                     </div>

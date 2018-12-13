@@ -36,7 +36,7 @@ class Profile extends Component {
         const { user: { user_applications } } = this.state;
         const apps = user_applications.filter(application => application.sport_event.id !== id);
         this.setState({
-            user: { user_applications: apps },
+            user: { ...this.state.user, user_applications: apps },
         });
     };
 
@@ -59,6 +59,7 @@ class Profile extends Component {
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({ message: response.data });
+                    this.fetchUser();
                 }
             })
             .catch((error) => {

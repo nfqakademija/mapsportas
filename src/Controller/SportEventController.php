@@ -69,10 +69,20 @@ class SportEventController extends AbstractController
     public function getUpcomingEvents(int $i, int $first)
     {
         $sportEvents = $this->getDoctrine()->getRepository(SportEvent::class)->findUpcomingEvents($i, $first);
+        $count = $this->getDoctrine()->getRepository(SportEvent::class)->findUpcomingEventsCount();
+
         $serializer = SerializerBuilder::create()->build();
-        $response = json_decode(
+
+        $sportEvents = json_decode(
             $serializer->serialize($sportEvents, 'json', SerializationContext::create()->setGroups(array('sportEvent')))
         );
+        $count = json_decode(
+            $serializer->serialize($count[0][1], 'json')
+        );
+        $response = [
+            'sportEvents' => $sportEvents,
+            'count' => $count
+        ];
 
         return new JsonResponse($response, Response::HTTP_OK);
     }
