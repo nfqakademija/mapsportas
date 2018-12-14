@@ -7,16 +7,25 @@ use App\Entity\Notification;
 
 class NotificationNormalizer implements NormalizerInterface
 {
-    public function mapToEntity(array $data): Notification
+    public function mapToEntity(array $data)
     {
         $application = $data['context']['application'];
+        $action = $data['context']['action'];
+        $sportEvent = $application->getSportEvent()->getId();
+        $actionParty = $application->getUser()->getId();
+        $userApplications = $data['userApplications'];
 
-        return (new Notification())
+        $notifications = [];
+        foreach ($userApplications->getIterator() as $userApplication){
+            $notifications[] = (new Notification())
             ->setTitle(Notification::TITLE)
-            ->setRecipient($data['creator'])
-            ->setEventSubject($application->getSportEvent()->getId())
-            ->setAction($data['context']['action'])
-            ->setActionParty($application->getUser()->getId());
+            ->setRecipient($userApplication->getUser())
+            ->setEventSubject($sportEvent)
+            ->setAction($action)
+            ->setActionParty($actionParty);
+        }
+
+        return $notifications;
     }
 
     public function mapToArray($data)

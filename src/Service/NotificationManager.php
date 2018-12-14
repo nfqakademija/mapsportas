@@ -8,6 +8,7 @@ use App\Entity\Notification;
 use App\Entity\SportEvent;
 use App\Normalizer\NotificationNormalizer;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Swift_Mailer;
 use Swift_Message;
 use Twig_Environment;
@@ -18,17 +19,20 @@ class NotificationManager
     private $entityManager;
     private $notificationNormalizer;
     private $renderer;
+    private $logger;
 
     public function __construct(
         Swift_Mailer $swiftMailer,
         EntityManagerInterface $entityManager,
         NotificationNormalizer $notificationNormalizer,
-        Twig_Environment $environment
+        Twig_Environment $environment,
+        LoggerInterface $logger
     ) {
         $this->swiftMailer = $swiftMailer;
         $this->entityManager = $entityManager;
         $this->notificationNormalizer = $notificationNormalizer;
         $this->renderer = $environment;
+        $this->logger = $logger;
     }
 
     public function notify(SportEvent $sportEvent, array $context)
@@ -36,21 +40,22 @@ class NotificationManager
         if (!$context['application'] instanceof EventApplication || !array_key_exists('action', $context)) {
             throw new \Exception('context does not have application or action');
         }
-        $notification = $this->notificationNormalizer->mapToEntity(
+        $notifications = $this->notificationNormalizer->mapToEntity(
             [
-                'creator' => $sportEvent->getCreator(),
+                'userApplications' => $sportEvent->getApplyedUsers(),
                 'context' => $context
             ]
         );
         $application = $context['application'];
 
         try {
-            $this->swiftMailer->send($this->buildEmail($notification, $application));
+            foreach ($notifications as $notification) {
+                $this->swiftMailer->send($this->buildEmail($notification, $application));
+                $this->entityManager->persist($notification);
+            }
         } catch (\Exception $exception) {
-            throw new \Exception(sprintf('error: %s', $exception->getMessage()));
+            $this->logger->error(sprintf('error: %s', $exception->getMessage()));
         }
-
-        $this->entityManager->persist($notification);
         $this->entityManager->flush();
     }
 
