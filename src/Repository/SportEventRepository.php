@@ -30,7 +30,10 @@ class SportEventRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder('e')
             ->andWhere('e.date > :from')
-            ->setParameter('from', $filter->getFromDate()->format('Y-m-d H:i:s'));
+            ->andWhere('e.status = :status')
+            ->setParameter('from', $filter->getFromDate()->format('Y-m-d H:i:s'))
+            ->setParameter('status', SportEvent::STATUS_UPCOMING)
+        ;
 
         if ($filter->getToDate() instanceof DateTimeInterface) {
             $qb->andWhere('e.date < :to')

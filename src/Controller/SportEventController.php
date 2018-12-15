@@ -140,22 +140,18 @@ class SportEventController extends AbstractController
     public function applyForEvent(Request $request)
     {
         $data = json_decode($request->getContent(), true);
-        $event = $this->getDoctrine()->getRepository(SportEvent::class)->find($data['sportEvent']);
-        if ($event->getStatus() !== SportEvent::STATUS_UPCOMING) {
-            return new JsonResponse('Event has already started', Response::HTTP_NOT_FOUND);
-        }
+        $event = $this->getDoctrine()->getRepository(SportEvent::class)->findOneBy(
+            [
+                'id' => $data['sportEvent'],
+                'status' => SportEvent::STATUS_UPCOMING
+            ]
+        );
         $application = new EventApplication();
         $data['user'] = $this->getUser()->getId();
         $data['createdAt'] = new \DateTime('now');
         $maxMembers = $event->getMaxMembers();
 
-//        check if user have already applyed for this event
-        $applications = $this->getDoctrine()->getRepository(EventApplication::class)
-            ->findby([
-                'user' => $data['user'],
-                'sportEvent' => $data['sportEvent'],
-            ]);
-        if (count($applications) !== 0) {
+        if ($event->getApplyedUsers()->contains($this->getUser())) {
             return new JsonResponse([
                 'error_message' => 'You have already applyed for this Event.'
             ], Response::HTTP_BAD_REQUEST);

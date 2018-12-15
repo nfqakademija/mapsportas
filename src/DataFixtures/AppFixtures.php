@@ -8,9 +8,10 @@ use App\Entity\SportType;
 use App\Entity\SportVenue;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements OrderedFixtureInterface
 {
     private const USERNAMES = [
         'user','extraUser','vartotojas','papildomasVartotojas',
@@ -133,6 +134,7 @@ class AppFixtures extends Fixture
         $sportEvent = new SportEvent();
         $sportEvent->setMaxMembers(rand(2, 10));
         $date = new \DateTime('2019-'.rand(1, 5).'-'.rand(1, 28).' '.rand(8, 20).":00");
+        $sportEvent->setStatus(SportEvent::STATUS_UPCOMING);
         $sportEvent->setDate($date);
         $sportEvent->setSportType($sportVenue->getSportType());
         $sportEvent->setSportVenue($sportVenue);
@@ -150,5 +152,14 @@ class AppFixtures extends Fixture
         $date = new \DateTime('2018-'.rand(11, 12).'-'.rand(1, 28).' '.rand(8, 20).":00");
         $application->setCreatedAt($date);
         $manager->persist($application);
+    }
+
+    /**
+     * Get the order of this fixture
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 2;
     }
 }
