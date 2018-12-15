@@ -10,12 +10,10 @@ const Menu = (
         user,
         isLoading = true,
         logout,
-        handleCloseAuthModal,
-        handleOpenAuthModal,
+        handleAuthModal,
         showAuthModal,
         getUser,
-        handleCloseCreateEventModal,
-        handleOpenCreateEventModal,
+        handleCreateEventModal,
         showCreateEventModal
     }) => {
     return (
@@ -37,9 +35,9 @@ const Menu = (
                                 <li className="nav-item"><Link className="nav-link" to="/venues">Vietos</Link></li>
                                 <MainModal
                                     isOpen={showCreateEventModal}
-                                    handleCloseModal={handleCloseCreateEventModal}
+                                    handleCloseModal={handleCreateEventModal}
                                     content={
-                                        <EventCreateForm handleCloseModal={handleCloseCreateEventModal}/>
+                                        <EventCreateForm handleCloseModal={handleCreateEventModal}/>
                                     }
                                 />
                                 {user.username
@@ -51,12 +49,12 @@ const Menu = (
                                                 {user.username}
                                             </span>
                                             <div className="dropdown-menu myDropdown" aria-labelledby="dropdownMenuButton">
-                                                <a className="dropdown-item myPointer my-1" onClick={handleOpenCreateEventModal}>Sukurti Susitikimą</a>
+                                                <a className="dropdown-item myPointer my-1" onClick={handleCreateEventModal}>Sukurti Susitikimą</a>
                                                 <MainModal
                                                     isOpen={showCreateEventModal}
-                                                    handleCloseModal={handleCloseCreateEventModal}
+                                                    handleCloseModal={handleCreateEventModal}
                                                     content={
-                                                        <EventCreateForm handleCloseModal={handleCloseCreateEventModal}/>
+                                                        <EventCreateForm handleCloseModal={handleCreateEventModal}/>
                                                     }
                                                 />
                                                 <Link className="dropdown-item my-1" to={"/profile"} >Profilis</Link>
@@ -66,14 +64,14 @@ const Menu = (
                                     )
                                     : (
                                         <React.Fragment>
-                                            <li className="nav-item"><span className="nav-link myPointer" onClick={handleOpenAuthModal}>Prisijungti</span></li>
+                                            <li className="nav-item"><span className="nav-link myPointer" onClick={handleAuthModal}>Prisijungti</span></li>
                                             <MainModal
                                                 isOpen={showAuthModal}
-                                                handleCloseModal={handleCloseAuthModal}
+                                                handleCloseModal={handleAuthModal}
                                                 content={
                                                     <AuthenticationHandler
                                                         getUser={getUser}
-                                                        handleCloseModal={handleCloseAuthModal}
+                                                        handleCloseModal={handleAuthModal}
                                                     />
                                                 }
                                             />

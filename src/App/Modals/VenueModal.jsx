@@ -6,20 +6,18 @@ class VenueModal extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            showModal: false,
+            showEventModal: false,
+            showAuthModal: false,
             participiants: this.props.event.applyed_users.length,
         };
-
-        this.handleOpenModal = this.handleOpenModal.bind(this);
-        this.handleCloseModal = this.handleCloseModal.bind(this);
     }
 
-    handleOpenModal = () => {
-        this.setState({ showModal: true });
+    handleEventModal = () => {
+        this.setState({ showEventModal: !this.state.showEventModal });
     };
 
-    handleCloseModal = () => {
-        this.setState({ showModal: false });
+    handleAuthModal = () => {
+        this.setState({ showAuthModal: !this.state.showAuthModal });
     };
 
     handleParticipiants = (i) => {
@@ -30,16 +28,16 @@ class VenueModal extends Component {
 
     render () {
         const { event, name, description, photo, address, user } = this.props;
-        const { participiants, showModal } = this.state;
+        const { participiants, showEventModal, showAuthModal } = this.state;
         return (
             <div className="myPointer">
-                <div className="d-flex justify-content-between border-bottom mb-2" onClick={this.handleOpenModal}>
+                <div className="d-flex justify-content-between border-bottom mb-2" onClick={this.handleEventModal}>
                     <span>{event.date}</span>
                     <span>{participiants}/{event.max_members}</span>
                 </div>
                 <MainModal
-                    isOpen={showModal}
-                    handleCloseModal={this.handleCloseModal}
+                    isOpen={showEventModal}
+                    handleCloseModal={this.handleEventModal}
                     content={
                        <EventModalContent
                            participiants={participiants}
@@ -50,6 +48,8 @@ class VenueModal extends Component {
                            user={user}
                            event={event}
                            handleParticipiants={this.handleParticipiants}
+                           isAuthModalOpen={showAuthModal}
+                           handleAuthModal={this.handleAuthModal}
                        />
                     }
                 />

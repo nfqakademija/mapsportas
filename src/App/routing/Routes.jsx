@@ -64,20 +64,12 @@ class Routes extends Component {
         document.getElementById('auth-form').scrollIntoView({behavior: 'smooth'});
     };
 
-    handleOpenAuthModal = () => {
-        this.setState({ showAuthModal: true });
+    handleAuthModal = () => {
+        this.setState({ showAuthModal: !this.state.showAuthModal })
     };
 
-    handleCloseAuthModal = () => {
-        this.setState({ showAuthModal: false });
-    };
-
-    handleOpenCreateEventModal = () => {
-        this.setState({ showCreateEventModal: true });
-    };
-
-    handleCloseCreateEventModal = () => {
-        this.setState({ showCreateEventModal: false });
+    handleCreateEventModal = () => {
+        this.setState({ showCreateEventModal: !this.state.showCreateEventModal })
     };
 
     render() {
@@ -92,10 +84,14 @@ class Routes extends Component {
                         logout={this.logout}
                         showAuthModal={showAuthModal}
                         showCreateEventModal={showCreateEventModal}
+                        handleAuthModal={this.handleAuthModal}
+                        handleCreateEventModal={this.handleCreateEventModal}
+
                         handleOpenAuthModal={this.handleOpenAuthModal}
                         handleCloseAuthModal={this.handleCloseAuthModal}
                         handleOpenCreateEventModal={this.handleOpenCreateEventModal}
                         handleCloseCreateEventModal={this.handleCloseCreateEventModal}
+
                         getUser={this.getUser}
                     />
                     <Switch>

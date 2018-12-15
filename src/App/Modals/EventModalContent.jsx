@@ -3,6 +3,8 @@ import PrimaryButton from "../components/buttons/PrimaryButton";
 import Spinner from "../components/Spinner";
 import Message from "../components/Message";
 import axios from "axios";
+import MainModal from "../components/MainModal";
+import AuthenticationHandler from "../Authentication/AuthenticationHandler";
 
 
 class EventModalContent extends Component {
@@ -99,8 +101,10 @@ class EventModalContent extends Component {
         });
     };
 
+
+
     render () {
-        const { name, description, photo, address, user, event, participiants, handleCloseModal } = this.props;
+        const { name, description, photo, address, user, event, participiants, handleAuthModal, isAuthModalOpen } = this.props;
         const { message, isLoading, alreadyInEvent } = this.state;
         return (
             <React.Fragment>
@@ -138,7 +142,20 @@ class EventModalContent extends Component {
                         ? <PrimaryButton handleClick={this.cancelApplication} text={'Nebedalyvauti'}/>
                         :  Object.keys(user).length !== 0
                             ? <PrimaryButton handleClick={this.handleApplication.bind(this, event.id)} text={"Dalyvauti"}/>
-                            : <PrimaryButton redirect={"/auth"} text={"Prisijunk"}/>
+                            : (
+                                <React.Fragment>
+                                <PrimaryButton handleClick={handleAuthModal} text={"Prisijunk"}/>
+                                <MainModal
+                                    isOpen={isAuthModalOpen}
+                                    handleCloseModal={handleAuthModal}
+                                    content={
+                                        <AuthenticationHandler
+                                            handleCloseModal={handleAuthModal}
+                                        />}
+                                />
+                                </React.Fragment>
+                            )
+
                     }
                 </div>
                 <Spinner isLoading={isLoading}/>

@@ -58,7 +58,8 @@ class Venue extends Component {
                                                     description={description}
                                                     photo={venue_photo}
                                                     user={user}
-                                        />                                    ))
+                                        />
+                                    ))
                                     : ( <div>Nėra renginių</div> )
                             )
                             : null
