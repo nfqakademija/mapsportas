@@ -16,6 +16,10 @@ use JMS\Serializer\Annotation\Type;
  */
 class SportEvent
 {
+    const STATUS_UPCOMING = 'upcoming';
+    const STATUS_FINISHED = 'finished';
+    const STATUS_CANCELLED = 'cancelled';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

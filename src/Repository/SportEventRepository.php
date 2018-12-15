@@ -62,7 +62,9 @@ class SportEventRepository extends ServiceEntityRepository
         $date = new \DateTime('now');
         $qb = $this->createQueryBuilder('e')
             ->andWhere('e.date > :date')
+            ->andWhere('e.status != :status')
             ->setParameter('date', $date)
+            ->setParameter('status', SportEvent::STATUS_CANCELLED)
             ->orderBy('e.date', 'ASC')
             ->setFirstResult($first)
             ->setMaxResults($perPage)
@@ -113,6 +115,26 @@ class SportEventRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
+    public function findDueEvents()
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.date < :date')
+            ->andWhere('e.status NOT IN (:statuses)')
+            ->setParameter('date', new DateTimeImmutable())
+            ->setParameter('statuses', [SportEvent::STATUS_FINISHED, SportEvent::STATUS_CANCELLED])
+            ->getQuery()
+            ->getResult()
+        ;
+
+//        return $this->createQueryBuilder('e')
+//            ->andWhere('e.date < :date')
+//            ->andWhere('e.status != :status')
+//            ->setParameter('date', $date->format('Y-m-d H:i:s'))
+//            ->setParameter('status', SportEvent::STATUS_CANCELLED)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+    }
 
     // /**
     //  * @return SportEvent[] Returns an array of SportEvent objects

@@ -114,6 +114,7 @@ class SportEventController extends AbstractController
         $form->setData($sportEvent);
         $form->submit($data, false);
         if ($form->isSubmitted() && $form->isValid()) {
+            $sportEvent->setStatus(SportEvent::STATUS_UPCOMING);
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($sportEvent);
             $manager->flush();
@@ -138,12 +139,14 @@ class SportEventController extends AbstractController
      */
     public function applyForEvent(Request $request)
     {
-
-        $application = new EventApplication();
         $data = json_decode($request->getContent(), true);
+        $event = $this->getDoctrine()->getRepository(SportEvent::class)->find($data['sportEvent']);
+        if ($event->getStatus() !== SportEvent::STATUS_UPCOMING) {
+            return new JsonResponse('Event has already started', Response::HTTP_NOT_FOUND);
+        }
+        $application = new EventApplication();
         $data['user'] = $this->getUser()->getId();
         $data['createdAt'] = new \DateTime('now');
-        $event = $this->getDoctrine()->getRepository(SportEvent::class)->find($data['sportEvent']);
         $maxMembers = $event->getMaxMembers();
 
 //        check if user have already applyed for this event
@@ -159,7 +162,7 @@ class SportEventController extends AbstractController
         }
 
 //        check if there still place for event
-        if (count($event->getApplyedUsers()) >= $maxMembers) {
+        if ($event->getApplyedUsers()->count() >= $maxMembers) {
             return new JsonResponse([
                 'error_message' => 'Event is full, you can\'t apply for it.'
             ], Response::HTTP_BAD_REQUEST);
@@ -215,6 +218,10 @@ class SportEventController extends AbstractController
             ]);
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($application);
+        if ($application->getSportEvent()->getApplyedUsers()->count() <= 1) {
+            $application->getSportEvent()->setStatus(SportEvent::STATUS_CANCELLED);
+            $application->getSportEvent()->setDeletedAt(new \DateTimeImmutable());
+        }
         $manager->flush();
 
         $this->notificationManager->notify(
