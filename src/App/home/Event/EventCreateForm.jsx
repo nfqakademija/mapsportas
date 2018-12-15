@@ -72,74 +72,72 @@ class EventCreateForm extends Component {
     render() {
         const { sports, venues, message, isLoading } = this.state;
         return (
-            <div className="container col-md-6">
-                <div className="card">
-                    <div className="card-header">
-                        Create event
-                    </div>
-                    <Spinner isLoading={isLoading}/>
-                    {
-                        message
-                        && message
-                    }
-                    <div className="card-body">
-                        <form onSubmit={this.handleSubmit}>
-                            <div className="form-group">
-                                <label>Max members</label>
-                                <input
-                                    className="form-control"
-                                    type="number"
-                                    min="1"
-                                    max="100"
-                                    name="maxMembers"
-                                    onChange={this.handleChange}
-                                    required={true}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Sport</label>
-                                <select className="form-control" name="sportType"
-                                        onChange={() => this.handleChange(event)}>
-                                    <option value=""></option>
-                                    {
-                                        sports.map((sport) => (
-                                            <option key={sport.id} value={sport.id}>{sport.name}</option>
-                                        ))
-                                    }
-                                </select>
-                            </div>
-                            {venues.length > 0
-                            && <div className="form-group">
-                                <label>Venue</label>
-                                <select className="form-control" name="sportVenue"
-                                        onChange={() => this.handleChange(event)}>
-                                    <option value=""></option>
-                                    {
-                                        venues.map(venue => (
-                                            <option key={venue.id} value={venue.id}>{venue.name}</option>
-                                        ))
-                                    }
-                                </select>
-                            </div>
-                            }
-                            <div className="form-group">
-                                <label>Date</label>
-                                <input
-                                    className="form-control"
-                                    name="date"
-                                    type="datetime-local"
-                                    onChange={this.handleChange}
-                                    required={true}
-                                />
-                            </div>
-                            <button
-                                className="btn btn-primary btn-block"
-                                type="Submit"
-                            >
-                                Create
-                            </button>
-                        </form>
-                    </div>
+            <div className="card">
+                <div className="card-header">
+                    Create event
+                </div>
+                <Spinner isLoading={isLoading}/>
+                {
+                    message
+                    && message
+                }
+                <div className="card-body">
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <label>Max members</label>
+                            <input
+                                className="form-control"
+                                type="number"
+                                min="1"
+                                max="100"
+                                name="maxMembers"
+                                onChange={this.handleChange}
+                                required={true}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Sport</label>
+                            <select className="form-control" name="sportType"
+                                    onChange={() => this.handleChange(event)}>
+                                <option value=""></option>
+                                {
+                                    sports.map((sport) => (
+                                        <option key={sport.id} value={sport.id}>{sport.name}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        {venues.length > 0
+                        && <div className="form-group">
+                            <label>Venue</label>
+                            <select className="form-control" name="sportVenue"
+                                    onChange={() => this.handleChange(event)}>
+                                <option value=""></option>
+                                {
+                                    venues.map(venue => (
+                                        <option key={venue.id} value={venue.id}>{venue.name}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        }
+                        <div className="form-group">
+                            <label>Date</label>
+                            <input
+                                className="form-control"
+                                name="date"
+                                type="datetime-local"
+                                onChange={this.handleChange}
+                                required={true}
+                            />
+                        </div>
+                        <button
+                            className="btn btn-primary btn-block"
+                            type="Submit"
+                        >
+                            Create
+                        </button>
+                    </form>
                 </div>
             </div>
         );

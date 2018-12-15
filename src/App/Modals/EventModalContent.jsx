@@ -105,10 +105,10 @@ class EventModalContent extends Component {
         return (
             <React.Fragment>
                 <div className="row">
-                    <div className="col-12 col-md-6 mb-3">
-                        <img className="img-fluid" src={"/images/venues/" + photo}/>
+                    <div className="col-12 mb-3 text-center">
+                        <img className="myWidth maxWidth-360" src={"/images/venues/" + photo}/>
                     </div>
-                    <div className="col-12 col-md-6">
+                    <div className="col-12">
                         <div className="row">
                             <div className="col-12 mb-3">
                                 <h4>{name}</h4>

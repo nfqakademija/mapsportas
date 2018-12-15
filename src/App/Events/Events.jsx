@@ -85,6 +85,11 @@ class Events extends Component {
         const { user } = this.props;
         return (
             <div className="container myTopMargin">
+                <div className="row mb-3">
+                    <div className="col-12 text-center">
+                        <h1>Susitikimai</h1>
+                    </div>
+                </div>
                 <FilterBar setFilters={this.setFilters}/>
                 <InfiniteScroll
                     pageStart={0}

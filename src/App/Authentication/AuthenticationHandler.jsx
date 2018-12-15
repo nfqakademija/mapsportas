@@ -87,24 +87,22 @@ class AuthenticationHandler extends Component {
     };
 
     renderForms = () => (
-        <div className="container col-md-5" id="auth-form">
-            <div className="card mt-5">
-                {
-                    this.state.isLoginShown
-                        ? <LoginForm
-                        isLoading={this.state.isLoading}
-                        errors={this.state.loginErrors}
-                        onSubmit={this.handleLogin}
-                    />
-                        : <RegistrationForm
-                        isLoading={this.state.isLoading}
-                        errors={this.state.registrationErrors}
-                        onSubmit={this.handleRegistration}
-                    />
-                }
-                <AuthenticationNavigation isLoginShown={this.state.isLoginShown} onClick={this.toggleShow}/>
-            </div>
-        </div>
+        <React.Fragment>
+            {
+                this.state.isLoginShown
+                    ? <LoginForm
+                    isLoading={this.state.isLoading}
+                    errors={this.state.loginErrors}
+                    onSubmit={this.handleLogin}
+                />
+                    : <RegistrationForm
+                    isLoading={this.state.isLoading}
+                    errors={this.state.registrationErrors}
+                    onSubmit={this.handleRegistration}
+                />
+            }
+            <AuthenticationNavigation isLoginShown={this.state.isLoginShown} onClick={this.toggleShow}/>
+        </React.Fragment>
     );
 
     render() {

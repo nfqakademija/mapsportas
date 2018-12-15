@@ -5,29 +5,19 @@ const MainModal = ({ content, isOpen, handleCloseModal }) => (
         <Modal
             ariaHideApp={false}
             isOpen={isOpen}
-            style={{
-                overlay: {
-                    zIndex: '1000',
-                },
-                content: {
-                    paddingTop: '3rem',
-                }
-
-            }}
+            className="modalContent"
+            overlayClassName="overlay"
+            shouldCloseOnOverlayClick={true}
+            onRequestClose={handleCloseModal}
         >
-            <div className="close" onClick={handleCloseModal}>
-                <a href="#">
-                    <span className="left">
-                        <span className="circle-left"></span>
-                        <span className="circle-right"></span>
-                    </span>
-                    <span className="right">
-                        <span className="circle-left"></span>
-                        <span className="circle-right"></span>
-                    </span>
-                </a>
+            <div className="row">
+                <div className="col-12" onClick={handleCloseModal}>
+                    <img className="close"  src='/images/closeButton.svg'></img>
+                </div>
+                <div className="col-12">
+                    {content}
+                </div>
             </div>
-                {content}
         </Modal>
 );
 

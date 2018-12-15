@@ -99,131 +99,57 @@
   }
 }
 
-// Close Button
+// Modal
 
-@mixin transition() {
-  transition: all .4s cubic-bezier(.215,.61,.355,1);
+.modalContent {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  border: 1px solid rgb(204, 204, 204);
+  overflow-x: hidden;
 }
 
-.close {
-  z-index: 2000;
-  position: absolute;
-  right: 10%;
-  top: 10%;
-  a {
-    width: 10px;
-    height: 10px;
-    background-color: #ffffff;
-    border-radius: 50px;
-    opacity: 1;
-    @include transition();
-    -webkit-box-shadow: 0px 0px 30px 0px rgba(247,149,29,0.5);
-    -moz-box-shadow: 0px 0px 30px 0px rgba(247,149,29,0.5);
-    box-shadow: 0px 0px 30px 0px rgba(247,149,29,0.5);
-
-    & > span {
-      background-color: #f5a700;
-      display: block;
-      height: 12px;
-      border-radius: 6px;
-      position: relative;
-      @include transition();
-      position: absolute;
-      top: 50%;
-      margin-top: -6px;
-      left: 18px;
-      width: 64px;
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-justify-content: space-between;
-      justify-content: space-between;
-      -moz-justify-content: space-between;
-      -ms-justify-content: space-between;
-
-      span {
-        display: block;
-        background-color: #ed7f00;
-        width: 12px;
-        height: 12px;
-        border-radius: 6px;
-        @include transition();
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
-
-      &.left {
-        transform: rotate(45deg);
-        transform-origin: center;
-
-        .circle-left {
-          @include transition();
-          margin-left: 0;
-        }
-
-        .circle-right {
-          @include transition();
-          margin-left: 52px;
-        }
-      }
-
-      &.right {
-        transform: rotate(-45deg);
-        transform-origin: center;
-
-        .circle-left {
-          @include transition();
-          margin-left: 0;
-        }
-
-        .circle-right {
-          @include transition();
-          margin-left: 52px;
-        }
-      }
-    }
-
-    &:hover {
-      & > span {
-        background-color: #2faee0;
-        @include transition();
-
-        span {
-          @include transition();
-          background-color: #008ac9;
-        }
-
-        &.left {
-
-          .circle-left {
-            @include transition();
-            margin-left: 52px;
-          }
-
-          .circle-right {
-            @include transition();
-            margin-left: 0;
-          }
-        }
-
-        &.right {
-
-          .circle-left {
-            @include transition();
-            margin-left: 52px;
-          }
-
-          .circle-right {
-            @include transition();
-            margin-left: 0;
-          }
-        }
-      }
-    }
+@media screen and (min-width: 500px) {
+  .modalContent {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
   }
+}
+
+@media screen and (min-width: 800px) {
+  .modalContent {
+    position: absolute;
+    left: 25%;
+    right: 25%;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.75);
+  z-index: 1000;
+}
+
+// Close Button
+
+
+.close {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  cursor: pointer;
+  z-index: 1001;
 }
 
 // Event
@@ -341,6 +267,10 @@
   width: 100%;
   height: auto;
 }
+
+.maxWidth-360 {
+  max-width: 360px;
+}
 // Filter
 
 .dropdown.dropdown-lg .dropdown-menu {
@@ -378,16 +308,5 @@
   border-bottom-left-radius: 4px;
 }
 
-//@media screen and (min-width: 768px) {
-//  .dropdown.dropdown-lg .dropdown-menu {
-//    margin-top: -1px;
-//    padding: 6px 20px;
-//    position: absolute !important;
-//    top: 0px !important;
-//    left:0px !important;
-//    right: 0px;
-//    transform: translate3d(0,0,0) !important;
-//  }
-//}
 
 

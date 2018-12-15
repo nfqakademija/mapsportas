@@ -76,7 +76,12 @@ class Venues extends Component {
         const { user } = this.props;
         return (
             <div className="container myTopMargin">
-                <div>
+                <div className="row mb-3">
+                    <div className="col-12 text-center">
+                        <h1>Vietos</h1>
+                    </div>
+                </div>
+                <div className="row">
                     <label>Sporto Rūšis
                         <select className="form-control" name="sport" onChange={this.setFilters}>
                             <option value="0">Visos</option>
@@ -95,7 +100,7 @@ class Venues extends Component {
                     loadMore={this.getVenues}
                     hasMore={hasMore}
                     loader={
-                        <Spinner isLoading={hasMore}/>
+                        <Spinner key={0} isLoading={hasMore}/>
                     }
                 >
                     <div className="row justify-content-center">

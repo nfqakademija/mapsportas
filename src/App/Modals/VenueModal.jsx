@@ -29,7 +29,6 @@ class VenueModal extends Component {
     };
 
     render () {
-        console.log(this.props.event);
         const { event, name, description, photo, address, user } = this.props;
         const { participiants, showModal } = this.state;
         return (
