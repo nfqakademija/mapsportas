@@ -41,7 +41,7 @@ class ProcessDueEventsCommand extends Command
         $repository = $this->entityManager->getRepository('App:SportEvent');
         /** @var SportEvent $event */
         foreach ($repository->findDueEvents() as $event) {
-            if ($event->getStatus() !== SportEvent::STATUS_CANCELLED){
+            if ($event->getStatus() !== SportEvent::STATUS_CANCELLED) {
                 $event->setStatus(SportEvent::STATUS_FINISHED);
                 $this->entityManager->persist($event);
                 $this->logger->info(sprintf('sport event id %d is finished.', $event->getId()));
