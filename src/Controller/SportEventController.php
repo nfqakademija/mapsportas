@@ -12,6 +12,7 @@ use App\Service\FilterProvider;
 use App\Service\NotificationManager;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,16 +25,19 @@ class SportEventController extends AbstractController
     private $filterProvider;
     private $violationExtractor;
     private $serializer;
+    private $logger;
 
     public function __construct(
         NotificationManager $notificationManager,
         FilterProvider $filterProvider,
-        ViolationExtractor $violationExtractor
+        ViolationExtractor $violationExtractor,
+        LoggerInterface $logger
     ) {
         $this->notificationManager = $notificationManager;
         $this->filterProvider = $filterProvider;
         $this->violationExtractor = $violationExtractor;
         $this->serializer = SerializerBuilder::create()->build();
+        $this->logger = $logger;
     }
 
     /**
@@ -140,22 +144,22 @@ class SportEventController extends AbstractController
     public function applyForEvent(Request $request)
     {
         $data = json_decode($request->getContent(), true);
-        $event = $this->getDoctrine()->getRepository(SportEvent::class)->find($data['sportEvent']);
-        if ($event->getStatus() !== SportEvent::STATUS_UPCOMING) {
-            return new JsonResponse('Event has already started', Response::HTTP_NOT_FOUND);
+        $event = $this->getDoctrine()->getRepository(SportEvent::class)->findOneBy(
+            [
+                'id' => $data['sportEvent'],
+                'status' => SportEvent::STATUS_UPCOMING
+            ]
+        );
+        if ($event === null){
+            $this->logger->error(sprintf('no valid event was found by params %d', $data['sportEvent']));
+            return new JsonResponse('event is not found', JsonResponse::HTTP_NOT_FOUND);
         }
         $application = new EventApplication();
         $data['user'] = $this->getUser()->getId();
         $data['createdAt'] = new \DateTime('now');
         $maxMembers = $event->getMaxMembers();
 
-//        check if user have already applyed for this event
-        $applications = $this->getDoctrine()->getRepository(EventApplication::class)
-            ->findby([
-                'user' => $data['user'],
-                'sportEvent' => $data['sportEvent'],
-            ]);
-        if (count($applications) !== 0) {
+        if ($event->getApplyedUsers()->contains($this->getUser())) {
             return new JsonResponse([
                 'error_message' => 'You have already applyed for this Event.'
             ], Response::HTTP_BAD_REQUEST);
