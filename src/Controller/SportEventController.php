@@ -12,6 +12,7 @@ use App\Service\FilterProvider;
 use App\Service\NotificationManager;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,16 +25,19 @@ class SportEventController extends AbstractController
     private $filterProvider;
     private $violationExtractor;
     private $serializer;
+    private $logger;
 
     public function __construct(
         NotificationManager $notificationManager,
         FilterProvider $filterProvider,
-        ViolationExtractor $violationExtractor
+        ViolationExtractor $violationExtractor,
+        LoggerInterface $logger
     ) {
         $this->notificationManager = $notificationManager;
         $this->filterProvider = $filterProvider;
         $this->violationExtractor = $violationExtractor;
         $this->serializer = SerializerBuilder::create()->build();
+        $this->logger = $logger;
     }
 
     /**
@@ -146,6 +150,10 @@ class SportEventController extends AbstractController
                 'status' => SportEvent::STATUS_UPCOMING
             ]
         );
+        if ($event === null){
+            $this->logger->error(sprintf('no valid event was found by params %d', $data['sportEvent']));
+            return new JsonResponse('event is not found', JsonResponse::HTTP_NOT_FOUND);
+        }
         $application = new EventApplication();
         $data['user'] = $this->getUser()->getId();
         $data['createdAt'] = new \DateTime('now');
