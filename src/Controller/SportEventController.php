@@ -150,7 +150,7 @@ class SportEventController extends AbstractController
                 'status' => SportEvent::STATUS_UPCOMING
             ]
         );
-        if ($event === null){
+        if ($event === null) {
             $this->logger->error(sprintf('no valid event was found by params %d', $data['sportEvent']));
             return new JsonResponse('event is not found', JsonResponse::HTTP_NOT_FOUND);
         }
