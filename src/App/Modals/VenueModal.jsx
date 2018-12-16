@@ -27,7 +27,7 @@ class VenueModal extends Component {
     };
 
     render () {
-        const { event, name, description, photo, address, user } = this.props;
+        const { event, name, description, photo, address, user, getUser } = this.props;
         const { participiants, showEventModal, showAuthModal } = this.state;
         return (
             <div className="myPointer">

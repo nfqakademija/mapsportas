@@ -104,7 +104,7 @@ class EventModalContent extends Component {
 
 
     render () {
-        const { name, description, photo, address, user, event, participiants, handleAuthModal, isAuthModalOpen } = this.props;
+        const { name, description, photo, address, user, event, participiants, handleAuthModal, isAuthModalOpen, getUser } = this.props;
         const { message, isLoading, alreadyInEvent } = this.state;
         return (
             <React.Fragment>
