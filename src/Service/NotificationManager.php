@@ -19,6 +19,7 @@ class NotificationManager
     private $entityManager;
     private $notificationNormalizer;
     private $renderer;
+    private $recipientResolver;
     private $logger;
 
     public function __construct(
@@ -26,12 +27,14 @@ class NotificationManager
         EntityManagerInterface $entityManager,
         NotificationNormalizer $notificationNormalizer,
         Twig_Environment $environment,
+        RecipientResolver $recipientResolver,
         LoggerInterface $logger
     ) {
         $this->swiftMailer = $swiftMailer;
         $this->entityManager = $entityManager;
         $this->notificationNormalizer = $notificationNormalizer;
         $this->renderer = $environment;
+        $this->recipientResolver = $recipientResolver;
         $this->logger = $logger;
     }
 
@@ -40,9 +43,10 @@ class NotificationManager
         if (!$context['application'] instanceof EventApplication || !array_key_exists('action', $context)) {
             throw new \Exception('context does not have application or action');
         }
+        $userApplications = $this->recipientResolver->resolve($sportEvent->getApplyedUsers(), $context['application']);
         $notifications = $this->notificationNormalizer->mapToEntity(
             [
-                'userApplications' => $sportEvent->getApplyedUsers(),
+                'userApplications' => $userApplications,
                 'context' => $context
             ]
         );

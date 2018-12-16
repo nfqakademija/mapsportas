@@ -16,7 +16,7 @@ class NotificationNormalizer implements NormalizerInterface
         $userApplications = $data['userApplications'];
 
         $notifications = [];
-        foreach ($userApplications->getIterator() as $userApplication) {
+        foreach ($userApplications as $userApplication) {
             $notifications[] = (new Notification())
             ->setTitle(Notification::TITLE)
             ->setRecipient($userApplication->getUser())

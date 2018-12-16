@@ -152,7 +152,7 @@ class SportEventController extends AbstractController
         );
         if ($event === null) {
             $this->logger->error(sprintf('no valid event was found by params %d', $data['sportEvent']));
-            return new JsonResponse('event is not found', JsonResponse::HTTP_NOT_FOUND);
+            return new JsonResponse(['error_message' => 'event is not found'], JsonResponse::HTTP_NOT_FOUND);
         }
         $application = new EventApplication();
         $data['user'] = $this->getUser()->getId();
