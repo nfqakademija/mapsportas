@@ -21,7 +21,7 @@ class Event extends Component {
     }
 
     handleAuthModal = () => {
-        this.setState({ isAuthModalOpen: !isAuthModalOpen });
+        this.setState({ isAuthModalOpen: !this.state.isAuthModalOpen });
     };
 
     handleApplication = (id) => {
