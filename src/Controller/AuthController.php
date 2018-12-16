@@ -42,6 +42,10 @@ class AuthController extends controller
         $data = json_decode($request->getContent(), true);
         $data['birthDate'] = new \DateTime($data['birthDate']);
 
+        $passwordError = $this->comparePasswords($data['password'], $data['repeatPassword']);
+        if ($passwordError) {
+            return new JsonResponse([[$passwordError]], Response::HTTP_BAD_REQUEST);
+        }
         $form = $this->createForm(RegistrationForm::class, $user);
         $form->setData($user);
         $form->submit($data, false);
@@ -106,5 +110,12 @@ class AuthController extends controller
         $token = $jwtManager->create($user);
 
         return $token;
+    }
+
+    private function comparePasswords(string $password, string $repeatPassword)
+    {
+        if ($password !== $repeatPassword) {
+            return ['field' => 'password', 'violation_message' => 'passwords must match'];
+        }
     }
 }
