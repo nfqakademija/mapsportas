@@ -15,3 +15,7 @@ export const fetchEvents = async () => {
 export const fetchEventsUpcoming = async (i,first) => {
     return await axios.get('/api/public/sport/events/upcoming/' + i + '/' + first);
 };
+
+export const fetchUser = async (token) => {
+    return  await axios.get('/api/user', {headers: { Authorization: `Bearer ${token}`,}});
+};

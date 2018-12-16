@@ -29,7 +29,8 @@ class Venue extends Component {
                 description,
                 venue_photo,
                 sport_events
-            }
+            },
+            getUser,
         } = this.props;
         const { opened } = this.state;
         return (
@@ -58,6 +59,7 @@ class Venue extends Component {
                                                     description={description}
                                                     photo={venue_photo}
                                                     user={user}
+                                                    getUser={getUser}
                                         />
                                     ))
                                     : ( <div>Nėra renginių</div> )

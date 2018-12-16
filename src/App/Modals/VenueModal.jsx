@@ -50,6 +50,7 @@ class VenueModal extends Component {
                            handleParticipiants={this.handleParticipiants}
                            isAuthModalOpen={showAuthModal}
                            handleAuthModal={this.handleAuthModal}
+                           getUser={getUser}
                        />
                     }
                 />

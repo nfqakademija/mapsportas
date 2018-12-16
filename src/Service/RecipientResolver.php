@@ -11,8 +11,8 @@ class RecipientResolver
     public function resolve(Collection $applications, EventApplication $eventApplication): array
     {
         $recipients = [];
-        foreach ($applications->getIterator() as $application){
-            if ($application->getUser() !== $eventApplication->getUser()){
+        foreach ($applications->getIterator() as $application) {
+            if ($application->getUser() !== $eventApplication->getUser()) {
                 $recipients[] = $application;
             }
         }
@@ -20,4 +20,3 @@ class RecipientResolver
         return $recipients;
     }
 }
-

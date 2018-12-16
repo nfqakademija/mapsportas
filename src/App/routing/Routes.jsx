@@ -8,6 +8,7 @@ import Menu from '../menu/Menu';
 import Events from '../Events/Events';
 import Venues from '../Venues/Venues';
 import Spinner from "../components/Spinner";
+import {fetchUser} from "../../../assets/js/fetchPublic";
 
 class Routes extends Component {
     state = {
@@ -26,21 +27,14 @@ class Routes extends Component {
         this.setState({ isLoading: true });
         const token = localStorage.getItem('user_token');
         if (token) {
-            await axios
-                .get(
-                    '/api/user', {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    })
+            fetchUser(token)
                 .then((response) => {
-                        if (response.status === 200) {
-                            this.setState({
-                                user: response.data.user,
-                                isAuthorized: true,
-                            });
-                        }
-                    },
+                    if (response.status === 200) {
+                        this.setState({
+                            user: response.data.user,
+                            isAuthorized: true,
+                        });
+                    }},
                 )
                 .catch((error) => {
                     this.setState({
@@ -86,12 +80,6 @@ class Routes extends Component {
                         showCreateEventModal={showCreateEventModal}
                         handleAuthModal={this.handleAuthModal}
                         handleCreateEventModal={this.handleCreateEventModal}
-
-                        handleOpenAuthModal={this.handleOpenAuthModal}
-                        handleCloseAuthModal={this.handleCloseAuthModal}
-                        handleOpenCreateEventModal={this.handleOpenCreateEventModal}
-                        handleCloseCreateEventModal={this.handleCloseCreateEventModal}
-
                         getUser={this.getUser}
                     />
                     <Switch>
@@ -104,7 +92,7 @@ class Routes extends Component {
                         />
                         <Route exact path="/admin" render={() => <AddNewVenueForm/>}/>
                         <Route exact path="/events" render={() => <Events user={user}/>}/>
-                        <Route exact path="/venues" render={() => <Venues user={user}/>}/>
+                        <Route exact path="/venues" render={() => <Venues user={user} getUser={this.getUser}/>}/>
                     </Switch>
                 </React.Fragment>
                 : <div style={{

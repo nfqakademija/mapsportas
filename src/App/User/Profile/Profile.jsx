@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppliedEvent from './AppliedEvent';
 import axios from 'axios';
+import {fetchUser} from "../../../../assets/js/fetchPublic";
 
 class Profile extends Component {
     state = {
@@ -12,17 +13,12 @@ class Profile extends Component {
     };
 
     componentDidMount() {
-        this.fetchUser();
+        this.getUser();
     }
 
-    fetchUser = async () => {
-        await axios
-            .get('api/user', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('user_token')}`,
-                    },
-                },
-            )
+    getUser = async () => {
+        const token = localStorage.getItem('user_token');
+        fetchUser(token)
             .then(response => {
                 this.setState({
                     user: response.data.user,
@@ -59,7 +55,7 @@ class Profile extends Component {
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({ message: response.data });
-                    this.fetchUser();
+                    this.getUser();
                 }
             })
             .catch((error) => {
@@ -74,7 +70,6 @@ class Profile extends Component {
 
     render() {
         const {
-            isImageUploadVisible,
             message,
             applicationsLoaded,
             user: {

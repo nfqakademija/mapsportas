@@ -138,12 +138,12 @@ class EventModalContent extends Component {
                     </div>
                 </div>
                 <div className="text-center">
-                    {alreadyInEvent
-                        ? <PrimaryButton handleClick={this.cancelApplication} text={'Nebedalyvauti'}/>
-                        :  Object.keys(user).length !== 0
-                            ? <PrimaryButton handleClick={this.handleApplication.bind(this, event.id)} text={"Dalyvauti"}/>
-                            : (
-                                <React.Fragment>
+                    {Object.keys(user).length !== 0
+                        ? alreadyInEvent
+                            ? <PrimaryButton handleClick={this.cancelApplication} text={'Nebedalyvauti'}/>
+                            : <PrimaryButton handleClick={this.handleApplication.bind(this, event.id)} text={"Dalyvauti"}/>
+                        : (
+                            <React.Fragment>
                                 <PrimaryButton handleClick={handleAuthModal} text={"Prisijunk"}/>
                                 <MainModal
                                     isOpen={isAuthModalOpen}
@@ -151,11 +151,11 @@ class EventModalContent extends Component {
                                     content={
                                         <AuthenticationHandler
                                             handleCloseModal={handleAuthModal}
+                                            getUser={getUser}
                                         />}
                                 />
-                                </React.Fragment>
-                            )
-
+                            </React.Fragment>
+                        )
                     }
                 </div>
                 <Spinner isLoading={isLoading}/>

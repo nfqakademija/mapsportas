@@ -73,7 +73,7 @@ class Venues extends Component {
 
     render() {
         const { venues, sports, hasMore } = this.state;
-        const { user } = this.props;
+        const { user, getUser } = this.props;
         return (
             <div className="container myTopMargin">
                 <div className="row mb-3">
@@ -106,7 +106,7 @@ class Venues extends Component {
                     <div className="row justify-content-center">
                         {
                             venues.map((venue) => {
-                                return <Venue key={venue.id} venue={venue} user={user}/>;
+                                return <Venue key={venue.id} venue={venue} user={user} getUser={getUser}/>;
                             })
                         }
                     </div>

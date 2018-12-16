@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Event from '../home/Feed/Event';
-import { fetchEventsFiltered, getEventsCount, getVenuesCount } from "../../../assets/js/fetchPublic";
 import FilterBar from "./filterBar";
 import InfiniteScroll from 'react-infinite-scroller';
 import axios from "axios";
