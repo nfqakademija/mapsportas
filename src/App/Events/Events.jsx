@@ -81,7 +81,7 @@ class Events extends Component {
 
     render() {
         const { events, hasMore } = this.state;
-        const { user } = this.props;
+        const { user, getUser } = this.props;
         return (
             <div className="container myTopMargin">
                 <div className="row mb-3">
@@ -102,7 +102,7 @@ class Events extends Component {
                         {
                             events.map((event) => {
                                 return (
-                                    <Event key={event.id} event={event} user={user}/>
+                                    <Event key={event.id} event={event} user={user} getUser={getUser}/>
                                 );
                             })
                         }

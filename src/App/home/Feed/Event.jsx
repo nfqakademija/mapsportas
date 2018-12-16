@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import Spinner from "../../components/Spinner";
+import AuthenticationHandler from "../../Authentication/AuthenticationHandler";
+import MainModal from "../../components/MainModal";
 
 class Event extends Component {
     constructor(props) {
@@ -11,11 +13,16 @@ class Event extends Component {
             message: '',
             participiants: this.props.event.applyed_users.length,
             alreadyInEvent: false,
+            isAuthModalOpen: false,
         };
     }
     componentDidMount() {
         this.isUserInEvent();
     }
+
+    handleAuthModal = () => {
+        this.setState({ isAuthModalOpen: !isAuthModalOpen });
+    };
 
     handleApplication = (id) => {
         this.setState({ isLoading: true });
@@ -85,6 +92,7 @@ class Event extends Component {
     render() {
         const {
             user,
+            getUser,
             event: {
                 sport_type,
                 sport_venue,
@@ -120,11 +128,24 @@ class Event extends Component {
                             <li><i className="fa fa-circle" aria-hidden="true"></i> Adresas: {sport_venue.address}</li>
                         </ul>
                         <div className="ml-3 my-3">
-                            {alreadyInEvent
-                                ? <PrimaryButton handleClick={this.cancelApplication} text={'Nebedalyvauti'}/>
-                                :  Object.keys(user).length !== 0
-                                    ? <PrimaryButton handleClick={this.handleApplication.bind(this, id)} text={"Dalyvauti"}/>
-                                    : <PrimaryButton redirect={"/auth"} text={"Prisijunk"}/>
+                            {Object.keys(user).length !== 0
+                                ? alreadyInEvent
+                                    ? <PrimaryButton handleClick={this.cancelApplication} text={'Nebedalyvauti'}/>
+                                    : <PrimaryButton handleClick={this.handleApplication.bind(this, id)} text={"Dalyvauti"}/>
+                                :
+                                    <React.Fragment>
+                                        <PrimaryButton handleClick={this.handleAuthModal} text={"Prisijunk"}/>
+                                        <MainModal
+                                            isOpen={isAuthModalOpen}
+                                            handleCloseModal={this.handleAuthModal}
+                                            content={
+                                                <AuthenticationHandler
+                                                    handleCloseModal={this.handleAuthModal}
+                                                    getUser={getUser}
+                                                />}
+                                        />
+
+                                    </React.Fragment>
                             }
                         </div>
                         <Spinner isLoading={isLoading}/>
