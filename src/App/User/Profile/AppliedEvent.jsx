@@ -55,18 +55,10 @@ class AppliedEvent extends Component {
                             {sport_venue.name}
                         </div>
                         <div className="d-none d-md-block col-md-3">
-                            {applyed_users.length}/{max_members}
+                            {applyed_users.length + 1}/{max_members}
                         </div>
                     </div>
                 </div>
-
-                {/*<div>applied: {application.created_at}*/}
-                    {/*sport: {application.sport_event.sport_type.name}*/}
-                {/*</div>*/}
-                {/*<button className="btn btn-sm btn-danger"*/}
-                        {/*onClick={this.handleCancelApplication.bind(this, application.sport_event.id)}>*/}
-                    {/*Cancel application*/}
-                {/*</button>*/}
             </React.Fragment>
         );
     }

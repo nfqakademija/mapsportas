@@ -1,98 +1,34 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import PrimaryButton from "../../components/buttons/PrimaryButton";
 import Spinner from "../../components/Spinner";
-import AuthenticationHandler from "../../Authentication/AuthenticationHandler";
-import MainModal from "../../components/MainModal";
+import ApplicationButton from "../../components/ApplicationButton";
 
 class Event extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
             message: '',
             participiants: this.props.event.applyed_users.length,
-            alreadyInEvent: false,
-            isAuthModalOpen: false,
+            isLoading: false,
         };
     }
-    componentDidMount() {
-        this.isUserInEvent();
-    }
 
-    handleAuthModal = () => {
-        this.setState({ isAuthModalOpen: !this.state.isAuthModalOpen });
+    setMessage = (givenMessage) => {
+        this.setState({ message: givenMessage })
     };
 
-    handleApplication = (id) => {
-        this.setState({ isLoading: true });
-        axios
-            .post('/api/sport/event/apply', {
-                    sportEvent: id,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('user_token')}`,
-                    },
-                })
-            .then((response) => {
-                if (response.status === 201) {
-                    this.setState({
-                        participiants: this.state.participiants + 1,
-                        message: response.data,
-                        isLoading: false,
-                        alreadyInEvent: true,
-                    });
-                }
-            })
-            .catch((error) => {
-                this.setState({
-                    message: error.response.data,
-                    isLoading: false,
-                });
-            });
+    handleParticipiants = (i) => {
+        this.setState({ participiants: this.state.participiants + i })
     };
 
-    cancelApplication = () => {
-        const { event: { id } } = this.props;
-        this.setState({ isLoading: true });
-        axios
-            .delete(`/api/sport/event/leave/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('user_token')}`,
-                },
-            })
-            .then((response) => {
-                this.setState({
-                    message: response.data,
-                    alreadyInEvent: false,
-                    participiants: this.state.participiants - 1,
-                    isLoading: false,
-                });
-                this.props.onLeave(id);
-            });
-    };
-
-    isUserInEvent = () => {
-        const {
-            user: {
-                id,
-            },
-            event: {
-                applyed_users,
-            },
-        } = this.props;
-        applyed_users.map((application) => {
-            if (id == application.user.id) {
-                this.setState({ alreadyInEvent: true})
-            }
-        });
+    toggleLoading = () => {
+        this.setState({ isLoading: !this.state.isLoading })
     };
 
     render() {
         const {
             user,
             getUser,
+            event,
             event: {
                 sport_type,
                 sport_venue,
@@ -106,8 +42,6 @@ class Event extends Component {
             isLoading,
             participiants,
             message,
-            alreadyInEvent,
-            isAuthModalOpen,
         } = this.state;
         return (
             <div className="col-12 col-md-6 col-lg-4">
@@ -129,25 +63,14 @@ class Event extends Component {
                             <li><i className="fa fa-circle" aria-hidden="true"></i> Adresas: {sport_venue.address}</li>
                         </ul>
                         <div className="ml-3 my-3">
-                            {Object.keys(user).length !== 0
-                                ? alreadyInEvent
-                                    ? <PrimaryButton handleClick={this.cancelApplication} text={'Nebedalyvauti'}/>
-                                    : <PrimaryButton handleClick={this.handleApplication.bind(this, id)} text={"Dalyvauti"}/>
-                                :
-                                    <React.Fragment>
-                                        <PrimaryButton handleClick={this.handleAuthModal} text={"Prisijunk"}/>
-                                        <MainModal
-                                            isOpen={isAuthModalOpen}
-                                            handleCloseModal={this.handleAuthModal}
-                                            content={
-                                                <AuthenticationHandler
-                                                    handleCloseModal={this.handleAuthModal}
-                                                    getUser={getUser}
-                                                />}
-                                        />
-
-                                    </React.Fragment>
-                            }
+                            <ApplicationButton
+                                user={user}
+                                getUser={getUser}
+                                setMessage={this.setMessage}
+                                handleParticipiants={this.handleParticipiants}
+                                event={event}
+                                toggleLoading={this.toggleLoading}
+                            />
                         </div>
                         <Spinner isLoading={isLoading}/>
                         <div className="text-center my-3">

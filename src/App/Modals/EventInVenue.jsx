@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MainModal from "../components/MainModal";
 import EventModalContent from "./EventModalContent";
 
-class VenueModal extends Component {
+class EventInVenue extends Component {
     constructor (props) {
         super(props);
         this.state = {
@@ -59,4 +59,4 @@ class VenueModal extends Component {
     }
 }
 
-export default VenueModal;
+export default EventInVenue;

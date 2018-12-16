@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import VenueModal from '../../Modals/VenueModal';
+import EventInVenue from '../../Modals/EventInVenue';
 import SecondaryButton from "../../components/buttons/SecondaryButton";
 
 
@@ -52,14 +52,14 @@ class Venue extends Component {
                         {opened
                             ? (sport_events.length > 0
                                     ? ( sport_events.map((event, i) =>
-                                        <VenueModal key={i}
-                                                    event={event}
-                                                    name={name}
-                                                    address={address}
-                                                    description={description}
-                                                    photo={venue_photo}
-                                                    user={user}
-                                                    getUser={getUser}
+                                        <EventInVenue key={i}
+                                                      event={event}
+                                                      name={name}
+                                                      address={address}
+                                                      description={description}
+                                                      photo={venue_photo}
+                                                      user={user}
+                                                      getUser={getUser}
                                         />
                                     ))
                                     : ( <div>Nėra renginių</div> )
