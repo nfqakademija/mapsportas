@@ -59,7 +59,7 @@ class Home extends Component {
 
     render() {
         const { events, hasMore } = this.state;
-        const { user } = this.props;
+        const { user, getUser } = this.props;
         return (
             <React.Fragment>
                 <Slider/>
@@ -77,7 +77,7 @@ class Home extends Component {
                                 {
                                     events.map((event) => {
                                         return (
-                                            <Event key={event.id} event={event} user={user}/>
+                                            <Event key={event.id} event={event} user={user} getUser={getUser}/>
                                         );
                                     })
                                 }

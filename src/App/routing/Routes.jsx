@@ -83,7 +83,7 @@ class Routes extends Component {
                         getUser={this.getUser}
                     />
                     <Switch>
-                        <Route exact path="/" render={() => <Home user={user}/>}/>
+                        <Route exact path="/" render={() => <Home user={user} getUser={this.getUser}/>}/>
                         <Route exact path="/profile" render={() => (
                             isAuthorized
                                 ? <Profile/>
