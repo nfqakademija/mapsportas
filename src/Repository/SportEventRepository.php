@@ -32,7 +32,6 @@ class SportEventRepository extends ServiceEntityRepository
             ->andWhere('e.date > :from')
             ->andWhere('e.status = :status')
             ->setParameter('from', $filter->getFromDate()->format('Y-m-d H:i:s'))
-            ->setParameter('status', SportEvent::STATUS_UPCOMING)
         ;
 
         if ($filter->getToDate() instanceof DateTimeInterface) {
