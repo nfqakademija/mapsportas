@@ -63,7 +63,9 @@ class SportEventRepository extends ServiceEntityRepository
         $date = new \DateTime('now');
         $qb = $this->createQueryBuilder('e')
             ->andWhere('e.date > :date')
+            ->andWhere('e.status != :status')
             ->setParameter('date', $date)
+            ->setParameter('status', SportEvent::STATUS_CANCELLED)
             ->orderBy('e.date', 'ASC')
             ->setFirstResult($first)
             ->setMaxResults($perPage)
@@ -78,7 +80,9 @@ class SportEventRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('e')
             ->select('count(e.id)')
             ->andWhere('e.date > :date')
+            ->andWhere('e.status != :status')
             ->setParameter('date', $date)
+            ->setParameter('status', SportEvent::STATUS_CANCELLED)
             ->getQuery();
 
         return $qb->execute();
