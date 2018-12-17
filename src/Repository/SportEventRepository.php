@@ -30,7 +30,6 @@ class SportEventRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder('e')
             ->andWhere('e.date > :from')
-            ->andWhere('e.status = :status')
             ->setParameter('from', $filter->getFromDate()->format('Y-m-d H:i:s'))
         ;
 
