@@ -127,7 +127,6 @@ class SportEventController extends AbstractController
             $user = $this->getUser();
             $this->autoApply($user, $sportEvent);
 
-
             return new JsonResponse([
                 'success_message' => 'Successfully created new Sport Event'
             ], Response::HTTP_CREATED);
@@ -154,19 +153,25 @@ class SportEventController extends AbstractController
             $this->logger->error(sprintf('no valid event was found by params %d', $data['sportEvent']));
             return new JsonResponse(['error_message' => 'event is not found'], JsonResponse::HTTP_NOT_FOUND);
         }
+        /** @var User $user */
+        $user = $this->getUser();
         $application = new EventApplication();
-        $data['user'] = $this->getUser()->getId();
+        $data['user'] = $user->getId();
         $data['createdAt'] = new \DateTime('now');
-        $maxMembers = $event->getMaxMembers();
 
-        if ($event->getApplyedUsers()->contains($this->getUser())) {
+        $applications = $this->getDoctrine()->getRepository(EventApplication::class)
+            ->findby([
+                'user' => $data['user'],
+                'sportEvent' => $data['sportEvent'],
+            ]);
+        if (count($applications) !== 0) {
             return new JsonResponse([
                 'error_message' => 'You have already applyed for this Event.'
             ], Response::HTTP_BAD_REQUEST);
         }
 
 //        check if there still place for event
-        if ($event->getApplyedUsers()->count() >= $maxMembers) {
+        if ($event->getApplyedUsers()->count() >= $event->getMaxMembers()) {
             return new JsonResponse([
                 'error_message' => 'Event is full, you can\'t apply for it.'
             ], Response::HTTP_BAD_REQUEST);
