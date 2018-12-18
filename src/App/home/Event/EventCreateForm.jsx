@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { fetchSports } from '../../../../assets/js/fetchPublic';
 import Spinner from "../../components/Spinner";
+import DatePicker from "react-datepicker";
 
 class EventCreateForm extends Component {
     state = {
@@ -17,6 +18,7 @@ class EventCreateForm extends Component {
         sports: [],
         venues: [],
         isLoading: false,
+        startDate: new Date(),
     };
 
     async componentDidMount() {
@@ -34,6 +36,16 @@ class EventCreateForm extends Component {
         if (name === 'sportType') {
             this.filterSportVenues(value);
         }
+    };
+
+    handleDateChange = (date) => {
+        this.setState({
+            startDate: date,
+            event: {
+                date: date,
+            }
+        });
+
     };
 
     filterSportVenues = (sportType) => {
@@ -84,7 +96,7 @@ class EventCreateForm extends Component {
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label>Max members</label>
+                            <label>Maksimalus dalyvių skaičius</label>
                             <input
                                 className="form-control"
                                 type="number"
@@ -96,7 +108,7 @@ class EventCreateForm extends Component {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Sport</label>
+                            <label>Sporto Rūšis</label>
                             <select className="form-control" name="sportType"
                                     onChange={() => this.handleChange(event)}>
                                 <option value=""></option>
@@ -109,7 +121,7 @@ class EventCreateForm extends Component {
                         </div>
                         {venues.length > 0
                         && <div className="form-group">
-                            <label>Venue</label>
+                            <label>Vieta</label>
                             <select className="form-control" name="sportVenue"
                                     onChange={() => this.handleChange(event)}>
                                 <option value=""></option>
@@ -122,13 +134,17 @@ class EventCreateForm extends Component {
                         </div>
                         }
                         <div className="form-group">
-                            <label>Date</label>
-                            <input
+                            <div>
+                                <label>Data</label>
+                            </div>
+                            <DatePicker
                                 className="form-control"
                                 name="date"
-                                type="datetime-local"
-                                onChange={this.handleChange}
-                                required={true}
+                                selected={this.state.startDate}
+                                onChange={this.handleDateChange}
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                dateFormat="MMMM d, yyyy h:mm"
                             />
                         </div>
                         <button

@@ -13,8 +13,7 @@ const slide3 = {
     backgroundImage: `url(img/bg-img/bg-3.jpg)`
 };
 
-const Slider = () => (
-
+const Slider = ({ scrollDown }) => (
     <div id="carouselExampleIndicators" className="carousel slide my-slider" data-ride="carousel">
         <ol className="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
@@ -52,6 +51,8 @@ const Slider = () => (
             <span className="carousel-control-next-icon" aria-hidden="true"></span>
             <span className="sr-only">Next</span>
         </a>
+
+        <a href="#events-list" className="scroll-down" address="true"></a>
     </div>
 
 );

@@ -15,8 +15,14 @@ class ApplicationButton extends Component {
         };
     }
 
+
+    componentDidUpdate(prevProps) {
+        if(!prevProps.user.id && this.props.user.id) {
+            this.isUserInEvent();
+        }
+    };
+
     componentDidMount() {
-        this.isUserInEvent();
         this.checkIfEventFinished(this.props.event.date);
     }
 
@@ -89,7 +95,6 @@ class ApplicationButton extends Component {
             },
         } = this.props;
         applyed_users.map((application) => {
-            console.log(this.props.event);
             if (id == application.user.id) {
                 this.setState({ alreadyInEvent: true})
             }

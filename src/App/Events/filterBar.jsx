@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { fetchSports } from "../../../assets/js/fetchPublic";
+import DatePicker from "react-datepicker/es";
 
 class FilterBar extends Component {
     state = {
+        startFromDate: new Date(),
+        startToDate: new Date(),
         sports: [],
         sport: null,
         from: null,
@@ -44,12 +47,18 @@ class FilterBar extends Component {
         }
     };
 
-    handleFromChange = (e) => {
-        this.setState({from: e.target.value})
+    handleFromChange = (date) => {
+        this.setState({
+            startFromDate: date,
+            from: date,
+        });
     };
 
-    handleToChange = (e) => {
-        this.setState({to: e.target.value})
+    handleToChange = (date) => {
+        this.setState({
+            startToDate: date,
+            to: date,
+        });
     };
 
     handleMinChange = (e) => {
@@ -74,12 +83,28 @@ class FilterBar extends Component {
                             <div id="showDiv2" className="dropdown-menu">
                                 <form className="form-horizontal" role="form">
                                     <div className="form-group">
-                                        <label>Data nuo</label>
-                                        <input className="form-control" type="date" name="from" onChange={this.handleFromChange} placeholder={from}/>
+                                        <div>
+                                            <label>Data nuo</label>
+                                        </div>
+                                        <DatePicker
+                                            className="form-control"
+                                            name="from"
+                                            selected={this.state.startFromDate}
+                                            onChange={this.handleFromChange}
+                                            dateFormat="MMMM d, yyyy"
+                                        />
                                     </div>
                                     <div className="form-group">
-                                        <label>Data iki</label>
-                                        <input className="form-control" type="date" name="to" onChange={this.handleToChange} placeholder={to}/>
+                                        <div>
+                                            <label>Data iki</label>
+                                        </div>
+                                        <DatePicker
+                                            className="form-control"
+                                            name="to"
+                                            selected={this.state.startToDate}
+                                            onChange={this.handleToChange}
+                                            dateFormat="MMMM d, yyyy"
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label>Dalyviai nuo</label>

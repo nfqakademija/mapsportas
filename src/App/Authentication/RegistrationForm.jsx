@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ErrorMessage from './partials/ErrorMessage';
 import Spinner from "../components/Spinner";
+import DatePicker from "react-datepicker/es";
 
 class RegistrationForm extends Component {
     state = {
+        startDate: new Date('2001-01-01'),
         user: {
             name: '',
             surname: '',
@@ -21,6 +23,15 @@ class RegistrationForm extends Component {
             { user: { ...this.state.user, [name]: value } },
         );
     };
+
+    // handleDateChange = (date) => {
+    //     this.setState({
+    //         startDate: date,
+    //         user: {
+    //             birthDate: date,
+    //         }
+    //     });
+    // };
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -50,7 +61,7 @@ class RegistrationForm extends Component {
                                             : null
                                 })
                             }
-                            <label>Name</label>
+                            <label>Vardas</label>
                             <input
                                 name="name"
                                 onChange={this.handleChange}
@@ -69,7 +80,7 @@ class RegistrationForm extends Component {
                                         : null
                                 })
                             }
-                            <label>Surname</label>
+                            <label>Pavardė</label>
                             <input
                                 name="surname"
                                 onChange={this.handleChange}
@@ -88,7 +99,7 @@ class RegistrationForm extends Component {
                                         : null
                                 })
                             }
-                            <label>Username</label>
+                            <label>Vartotojo Vardas</label>
                             <input
                                 name="username"
                                 onChange={this.handleChange}
@@ -107,7 +118,7 @@ class RegistrationForm extends Component {
                                         : null
                                 })
                             }
-                            <label>Email</label>
+                            <label>El. Paštas</label>
                             <input
                                 name="email"
                                 onChange={this.handleChange}
@@ -126,7 +137,7 @@ class RegistrationForm extends Component {
                                         : null
                                 })
                             }
-                            <label>Password</label>
+                            <label>Slaptažodis</label>
                             <input
                                 name="password"
                                 type="password"
@@ -139,8 +150,9 @@ class RegistrationForm extends Component {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Repeat password</label>
+                            <label>Pakartokite slaptažodį</label>
                             <input
+                                name="repeatPassword"
                                 type="password"
                                 onChange={this.handleChange}
                                 required={true}
@@ -158,7 +170,19 @@ class RegistrationForm extends Component {
                                         : null
                                 })
                             }
-                            <label>Date of birth</label>
+                            <div>
+                                <label>Gimimo Data</label>
+                            </div>
+                            {/*<DatePicker*/}
+                                {/*className={ errors.birthDate*/}
+                                    {/*? 'form-control form-control-danger'*/}
+                                    {/*: 'form-control'*/}
+                                {/*}*/}
+                                {/*name="birthDate"*/}
+                                {/*selected={this.state.startDate}*/}
+                                {/*onChange={this.handleDateChange}*/}
+                                {/*dateFormat="MMMM d, yyyy"*/}
+                            {/*/>*/}
                             <input
                                 name="birthDate"
                                 type="date"
@@ -175,7 +199,7 @@ class RegistrationForm extends Component {
                             type="Submit"
                             disabled={isLoading}
                         >
-                            Register
+                            Registruotis
                         </button>
                     </form>
                 </div>

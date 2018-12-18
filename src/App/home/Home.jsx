@@ -22,6 +22,10 @@ class Home extends Component {
         this.setState({ isLoading: false });
     }
 
+    scrollToContent = () => {
+        document.getElementById('events-list').scrollIntoView({behavior: 'smooth'});
+    };
+
     fetchAllEvents = async () => {
         const { page, perPage } = this.state;
         let first = page * perPage;
@@ -63,7 +67,7 @@ class Home extends Component {
         return (
             <React.Fragment>
                 <Slider/>
-                <div className="py-5">
+                <div id="events-list" className="py-5">
                     <div className="container">
                         <InfiniteScroll
                             pageStart={0}

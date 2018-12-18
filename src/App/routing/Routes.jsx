@@ -54,10 +54,6 @@ class Routes extends Component {
         });
     };
 
-    scrollToContent = () => {
-        document.getElementById('auth-form').scrollIntoView({behavior: 'smooth'});
-    };
-
     handleAuthModal = () => {
         this.setState({ showAuthModal: !this.state.showAuthModal })
     };
