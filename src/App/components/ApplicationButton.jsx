@@ -23,6 +23,7 @@ class ApplicationButton extends Component {
     };
 
     componentDidMount() {
+        this.isUserInEvent();
         this.checkIfEventFinished(this.props.event.date);
     }
 
