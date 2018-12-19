@@ -81,9 +81,9 @@ class Venues extends Component {
                         <h1>Vietos</h1>
                     </div>
                 </div>
-                <div className="row">
-                    <label>Sporto Rūšis
-                        <select className="form-control" name="sport" onChange={this.setFilters}>
+                <div className="row justify-content-center">
+                    <label className="pr-2">Sporto Rūšis
+                        <select className="form-control pl-2" name="sport" onChange={this.setFilters}>
                             <option value="0">Visos</option>
                             {
                                 sports.map((sport) => {
@@ -92,8 +92,7 @@ class Venues extends Component {
                                     );
                                 })
                             }
-                        </select>
-                    </label>
+                        </select></label>
                 </div>
                 <InfiniteScroll
                     pageStart={0}

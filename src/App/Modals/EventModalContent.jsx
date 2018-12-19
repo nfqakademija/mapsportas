@@ -33,22 +33,22 @@ class EventModalContent extends Component {
                     </div>
                     <div className="col-12">
                         <div className="row">
-                            <div className="col-12 mb-3">
+                            <div className="col-12 mb-3 py-1">
                                 <h4>{name}</h4>
                             </div>
-                            <div className="col-12 d-flex justify-content-between">
+                            <div className="col-12 d-flex justify-content-between py-1">
+                                <span>Dalyviai:</span> <span>{participiants}/{event.max_members}</span>
+                            </div>
+                            <div className="col-12 d-flex justify-content-between py-1">
                                 <span>Data ir Laikas:</span> <span>{event.date}</span>
                             </div>
-                            <div className="col-12 d-flex justify-content-between">
+                            <div className="col-12 d-flex justify-content-between py-1">
                                 <span>Adresas:</span> <span>{address}</span>
-                            </div>
-                            <div className="col-12 d-flex justify-content-between">
-                                <span>Dalyviai:</span> <span>{participiants}/{event.max_members}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="row">
+                <div className="row py-1">
                     <div className="col-12">
                         Aikštelės aprašymas:
                     </div>

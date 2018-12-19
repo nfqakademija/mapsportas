@@ -1,5 +1,7 @@
 import React from 'react';
 import PrimaryButton from "../../components/buttons/PrimaryButton";
+import EventCreateForm from "../Event/EventCreateForm";
+import MainModal from "../../components/MainModal";
 
 const slide1 = {
     backgroundImage: `url(img/bg-img/bg-1.jpg)`
@@ -13,7 +15,7 @@ const slide3 = {
     backgroundImage: `url(img/bg-img/bg-3.jpg)`
 };
 
-const Slider = ({ scrollDown }) => (
+const Slider = ({ scrollDown, showCreateEventModal, handleCreateEventModal  }) => (
     <div id="carouselExampleIndicators" className="carousel slide my-slider" data-ride="carousel">
         <ol className="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
@@ -39,7 +41,14 @@ const Slider = ({ scrollDown }) => (
                 <div className="my-caption d-md-block">
                     <h3>Nieko nerandi?</h3>
                     <p>Suorganizuok tai, ko nori!</p>
-                    <PrimaryButton text={"Sukurti"} redirect={"/events/create"}/>
+                    <PrimaryButton text={"Sukurti"} handleClick={handleCreateEventModal}/>
+                    <MainModal
+                        isOpen={showCreateEventModal}
+                        handleCloseModal={handleCreateEventModal}
+                        content={
+                            <EventCreateForm handleCloseModal={handleCreateEventModal}/>
+                        }
+                    />
                 </div>
             </div>
         </div>
@@ -52,7 +61,7 @@ const Slider = ({ scrollDown }) => (
             <span className="sr-only">Next</span>
         </a>
 
-        <a href="#events-list" className="scroll-down" address="true"></a>
+        <div className="scroll-down" onClick={scrollDown}></div>
     </div>
 
 );

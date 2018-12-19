@@ -168,7 +168,6 @@
   top: 10%;
   left: 0;
   right: 0;
-  bottom: 0;
   background-color: rgb(255, 255, 255);
   padding: 10px;
   border: 1px solid rgb(204, 204, 204);
@@ -177,17 +176,13 @@
 
 @media screen and (min-width: 500px) {
   .modalContent {
-    position: absolute;
-    top: 10%;
     left: 10%;
     right: 10%;
-    bottom: 10%;
   }
 }
 
 @media screen and (min-width: 800px) {
   .modalContent {
-    position: absolute;
     left: 25%;
     right: 25%;
   }
@@ -297,7 +292,7 @@
   font-style:normal
 }
 
-.fa{
+.fa {
   display:inline-block;
   font:normal normal normal 14px/1 FontAwesome;
   font-size:inherit;
@@ -369,6 +364,5 @@
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-
 
 

@@ -144,7 +144,7 @@ class EventCreateForm extends Component {
                                 onChange={this.handleDateChange}
                                 showTimeSelect
                                 timeFormat="HH:mm"
-                                dateFormat="MMMM d, yyyy h:mm"
+                                dateFormat="MMMM d, yyyy HH:mm"
                             />
                         </div>
                         <button

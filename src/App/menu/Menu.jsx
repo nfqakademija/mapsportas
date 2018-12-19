@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MenuUserAvatar from './MenuUserAvatar';
 import MainModal from "../components/MainModal";
 import AuthenticationHandler from "../Authentication/AuthenticationHandler";
 import EventCreateForm from "../home/Event/EventCreateForm";
@@ -22,7 +21,7 @@ const Menu = (
                 <Link className="navbar-brand" to="/">
                     <img src="img/core-img/logo.png" alt=""></img>
                 </Link>
-                <button className="navbar-toggler ml-auto" type="button" data-toggle="collapse"
+                <button id="menu-button" className="navbar-toggler ml-auto" type="button" data-toggle="collapse"
                         data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
                         aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -33,13 +32,6 @@ const Menu = (
                             <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                                 <li className="nav-item"><Link className="nav-link" to="/events">Susitikimai</Link></li>
                                 <li className="nav-item"><Link className="nav-link" to="/venues">Vietos</Link></li>
-                                <MainModal
-                                    isOpen={showCreateEventModal}
-                                    handleCloseModal={handleCreateEventModal}
-                                    content={
-                                        <EventCreateForm handleCloseModal={handleCreateEventModal}/>
-                                    }
-                                />
                                 {user.username
                                     ? (
                                         <li className="dropdown nav-item">

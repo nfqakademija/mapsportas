@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, } from 'react-router-dom';
-import axios from 'axios';
 import Home from '../home/Home';
 import Profile from '../User/Profile/Profile';
 import AddNewVenueForm from '../Admin/AddNewVenueForm';
@@ -62,6 +61,10 @@ class Routes extends Component {
         this.setState({ showCreateEventModal: !this.state.showCreateEventModal })
     };
 
+    scrollToContent = () => {
+        document.getElementById('events-list').scrollIntoView({behavior: 'smooth'});
+    };
+
     render() {
         const { isAuthorized, user, isLoading, showAuthModal, showCreateEventModal } = this.state;
         return (
@@ -79,7 +82,15 @@ class Routes extends Component {
                         getUser={this.getUser}
                     />
                     <Switch>
-                        <Route exact path="/" render={() => <Home user={user} getUser={this.getUser}/>}/>
+                        <Route exact path="/" render={() =>
+                            <Home
+                                user={user}
+                                getUser={this.getUser}
+                                scrollDown={this.scrollToContent}
+                                handleCreateEventModal={this.handleCreateEventModal}
+                                showCreateEventModal={showCreateEventModal}
+                            />
+                        }/>
                         <Route exact path="/profile" render={() => (
                             isAuthorized
                                 ? <Profile/>
