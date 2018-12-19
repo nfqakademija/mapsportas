@@ -9,8 +9,34 @@ class Venue extends Component {
 
         this.state = {
             opened: false,
+            sortedEvents: [],
         };
     }
+
+    componentDidMount() {
+        this.sortEvents(this.props.venue.sport_events);
+    }
+
+    sortEvents = (events) => {
+        let newEvents = [];
+        let now = new Date();
+        for(let i = 0; i < events.length; i++) {
+            let oldDate = new Date(events[i].date);
+            if(oldDate > now) {
+                for (let j = i + 1; j < events.length; j++) {
+                    if (oldDate > new Date(events[j].date)) {
+                        let event = events[j];
+                        events[j] = events[i];
+                        events[i] = event;
+                    }
+                }
+            }
+            if(now < new Date(events[i].date) && newEvents.length < 5) {
+                newEvents.push(events[i]);
+            }
+        }
+        this.setState({ sortedEvents: newEvents });
+    };
 
     toggleEvents = () => {
         const { opened } = this.state;
@@ -28,11 +54,10 @@ class Venue extends Component {
                 address,
                 description,
                 venue_photo,
-                sport_events
             },
             getUser,
         } = this.props;
-        const { opened } = this.state;
+        const { opened, sortedEvents } = this.state;
         return (
             <div className="col-12 col-md-6 col-lg-3">
                 <div className="card my-2">
@@ -45,13 +70,13 @@ class Venue extends Component {
                             ? <SecondaryButton handleClick={this.toggleEvents} text={"Paslėpti"}/>
                             : <SecondaryButton handleClick={this.toggleEvents} text={"Rodyti Susitikimus"}/>
                         }
-                        {opened && sport_events.length > 0
+                        {opened && sortedEvents.length > 0
                             ? <div className="d-flex justify-content-between mb-2 "><span>Data</span><span>Dalyviai</span></div>
                             : null
                         }
                         {opened
-                            ? (sport_events.length > 0
-                                    ? ( sport_events.map((event, i) =>
+                            ? (sortedEvents.length > 0
+                                    ? ( sortedEvents.map((event, i) =>
                                         <EventInVenue key={i}
                                                       event={event}
                                                       name={name}

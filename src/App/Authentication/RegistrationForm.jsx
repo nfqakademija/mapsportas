@@ -15,6 +15,9 @@ class RegistrationForm extends Component {
             repeatPassword: '',
             birthDate: '',
         },
+        inputs: [
+            'name', 'surname','username', 'email', 'password', 'repeatPassword', 'birthDate',
+        ],
     };
 
     handleChange = (event) => {
@@ -38,13 +41,62 @@ class RegistrationForm extends Component {
         this.props.onSubmit(this.state.user);
     };
 
-    normalizeString = (message) => {
-        const string = Object.entries(message)[0];
-        return `${string[0]}: ${string[1]}`;
+    renderInput = (fieldName, errors) => {
+        let label;
+        let type = "text";
+        switch (fieldName) {
+            case "name":
+                label = "Vardas";
+                break;
+            case "surname":
+                label = "Pavardė";
+                break;
+            case "username":
+                label = "Vartotojo Vardas";
+                break;
+            case "email":
+                label = "El. Paštas";
+                break;
+            case "password":
+                label = "Slaptažodis";
+                type = "password";
+                break;
+            case "repeatPassword":
+                label = "Pakartokite slaptažodį";
+                type = "password";
+                break;
+            case "birthDate":
+                label = "Gimimo data";
+                type = "date";
+                break;
+        }
+        return (
+            <div className="form-group">
+                {
+                    errors.map((error, i) => {
+                        return error.field === fieldName
+                            ? <ErrorMessage key={i} text={error.violation_message}/>
+                            : null
+                    })
+                }
+                <label>{label}</label>
+                <input
+                    type={type}
+                    name={fieldName}
+                    onChange={this.handleChange}
+                    required={true}
+                    className={errors[{fieldName}]
+                        ? 'form-control form-control-danger'
+                        : 'form-control'
+                    }
+                />
+            </div>
+        );
     };
 
     render() {
         const { errors, isLoading } = this.props;
+        const { inputs } = this.state;
         return (
             <React.Fragment>
                 <div className="card-header">
@@ -53,147 +105,9 @@ class RegistrationForm extends Component {
                 <Spinner isLoading={isLoading}/>
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
-                        <div className="form-group">
-                            {
-                                errors.map((error,i) => {
-                                        return error.field == 'name'
-                                            ? <ErrorMessage key={i} text={error.violation_message}/>
-                                            : null
-                                })
-                            }
-                            <label>Vardas</label>
-                            <input
-                                name="name"
-                                onChange={this.handleChange}
-                                required={true}
-                                className={ errors.name
-                                    ? 'form-control form-control-danger'
-                                    : 'form-control'
-                                }
-                            />
-                        </div>
-                        <div className="form-group">
-                            {
-                                errors.map((error,i) => {
-                                    return error.field == 'surname'
-                                        ? <ErrorMessage key={i} text={error.violation_message}/>
-                                        : null
-                                })
-                            }
-                            <label>Pavardė</label>
-                            <input
-                                name="surname"
-                                onChange={this.handleChange}
-                                required={true}
-                                className={ errors.surname
-                                    ? 'form-control form-control-danger'
-                                    : 'form-control'
-                                }
-                            />
-                        </div>
-                        <div className="form-group">
-                            {
-                                errors.map((error,i) => {
-                                    return error.field == 'username'
-                                        ? <ErrorMessage key={i} text={error.violation_message}/>
-                                        : null
-                                })
-                            }
-                            <label>Vartotojo Vardas</label>
-                            <input
-                                name="username"
-                                onChange={this.handleChange}
-                                required={true}
-                                className={ errors.username
-                                    ? 'form-control form-control-danger'
-                                    : 'form-control'
-                                }
-                            />
-                        </div>
-                        <div className="form-group">
-                            {
-                                errors.map((error,i) => {
-                                    return error.field == 'email'
-                                        ? <ErrorMessage key={i} text={error.violation_message}/>
-                                        : null
-                                })
-                            }
-                            <label>El. Paštas</label>
-                            <input
-                                name="email"
-                                onChange={this.handleChange}
-                                required={true}
-                                className={ errors.error_message
-                                    ? 'form-control form-control-danger'
-                                    : 'form-control'
-                                }
-                            />
-                        </div>
-                        <div className="form-group">
-                            {
-                                errors.map((error,i) => {
-                                    return error.field == 'password'
-                                        ? <ErrorMessage key={i} text={error.violation_message}/>
-                                        : null
-                                })
-                            }
-                            <label>Slaptažodis</label>
-                            <input
-                                name="password"
-                                type="password"
-                                onChange={this.handleChange}
-                                required={true}
-                                className={ errors.password
-                                    ? 'form-control form-control-danger'
-                                    : 'form-control'
-                                }
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Pakartokite slaptažodį</label>
-                            <input
-                                name="repeatPassword"
-                                type="password"
-                                onChange={this.handleChange}
-                                required={true}
-                                className={ errors.password
-                                    ? 'form-control form-control-danger'
-                                    : 'form-control'
-                                }
-                            />
-                        </div>
-                        <div className="form-group">
-                            {
-                                errors.map((error,i) => {
-                                    return error.field == 'birthDate'
-                                        ? <ErrorMessage key={i} text={error.violation_message}/>
-                                        : null
-                                })
-                            }
-                            <div>
-                                <label>Gimimo Data</label>
-                            </div>
-                            {/*<DatePicker*/}
-                                {/*className={ errors.birthDate*/}
-                                    {/*? 'form-control form-control-danger'*/}
-                                    {/*: 'form-control'*/}
-                                {/*}*/}
-                                {/*name="birthDate"*/}
-                                {/*selected={this.state.startDate}*/}
-                                {/*onChange={this.handleDateChange}*/}
-                                {/*dateFormat="MMMM d, yyyy"*/}
-                            {/*/>*/}
-                            <input
-                                name="birthDate"
-                                type="date"
-                                onChange={this.handleChange}
-                                required={true}
-                                className={ errors.birthDate
-                                    ? 'form-control form-control-danger'
-                                    : 'form-control'
-                                }
-                            />
-                        </div>
+                        {inputs.map((value) => (
+                            this.renderInput(value, errors)
+                        ))}
                         <button
                             className="btn btn-primary btn-block"
                             type="Submit"

@@ -76,7 +76,6 @@ class AuthenticationHandler extends Component {
                 if (data.token) {
                     this.handleUserSuccess(data.token);
                 } else {
-                    console.log(data[0][0]['violation_message']);
                     this.setState({
                         registrationErrors: data[0],
                         isLoading: false,

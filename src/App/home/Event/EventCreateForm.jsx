@@ -3,6 +3,7 @@ import axios from 'axios';
 import { fetchSports } from '../../../../assets/js/fetchPublic';
 import Spinner from "../../components/Spinner";
 import DatePicker from "react-datepicker";
+import ErrorMessage from "../../Authentication/partials/ErrorMessage";
 
 class EventCreateForm extends Component {
     state = {
@@ -29,7 +30,6 @@ class EventCreateForm extends Component {
 
     handleChange = (event) => {
         const { name, value } = event.target;
-        const { event: { sportType } } = this.state;
         this.setState(
             { event: { ...this.state.event, [name]: value } },
         );
@@ -42,7 +42,7 @@ class EventCreateForm extends Component {
         this.setState({
             startDate: date,
             event: {
-                date: date,
+                ...this.state.event, date: date,
             }
         });
 
@@ -82,20 +82,23 @@ class EventCreateForm extends Component {
     };
 
     render() {
-        const { sports, venues, message, isLoading } = this.state;
+        const { sports, venues, message, isLoading, errors } = this.state;
         return (
             <div className="card">
                 <div className="card-header">
                     Create event
                 </div>
                 <Spinner isLoading={isLoading}/>
-                {
-                    message
-                    && message
-                }
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
+                            {
+                                errors.map((error,i) => {
+                                    return error.field == 'maxMembers'
+                                        ? <ErrorMessage key={i} text={error.violation_message}/>
+                                        : null
+                                })
+                            }
                             <label>Maksimalus dalyvių skaičius</label>
                             <input
                                 className="form-control"
@@ -103,11 +106,19 @@ class EventCreateForm extends Component {
                                 min="1"
                                 max="100"
                                 name="maxMembers"
+                                placeholder={this.state.event.maxMembers}
                                 onChange={this.handleChange}
                                 required={true}
                             />
                         </div>
                         <div className="form-group">
+                            {
+                                errors.map((error,i) => {
+                                    return error.field == 'sportType'
+                                        ? <ErrorMessage key={i} text={error.violation_message}/>
+                                        : null
+                                })
+                            }
                             <label>Sporto Rūšis</label>
                             <select className="form-control" name="sportType"
                                     onChange={() => this.handleChange(event)}>
@@ -121,6 +132,13 @@ class EventCreateForm extends Component {
                         </div>
                         {venues.length > 0
                         && <div className="form-group">
+                            {
+                                errors.map((error,i) => {
+                                    return error.field == 'sportVenue'
+                                        ? <ErrorMessage key={i} text={error.violation_message}/>
+                                        : null
+                                })
+                            }
                             <label>Vieta</label>
                             <select className="form-control" name="sportVenue"
                                     onChange={() => this.handleChange(event)}>
@@ -134,6 +152,13 @@ class EventCreateForm extends Component {
                         </div>
                         }
                         <div className="form-group">
+                            {
+                                errors.map((error,i) => {
+                                    return error.field == 'date'
+                                        ? <ErrorMessage key={i} text={error.violation_message}/>
+                                        : null
+                                })
+                            }
                             <div>
                                 <label>Data</label>
                             </div>
