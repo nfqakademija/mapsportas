@@ -33,8 +33,6 @@ class AppliedEvent extends Component {
                 }
             }
         } = this.props;
-        console.log(applyed_users);
-        console.log(applyed_users.length);
         return (
             <React.Fragment>
                 <div className="border-bottom py-1">
