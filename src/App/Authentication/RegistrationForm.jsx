@@ -41,7 +41,7 @@ class RegistrationForm extends Component {
         this.props.onSubmit(this.state.user);
     };
 
-    renderInput = (fieldName, errors) => {
+    renderInput = (fieldName, key, errors) => {
         let label;
         let type = "text";
         switch (fieldName) {
@@ -71,7 +71,7 @@ class RegistrationForm extends Component {
                 break;
         }
         return (
-            <div className="form-group">
+            <div key={key} className="form-group">
                 {
                     errors.map((error, i) => {
                         return error.field === fieldName
@@ -105,8 +105,8 @@ class RegistrationForm extends Component {
                 <Spinner isLoading={isLoading}/>
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
-                        {inputs.map((value) => (
-                            this.renderInput(value, errors)
+                        {inputs.map((value, key) => (
+                            this.renderInput(value, key, errors)
                         ))}
                         <button
                             className="btn btn-primary btn-block"

@@ -22,7 +22,6 @@ class Venue extends Component {
         let now = new Date();
         for(let i = 0; i < events.length; i++) {
             let oldDate = new Date(events[i].date);
-            if(oldDate > now) {
                 for (let j = i + 1; j < events.length; j++) {
                     if (oldDate > new Date(events[j].date)) {
                         let event = events[j];
@@ -30,7 +29,6 @@ class Venue extends Component {
                         events[i] = event;
                     }
                 }
-            }
             if(now < new Date(events[i].date) && newEvents.length < 5) {
                 newEvents.push(events[i]);
             }
