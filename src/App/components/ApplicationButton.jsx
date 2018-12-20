@@ -53,9 +53,7 @@ class ApplicationButton extends Component {
                 }
             })
             .catch((error) => {
-                this.setState({
-                    message: error.response.data,
-                });
+                this.props.setMessage(error.response.data);
                 this.props.toggleLoading();
             });
     };
